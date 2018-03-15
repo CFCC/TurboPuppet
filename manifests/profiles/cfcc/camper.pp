@@ -1,0 +1,6 @@
+#
+#
+#
+class profiles::cfcc::camper {
+
+}
