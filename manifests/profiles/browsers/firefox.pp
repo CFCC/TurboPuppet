@@ -2,11 +2,11 @@
 #
 #
 class profiles::browsers::firefox {
-    Package {
-        provider => chocolatey
+
+    $package_name = $::osfamily ? {
+        'windows' => 'Firefox',
+        default   => fail('Unsupported OS')
     }
 
-    package { 'Firefox':
-        ensure => 'present',
-    }
+    package { $package_name: }
 }
