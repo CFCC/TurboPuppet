@@ -15,6 +15,7 @@ class profiles::cfcc::camper {
 
     include profiles::browsers::chrome
     include profiles::browsers::firefox
+    include profiles::tools::git
 
     # Games
     include profiles::games::quake3

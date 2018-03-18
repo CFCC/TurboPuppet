@@ -7,6 +7,4 @@ Scratchpad for random ideas of things that need done.
 * Steam
 * DNS?
 * sudo cmd?
-* Windows Firewall - quake 3
-* unity
-* git
+* Windows Firewall - quake 3, moba, etck
