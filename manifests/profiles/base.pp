@@ -3,4 +3,5 @@
 #
 class profiles::base {
     include profiles::packaging
+    include profiles::site::cfcc
 }

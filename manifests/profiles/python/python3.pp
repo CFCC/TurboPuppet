@@ -12,10 +12,13 @@ class profiles::python::python3 {
 
     # Since pip has no resource provider in Windows-land, we
     # have to install packages manually.
-    exec { 'install pygame':
-        command   => 'pip.exe install pygame',
+    Exec {
         path      => 'C:/Python36/Scripts',
-        creates   => 'C:/Python36/Lib/site-packages/pygame',
         subscribe => Package[$runtime_package_name]
     }
+    exec { 'install pygame':
+        command   => 'pip.exe install pygame',
+        creates   => 'C:/Python36/Lib/site-packages/pygame',
+    }
+    # Note - Python Turtle is included with Python3.
 }

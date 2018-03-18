@@ -1,5 +1,7 @@
 #
-# Base class for all camper camper machines.
+# Base role for all camper camper machines. This will make Puppet work
+# and include the big three (base, cfcc::camper, access). Very little else
+# should go in here.
 #
 class roles::camper::windows {
     # This is where we specify defaults that automatically apply to ALL
