@@ -2,5 +2,5 @@
 ---
 sources:
   puppet:
-    remote: 'https://github.com/cohoe/cfcc-puppet'
+    remote: 'https://github.com/cohoe/TurboPuppet'
     basedir: '/etc/puppetlabs/code/environments'
