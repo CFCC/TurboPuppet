@@ -1,5 +1,5 @@
 #
-# Base role for all camper camper machines. This will make Puppet work
+# Base role for all camper machines. This will make Puppet work
 # and include the big three (base, cfcc::camper, access). Very little else
 # should go in here.
 #
@@ -17,6 +17,7 @@ class roles::camper::windows {
     include profiles::base
     include profiles::cfcc::camper
     include profiles::access::camper
+    include profiles::windows::base
 
     Class['profiles::base'] -> Class['profiles::cfcc::camper']
     Class['profiles::base'] -> Class['profiles::access::camper']

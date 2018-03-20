@@ -8,3 +8,4 @@ Scratchpad for random ideas of things that need done.
 * DNS?
 * sudo cmd?
 * Windows Firewall - quake 3, moba, etck
+* Drivers
