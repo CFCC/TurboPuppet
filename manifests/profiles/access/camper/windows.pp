@@ -1,7 +1,6 @@
 #
-#
+# Windows-specific stuff for the camper access profile
 #
 class profiles::access::camper::windows {
-    #@TODO UAC
-    #@TODO password?
+    include profiles::windows::uac::disable
 }

@@ -11,3 +11,4 @@ mod 'ipcrm-registry_acl',
     :git => 'https://github.com/ipcrm/registry_acl',
     :ref => 'master'
 mod 'cfcc', :local => true
+mod 'puppetlabs-acl', '2.0.1'
