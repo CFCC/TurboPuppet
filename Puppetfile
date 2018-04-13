@@ -12,3 +12,4 @@ mod 'ipcrm-registry_acl',
     :ref => 'master'
 mod 'cfcc', :local => true
 mod 'puppetlabs-acl', '2.0.1'
+mod 'puppet-windows_firewall', '2.0.0'

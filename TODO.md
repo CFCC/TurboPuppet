@@ -7,3 +7,4 @@ Scratchpad for random ideas of things that need done.
 * DNS?
 * Windows Firewall - quake 3, moba, etck
 * Drivers
+* Change network location to Private
