@@ -1,5 +1,5 @@
 #
-#
+# Introductory stuff
 #
 class role::camper::intro inherits role::camper::base {
     include profile::python::turtle

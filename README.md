@@ -12,6 +12,18 @@ no more than one role. Roles should not include other roles. Some examples:
 * ```role::camper::java```
 * ```role::camper::pyle```
 
+An example role:
+```puppet
+class role::camper::java inherits role::camper::base {
+
+    include profile::java::jdk8
+    include profile::ide::intellij
+
+    Class['profile::java::jdk8'] -> Class['profile::ide::intellij']
+}
+```
+This role defines the tools that are needed for that role and some class ordering.
+
 Every role needs to inherit from ```role::camper::base ``` as this includes
 the common stuff to every role and operating-system defaults. Roles are made up of...
 
