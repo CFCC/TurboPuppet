@@ -1,5 +1,7 @@
-Puppet
+TurboPuppet
 ======
+Monolithic Puppet repo for [Camp Fitch Tech Focus](http://campcomputer.com). The code here may
+someday be used to do automatic camper PC deployment and more!
 
 Organization
 ------------
