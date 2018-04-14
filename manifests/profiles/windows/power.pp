@@ -1,7 +1,7 @@
 #
 # Power and sleep settings
 #
-class profiles::windows::power {
+class profile::windows::power {
     # Set power plan
 
     # Set display sleep to none

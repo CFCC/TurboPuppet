@@ -1,7 +1,7 @@
 #
 #
 #
-class profiles::browsers::chrome {
+class profile::browsers::chrome {
 
     $package_name = $::osfamily ? {
         'windows' => 'GoogleChrome',

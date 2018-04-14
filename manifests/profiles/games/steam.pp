@@ -1,7 +1,7 @@
 #
 # Steam
 #
-class profiles::games::steam {
+class profile::games::steam {
     $package_name = $::osfamily ? {
         'windows' => 'steam',
         'Fedora'  => 'steam',

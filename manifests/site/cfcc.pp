@@ -1,7 +1,7 @@
 #
+# Site class for CFCC. Contains environment vars and such.
 #
-#
-class profiles::site::cfcc {
+class site::cfcc {
     $nas_host = 'TARS'
     $nas_share = 'Public'
 

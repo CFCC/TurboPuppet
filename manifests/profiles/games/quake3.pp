@@ -2,7 +2,7 @@
 # Quake III Arena
 # @TODO - test that quake fitch works with ioquake3, because it derped hard in the VM.
 #
-class profiles::games::quake3 {
+class profile::games::quake3 {
     case $::osfamily {
         'windows': {
             # I'm use the open-sauce ioquake3 engine and copying our pk3's into the right

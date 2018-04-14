@@ -1,7 +1,7 @@
 #
 # CCleaner cleanup tool
 #
-class profiles::tools::ccleaner {
+class profile::tools::ccleaner {
     package { 'ccleaner': }
 }
 

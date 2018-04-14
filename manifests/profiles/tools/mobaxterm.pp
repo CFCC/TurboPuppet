@@ -1,6 +1,6 @@
 #
 # MobaXterm
 #
-class profiles::tools::mobaxterm {
+class profile::tools::mobaxterm {
     package { 'mobaxterm': }
 }

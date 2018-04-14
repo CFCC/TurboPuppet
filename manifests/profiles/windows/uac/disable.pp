@@ -1,7 +1,7 @@
 #
 # User Account Control - Disable
 #
-class profiles::windows::uac::disable {
+class profile::windows::uac::disable {
     # Disable the UAC warnings
     local_security_policy {
         'User Account Control: Behavior of the elevation prompt for administrators in Admin Approval Mode':

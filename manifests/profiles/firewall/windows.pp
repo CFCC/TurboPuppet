@@ -2,7 +2,7 @@
 # To change the current network zone:
 # - Helper Bar -> Network -> Click on Network -> Setting
 #
-class profiles::firewall::windows {
+class profile::firewall::windows {
     windows_firewall::exception { 'Allow-ICMPv4':
         ensure       => present,
         direction    => 'in',

@@ -1,7 +1,7 @@
 #
 # Git
 #
-class profiles::tools::git {
+class profile::tools::git {
     package { 'git': }
 
     # @TODO visual git tool

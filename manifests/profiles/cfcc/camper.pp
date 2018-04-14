@@ -1,24 +1,24 @@
 #
 # Common things that define a camper PC. System tools and the like.
 #
-class profiles::cfcc::camper {
+class profile::cfcc::camper {
 
     # OS-specific
     case $::osfamily {
         'windows': {
-            include profiles::tools::ccleaner
-            include profiles::tools::notepadplusplus
-            include profiles::tools::mobaxterm
+            include profile::tools::ccleaner
+            include profile::tools::notepadplusplus
+            include profile::tools::mobaxterm
         }
         default: { }
     }
 
-    include profiles::browsers::chrome
-    include profiles::browsers::firefox
-    include profiles::tools::git
+    include profile::browsers::chrome
+    include profile::browsers::firefox
+    include profile::tools::git
 
     # Games
-    include profiles::games::quake3
-    include profiles::games::steam
-    include profiles::games::minecraft
+    include profile::games::quake3
+    include profile::games::steam
+    include profile::games::minecraft
 }

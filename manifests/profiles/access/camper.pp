@@ -1,10 +1,10 @@
 #
 # Camper user access profile.
 #
-class profiles::access::camper {
+class profile::access::camper {
     case $::osfamily {
         'windows': {
-            include profiles::access::camper::windows
+            include profile::access::camper::windows
             $user_groups = ['BUILTIN\Administrators']
         }
         default: {
@@ -12,9 +12,9 @@ class profiles::access::camper {
         }
     }
 
-    user { "${::profiles::site::cfcc::camper_username}":
+    user { "${::site::cfcc::camper_username}":
         ensure   => present,
         groups   => $user_groups,
-        # password => "${::profiles::site::cfcc::camper_username}",
+        # password => "${::site::cfcc::camper_username}",
     }
 }

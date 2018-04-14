@@ -1,7 +1,7 @@
 #
 #
 #
-class profiles::browsers::firefox {
+class profile::browsers::firefox {
 
     $package_name = $::osfamily ? {
         'windows' => 'Firefox',

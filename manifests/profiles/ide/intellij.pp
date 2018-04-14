@@ -1,8 +1,7 @@
 #
 #
 #
-class profiles::ide::intellij {
-
+class profile::ide::intellij {
     # Lock down the version we actually want.
     $version = '2017.3.3'
 
@@ -15,9 +14,10 @@ class profiles::ide::intellij {
         ensure => $version
     }
 
-    shortcut { "C:/Users/Public/Desktop/IntelliJ IDEA Community Edition ${version}.lnk":
-        target => "C:\Program Files (x86)\JetBrains\IntelliJ IDEA Community Edition ${version}\bin\idea64.exe"
+    case $::osfamily {
+        'windows': {
+            include profile::ide::intellij::windows
+        }
+        default: { }
     }
-
-    # @TODO maybe figure out a way to auto-detect the installed JDK so that we don't have to set it manually.
 }

@@ -1,6 +1,6 @@
 #
 # CCleaner cleanup tool
 #
-class profiles::tools::notepadplusplus {
+class profile::tools::notepadplusplus {
     package { 'notepadplusplus': }
 }

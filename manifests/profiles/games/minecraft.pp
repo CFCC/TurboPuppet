@@ -1,7 +1,7 @@
 #
 # Minecraft
 #
-class profiles::games::minecraft {
+class profile::games::minecraft {
     $package_name = $::osfamily ? {
         'windows' => 'minecraft',
         default   => fail('Unsupported OS')
