@@ -17,10 +17,11 @@ class profile::firewall::windows {
         description  => 'Allow ping',
     }
 
+
     exec { 'SetConnectionPolicy':
         command  => 'Set-NetConnectionProfile -NetworkCategory Private',
         provider => 'powershell',
-        onlyif => "exit [int]((Get-NetConnectionProfile | select -ExpandProperty NetworkCategory) -ne 'Private') - 1",
+        onlyif   => psexpr("((Get-NetConnectionProfile | select -ExpandProperty NetworkCategory) -ne 'Private')"),
     }
     # The PS expression "('Foo' -eq 'Foo')" returns True. Conversely, 
     # "('Foo' -ne 'Foo')" returns False. When cast to an integer
