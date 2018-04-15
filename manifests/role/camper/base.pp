@@ -15,10 +15,15 @@ class role::camper::base {
             # Windows requires the provider to be explicitly stated.
 
             include profile::packaging::chocolatey
+            # @TODO someday this may need to be a generic profile::powershell
+            include profile::powershell::executionpolicy::unrestricted
 
             Package {
                 provider => chocolatey,
                 ensure   => present
+            }
+            Exec {
+                provider => powershell
             }
 
             include profile::base::windows
