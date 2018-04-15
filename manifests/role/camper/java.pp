@@ -1,7 +1,13 @@
 #
 # A few of Jordans favorite things!
 #
-class role::camper::java inherits role::camper::base {
+class role::camper::java inherits role::base {
+    include site::cfcc
+    include profile::cfcc::camper
+    include profile::access::camper
+
+    Class['site::cfcc'] -> Class['profile::cfcc::camper']
+    Class['site::cfcc'] -> Class['profile::access::camper']
 
     include profile::java::jdk8
     include profile::ide::intellij

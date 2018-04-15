@@ -1,10 +1,7 @@
 #
-# Operating system defaults and common classes for all role.
 #
-class role::camper::base {
-    # The site needs to be at the top. There should only be one site.
-    include site::cfcc
-
+#
+class role::base {
     # Platform base
     case $::osfamily {
         'windows': {
@@ -28,9 +25,4 @@ class role::camper::base {
             fail("platform is unsupported")
         }
     }
-
-    # Other includes at the bottom
-    include profile::base
-    include profile::cfcc::camper
-    include profile::access::camper
 }

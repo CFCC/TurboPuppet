@@ -6,11 +6,13 @@ class profile::cfcc::camper {
     # OS-specific
     case $::osfamily {
         'windows': {
+            include profile::windows::explorer
+            include profile::windows::power
             include profile::tools::ccleaner
             include profile::tools::notepadplusplus
             include profile::tools::mobaxterm
         }
-        default: { }
+        default: {}
     }
 
     include profile::browsers::chrome
