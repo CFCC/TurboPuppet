@@ -11,4 +11,6 @@ class site::cfcc {
     }
 
     $camper_username = 'camper'
+
+    $puppet_master = 'puppet.grantcohoe.com'
 }

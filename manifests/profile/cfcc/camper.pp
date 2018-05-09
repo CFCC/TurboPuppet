@@ -1,5 +1,8 @@
 #
 # Common things that define a camper PC. System tools and the like.
+# You'll note there is no explicit ordering here. Every profile should
+# be independent of the others. If it is not, you should re-evaluate
+# your life choices.
 #
 class profile::cfcc::camper {
 
@@ -14,6 +17,9 @@ class profile::cfcc::camper {
         }
         default: {}
     }
+
+    include profile::puppet::agent::disable
+    # include profile::puppet::agent::default
 
     include profile::browsers::chrome
     include profile::browsers::firefox
