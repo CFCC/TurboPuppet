@@ -7,6 +7,7 @@ class profile::games::quake3 {
         'windows': {
             # I'm use the open-sauce ioquake3 engine and copying our pk3's into the right
             # places. This may or may not work in a real setting. Yolo.
+            # Apparently ~ doesnt work with the console, and its SHIFT+ESC. Ok....
             $quake_packages = ['ioquake3', 'ioquake3-data']
             package { $quake_packages: }
 
@@ -27,6 +28,7 @@ class profile::games::quake3 {
             }
 
             # @TODO q3config is in %APPDATA%\Quake3\baseq3
+            # @TODO desktop shortcut
 
         }
         default: {
