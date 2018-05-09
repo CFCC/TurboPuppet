@@ -7,4 +7,4 @@ if (!(Test-Path $puppet_download_directory\$puppet_local_package)) {
 }
 
 cd $puppet_download_directory
-msiexec /passive /norestart /l*v puppet-install.txt /i $puppet_local_package PUPPET_MASTER_SERVER=puppet.grantcohoe.com
+msiexec /passive /norestart /l*v puppet-install.txt /i $puppet_local_package PUPPET_MASTER_SERVER=puppet.grantcohoe.com PUPPET_AGENT_STARTUP_MODE=Manual

@@ -3,7 +3,6 @@ To Do
 
 Scratchpad for random ideas of things that need done.
 
-* Steam (app only, no games)
 * DNS?
 * Windows Firewall - quake 3, moba, etck
 * Drivers
