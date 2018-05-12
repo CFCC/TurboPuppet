@@ -20,7 +20,6 @@ node /^cfcczotac04/ { include role::camper::pyle }
 node /^cfcctestvm01/ { include role::camper::test }
 
 ### Server Infrastructure ###
-# @TODO Someday!
 # Ideas:
 # - Steam Cache
 # - DNS

@@ -26,8 +26,9 @@ class role::camper::test inherits role::base {
     # include site::cfcc
     # include profile::windows::xbox::disable
     # include profile::windows::explorer
-    include profile::windows::update
-    include profile::ide::eclipse
+    # include profile::windows::update
+    # include profile::ide::eclipse
+    include profile::tools::git
 
     # notify { "Set-DnsClientServerAddress -InterfaceAlias Ethernet -ServerAddresses ('${join($dns_servers, '\', \'')}')": }
 }

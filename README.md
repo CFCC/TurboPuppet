@@ -82,6 +82,24 @@ in a subclass (shown here as ```profile::category::feature::windows```).
 other OS-defaults mentioned in Roles. You could specify all that stuff here,
 but this saves some time.
 
+### Sites
+There is a semantic difference between what Puppet considers a site
+(and thus a ```site.pp``` file) and what we logically consider a site
+(place in the world). In our case here, a site class defines settings
+ that are unique to a particular installation. You never know, someday
+ this stuff may be useful in another camp setting. The ```site.pp``` file
+ is used by Puppet as a starting point for functions and things that should
+ be available to LITERALLY everything. This is used sparingly.
+ 
+An example of the former (and more relevant) usage of the word Site:
+```puppet
+class site::cfcc {
+    $nas_host = 'CFCCFS01'
+    $nas_share = 'Public'
+    $puppet_master = 'puppet.campcomputer.com'
+}
+```
+
 ### Modules
 Modules provide specific functions and components. These are commonly
 acquired from the [Puppet Forge](https://forge.puppet.com/) or developed

@@ -2,7 +2,6 @@
 #
 #
 class profile::ide::pycharm {
-
     # Lock down the version of Pycharm we actually want.
     $pycharm_version = '2017.3.4'
 
@@ -17,7 +16,11 @@ class profile::ide::pycharm {
 
     case $::osfamily {
         'windows': {
-            include profile::ide::pycharm::windows
+            # Desktop shortcut
+            shortcut { "C:/Users/Public/Desktop/PyCharm Community Edition ${pycharm_version}.lnk":
+                target => "C:/Program Files (x86)/JetBrains/PyCharm Community Edition ${pycharm_version}/bin/pycharm64.exe"
+            }
+            # @TODO maybe figure out a way to auto-detect the installed Python so that we don't have to set it manually.
         }
         default: { }
     }

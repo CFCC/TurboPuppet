@@ -26,7 +26,7 @@ class profile::games::quake3 {
                 source => "${source_repo}\\ezfountian.pk3"
             }
 
-            # @TODO q3config is in %APPDATA%\Quake3\baseq3
+            # q3config is in %APPDATA%\Quake3\baseq3
 
             shortcut { 'C:/Users/Public/Desktop/Quake III Arena.lnk':
                 # icon_location => 'C:\ProgramData\scratch.ico',

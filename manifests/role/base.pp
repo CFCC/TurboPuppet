@@ -17,7 +17,6 @@ class role::base {
 
             # Any custom providers or whatnot that we just specified as
             # the defaults should probably have a profile setting them up.
-            # @TODO someday this may need to be a generic profile::powershell
             include profile::packaging::chocolatey
             include profile::powershell::executionpolicy::unrestricted
         }
