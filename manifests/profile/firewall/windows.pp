@@ -17,7 +17,6 @@ class profile::firewall::windows {
         description  => 'Allow ping',
     }
 
-
     exec { 'SetConnectionPolicy':
         command  => 'Set-NetConnectionProfile -NetworkCategory Private',
         onlyif   => psexpr("((Get-NetConnectionProfile | select -ExpandProperty NetworkCategory) -ne 'Private')"),

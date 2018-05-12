@@ -16,18 +16,32 @@ no more than one role. Roles should not include other roles. Some examples:
 
 An example role:
 ```puppet
-class role::camper::java inherits role::camper::base {
+class role::camper::java inherits role::base {
+    include site::cfcc
+    include profile::cfcc::camper
+    include profile::access::camper
 
     include profile::java::jdk8
     include profile::ide::intellij
 
+    Class['site::cfcc'] -> Class['profile::cfcc::camper']
+    Class['site::cfcc'] -> Class['profile::access::camper']
     Class['profile::java::jdk8'] -> Class['profile::ide::intellij']
 }
 ```
 This role defines the tools that are needed for that role and some class ordering.
 
-Every role needs to inherit from ```role::camper::base ``` as this includes
-the common stuff to every role and operating-system defaults. Roles are made up of...
+Every role needs to inherit from ```role::base ``` as this includes
+the common stuff to every role and operating-system defaults. Roles are made up 
+of profiles described below.
+
+#### "The Big Three"
+Every role should include a minimum of three things:
+1) Site class (ex: ```site::cfcc```)
+2) Device class (ex: ```profile::cfcc::camper```)
+3) Access profile (ex: ```profile::access::camper```)
+
+These are the basic building blocks of a role. Everything else comes afterward.
 
 ### Profiles
 Profiles are a single logical unit for a feature. Profiles can include

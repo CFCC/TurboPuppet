@@ -19,7 +19,6 @@ class profile::cfcc::camper {
     }
 
     include profile::puppet::agent::disable
-    # include profile::puppet::agent::default
 
     include profile::browsers::chrome
     include profile::browsers::firefox
