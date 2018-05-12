@@ -9,9 +9,13 @@ class profile::cfcc::camper {
     # OS-specific
     case $::osfamily {
         'windows': {
+            # Platform things
             include profile::windows::explorer
             include profile::windows::power
             include profile::windows::xbox::disable
+            include profile::windows::update
+
+            # OS-specific Camper Tools
             include profile::tools::ccleaner
             include profile::tools::notepadplusplus
             include profile::tools::mobaxterm
@@ -19,8 +23,10 @@ class profile::cfcc::camper {
         default: {}
     }
 
+    # System stuff
     include profile::puppet::agent::disable
 
+    # Camper Tools
     include profile::browsers::chrome
     include profile::browsers::firefox
     include profile::tools::git
