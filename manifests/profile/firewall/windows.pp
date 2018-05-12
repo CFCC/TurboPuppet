@@ -3,6 +3,11 @@
 # - Helper Bar -> Network -> Click on Network -> Setting
 #
 class profile::firewall::windows {
+    # There is a bug that prevents state checking.
+    # https://github.com/voxpupuli/puppet-windows_firewall/issues/23
+    # It is most unfortunate. If the rule gets disabled there is nothing
+    # that we can do about it here.
+
     windows_firewall::exception { 'Allow-ICMPv4':
         ensure       => present,
         direction    => 'in',
@@ -21,4 +26,6 @@ class profile::firewall::windows {
         command  => 'Set-NetConnectionProfile -NetworkCategory Private',
         onlyif   => psexpr("((Get-NetConnectionProfile | select -ExpandProperty NetworkCategory) -ne 'Private')"),
     }
+
+    Exec['SetConnectionPolicy'] -> Windows_firewall::Exception['Allow-ICMPv4']
 }

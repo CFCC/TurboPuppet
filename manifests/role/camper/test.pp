@@ -20,8 +20,10 @@ class role::camper::test inherits role::base {
     # include site::cfcc
     # include profile::windows::explorer
 
-    include profile::windows::power
-    include profile::firewall::windows
+    # include profile::windows::power
+    # include profile::firewall::windows
+    # include profile::games::quake3
+    include profile::windows::xbox::disable
 
     # notify { "Set-DnsClientServerAddress -InterfaceAlias Ethernet -ServerAddresses ('${join($dns_servers, '\', \'')}')": }
 }

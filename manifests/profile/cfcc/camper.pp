@@ -11,6 +11,7 @@ class profile::cfcc::camper {
         'windows': {
             include profile::windows::explorer
             include profile::windows::power
+            include profile::windows::xbox::disable
             include profile::tools::ccleaner
             include profile::tools::notepadplusplus
             include profile::tools::mobaxterm

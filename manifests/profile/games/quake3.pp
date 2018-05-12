@@ -1,6 +1,5 @@
 #
 # Quake III Arena
-# @TODO - test that quake fitch works with ioquake3, because it derped hard in the VM.
 #
 class profile::games::quake3 {
     case $::osfamily {
@@ -28,7 +27,11 @@ class profile::games::quake3 {
             }
 
             # @TODO q3config is in %APPDATA%\Quake3\baseq3
-            # @TODO desktop shortcut
+
+            shortcut { 'C:/Users/Public/Desktop/Quake III Arena.lnk':
+                # icon_location => 'C:\ProgramData\scratch.ico',
+                target        => 'C:\Program Files (x86)\ioquake3\ioquake3.x86.exe'
+            }
 
         }
         default: {
