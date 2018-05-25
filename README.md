@@ -111,3 +111,11 @@ apply our changes there. But that introduces complications in that now we
 have to apply any upstream patches to our own repo. Bleh. IMO lets just
 keep it simple and either Forge-ify them or do a simple install or whatever
 in the Profiles.
+
+We do keep one single module here (the cfcc module). It's too small
+to be it's own repo right now so I'll deal with it later.
+
+To update:
+```shell
+sudo docker exec -it puppet bash -c 'cd /etc/puppetlabs/code/environments/production && r10k puppetfile install -v'
+```
