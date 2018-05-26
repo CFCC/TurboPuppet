@@ -13,7 +13,7 @@ class profile::tools::git {
             # Github Desktop assumes that you instantly want to log in
             # when you install. We don't. Go away.
             exec { 'kill github-desktop app':
-                command     => 'Sleep 10; Stop-Process -ProcessName GithubDesktop',
+                command     => 'Sleep 15; Stop-Process -ProcessName GithubDesktop',
                 refreshonly => true
             }
         }

@@ -20,6 +20,9 @@ class role::base {
             include profile::packaging::chocolatey
             include profile::powershell::executionpolicy::unrestricted
         }
+        'RedHat': {
+            # Nothing yet since Linux is sane!
+        }
         default: {
             fail("platform is unsupported")
         }

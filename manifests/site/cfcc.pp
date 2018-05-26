@@ -7,6 +7,7 @@ class site::cfcc {
 
     $nas_installers_path = $::osfamily ? {
         'windows' => "\\\\${nas_host}\\${nas_share}\\Camp Installers",
+        'RedHat'  => "//${nas_host}/${nas_share}/Camp\ Installers",
         default   => fail('Unsupported OS')
     }
 

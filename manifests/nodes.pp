@@ -19,6 +19,8 @@ node /^cfcczotac04/ { include role::camper::pyle }
 
 node /^cfcctestvm01/ { include role::camper::test }
 
+node /^cfccdocker01/ { include role::server::container::master }
+
 ### Server Infrastructure ###
 # Ideas:
 # - Steam Cache
