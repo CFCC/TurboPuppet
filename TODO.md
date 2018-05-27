@@ -4,8 +4,6 @@ To Do
 Scratchpad for random ideas of things that need done.
 
 * Drivers
-* Disable hibernation
-* Spacemonger
 
 Metrics & Logging
 -----------------
@@ -16,6 +14,9 @@ Metrics & Logging
 Caching
 -------
 * https://github.com/multiplay/lancache
+* http://blog.multiplay.co.uk/2013/04/caching-steam-downloads-lans/
+* https://arstechnica.com/gaming/2017/01/building-a-local-steam-caching-server-to-ease-the-bandwidth-blues/
+* https://github.com/steamcache/
 
 Bolt
 ----

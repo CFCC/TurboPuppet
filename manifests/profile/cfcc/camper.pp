@@ -15,6 +15,7 @@ class profile::cfcc::camper {
             include profile::windows::xbox::disable
             include profile::windows::update
             include profile::mdns::bonjour
+            include profile::tools::spacemonger
 
             # OS-specific Camper Tools
             include profile::tools::ccleaner
