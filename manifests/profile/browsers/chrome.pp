@@ -1,5 +1,5 @@
 #
-#
+# Google Chrome web browser
 #
 class profile::browsers::chrome {
 

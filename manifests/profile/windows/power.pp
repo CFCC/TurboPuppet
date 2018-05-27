@@ -26,5 +26,15 @@ class profile::windows::power {
         onlyif  => psexpr("([int](${cmd_get_displaysleep_setting}).split()[-1] -ne ${display_sleep_interval})")
     }
 
-    Exec['SetPowerPlan'] -> Exec['SetDisplaySleep']
+    # Also disable hibernation
+    # http://www.powertheshell.com/test-path-ignores-hidden-files/
+    # NOTE - powercfg -h operations will fail in VMs. But then again, you should
+    # never have to this disable there since Hibernation should never be able to
+    # get enabled. Hopefully....
+    exec { 'DisableHibernation':
+        command => "powercfg -h off",
+        onlyif  => psexpr("([System.IO.Directory]::EnumerateFiles('C:\\') -contains ('C:\\hiberfil.sys'))")
+    }
+
+    Exec['SetPowerPlan'] -> Exec['SetDisplaySleep'] -> Exec['DisableHibernation']
 }
