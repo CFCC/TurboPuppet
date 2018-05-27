@@ -1,5 +1,5 @@
 #
-#
+# Base role that sets defaults across ALL nodes
 #
 class role::base {
     # Platform base
