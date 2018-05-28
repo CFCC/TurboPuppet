@@ -1,5 +1,5 @@
 #
-#
+# JetBrains PyCharm IDE
 #
 class profile::ide::pycharm {
     # Lock down the version of Pycharm we actually want.
@@ -12,22 +12,34 @@ class profile::ide::pycharm {
 
     $package_name = $::osfamily ? {
         'windows' => 'PyCharm-community',
+        'Debian'  => 'com.jetbrains.PyCharm-Community',
         default   => fail('Unsupported OS')
     }
 
-    package { $package_name:
-        ensure => $pycharm_version
+    # Wow... Hard to imagine the easiest platform to do this with is fucking Windows.
+    # JetBrains did Snaps on some platforms, so I thought I'd use that. But Puppet's
+    # Snapd support is not really there and the only module that provided it really sucked.
+    # So then I learned that Mint does Flatpak instead. It's like Snap, but not. Ok....
+    # The only module for Flatpak attempts to install Flatpak (which I already have)
+    # And the dev bro who made it has me load in all these random PPAs from another dev bro
+    # on the internet. Thanks, but no thanks. So we're back to the old-skool way. Oh,
+    # and this does not support versioning. RIP
+    #
+    # https://tickets.puppetlabs.com/browse/PUP-7435
+    # https://github.com/kemra102/puppet-snapd/
+    # https://github.com/brwyatt/puppet-flatpak
+
+    if ($::osfamily == 'Debian') {
+        exec { 'flatpak-install-pycharm':
+            command => "/usr/bin/flatpak install flathub ${package_name}",
+            onlyif  => '/usr/bin/test ! -d /var/lib/flatpak/app/com.jetbrains.PyCharm-Community/'
+        }
+    }
+    else {
+        package { $package_name:
+            ensure => $pycharm_version
+        }
     }
 
-    # case $::osfamily {
-    #     'windows': {
-    #         # Desktop shortcut
-    #         # This does not deal with upgrades well. Deleting until another day
-    #         # shortcut { "C:/Users/Public/Desktop/PyCharm Community Edition ${pycharm_version}.lnk":
-    #         #     target => "C:/Program Files (x86)/JetBrains/PyCharm Community Edition ${pycharm_version}/bin/pycharm64.exe"
-    #         # }
-    #         # @TODO maybe figure out a way to auto-detect the installed Python so that we don't have to set it manually.
-    #     }
-    #     default: { }
-    # }
+    # @TODO maybe figure out a way to auto-detect the installed Python so that we don't have to set it manually.
 }

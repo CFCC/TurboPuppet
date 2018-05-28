@@ -4,7 +4,7 @@
 class profile::tools::git {
     package { 'git': }
 
-    case $::osfamily {
+    case $::kernel {
         'windows': {
             package { 'github-desktop':
                 notify => Exec['kill github-desktop app']
@@ -16,6 +16,9 @@ class profile::tools::git {
                 command     => 'Sleep 15; Stop-Process -ProcessName GithubDesktop',
                 refreshonly => true
             }
+        }
+        'Linux': {
+            # @TODO git desktop
         }
         default: { }
     }

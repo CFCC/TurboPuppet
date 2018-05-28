@@ -18,6 +18,7 @@ node /^cfcczotac05/ { include role::camper::test }
 # node /^cfcczotac07/ { include role::camper::java }
 
 node /^cfcctestvm01/ { include role::camper::test }
+node /^cfcctestvm02/ { include role::camper::pyle }
 
 node /^cfccdocker01/ { include role::server::container::master }
 

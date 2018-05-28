@@ -1,10 +1,12 @@
 #
-#
+# Python 3.X Runtime
 #
 class profile::python::python3 {
 
+    # This also heavily depends on distribution
     $runtime_package_name = $::osfamily ? {
         'windows' => 'python3',
+        'Debian'  => 'python3',
         default   => fail('Unsupported OS')
     }
 
@@ -25,7 +27,16 @@ class profile::python::python3 {
             }
             # Note - Python Turtle is included with Python3.
         }
-        default: { }
+        'Debian': {
+            package { ['python3-pip', 'idle-python3.5']: }
+            package { 'pygame':
+                ensure   => 'present',
+                provider => 'pip3'
+            }
+
+            Package['python3-pip'] -> Package['pygame']
+        }
+        default: { fail('Unsupported OS') }
     }
 
 }

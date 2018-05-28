@@ -4,7 +4,10 @@ To Do
 Scratchpad for random ideas of things that need done.
 
 * Drivers
-* Enable Remote Desktop
+* Verify RDP enable
+* Linux repos
+* Whole buncha stuff for profile::cfcc::camper
+
 
 Metrics & Logging
 -----------------

@@ -3,8 +3,9 @@
 #
 class profile::browsers::chrome {
 
-    $package_name = $::osfamily ? {
+    $package_name = $::kernel ? {
         'windows' => 'GoogleChrome',
+        'Linux'   => 'google-chrome-stable',
         default   => fail('Unsupported OS')
     }
 

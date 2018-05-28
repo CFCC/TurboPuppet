@@ -5,8 +5,5 @@
 # of the profile::windows inherit. See that class for details.
 #
 class profile::packaging::chocolatey {
-    # Enable chocolatey
-    class { 'chocolatey':
-
-    }
+    class { 'chocolatey': }
 }

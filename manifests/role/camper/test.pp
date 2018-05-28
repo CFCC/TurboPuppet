@@ -9,4 +9,10 @@ class role::camper::test inherits role::base {
     #     # onlyif   => psexpr("((Get-NetConnectionProfile | select -ExpandProperty NetworkCategory) -ne 'Private')"),
     #     onlyif => psexpr("((Compare-Object (Get-DnsClientServerAddress -InterfaceAlias Ethernet -AddressFamily IPv4 | Select -ExpandProperty ServerAddresses) ('${join($dns_servers, '\', \'')}')).Length -ne 0)")
     # }
+
+    include site::cfcc
+    include profile::cfcc::camper
+    include profile::access::camper
+
+    include profile::python::python3
 }

@@ -7,7 +7,7 @@
 class profile::cfcc::camper {
 
     # OS-specific
-    case $::osfamily {
+    case $::kernel {
         'windows': {
             # Platform things
             include profile::firewall::windows
@@ -26,6 +26,14 @@ class profile::cfcc::camper {
             include profile::tools::ccleaner
             include profile::tools::notepadplusplus
             include profile::tools::mobaxterm
+        }
+        'Linux': {
+            include profile::mdns::avahi
+            # @TODO include profile::firewall::linux
+            # @TODO include profile::ssh::server
+            include profile::tools::vim
+            include profile::tools::sublime
+            # @TODO include profile::linux::windowmanager
         }
         default: {}
     }
