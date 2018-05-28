@@ -10,3 +10,10 @@ mod 'cfcc', :local => true
 mod 'puppetlabs-acl', '2.0.1'
 mod 'puppet-windows_firewall', '2.0.0'
 mod 'puppetlabs-docker', '1.1.0'
+#mod 'nekototori-winrmssl', '0.1.0'
+#mod 'new23d-puppetpem2p12', '0.0.2'
+mod 'winrm_ssl',
+    :git => 'https://github.com/thomsonreuters/winrm_ssl',
+    :branch => 'master'
+mod 'souldo-remotedesktop', '1.0.2'
+mod 'souldo-wmi', '0.1.0'

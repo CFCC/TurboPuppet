@@ -5,6 +5,7 @@ class profile::access::camper {
     case $::osfamily {
         'windows': {
             include profile::access::camper::windows
+            # $user_groups = ['BUILTIN\Administrators', "BUILTIN\Remote Management Users"]
             $user_groups = ['BUILTIN\Administrators']
         }
         default: {

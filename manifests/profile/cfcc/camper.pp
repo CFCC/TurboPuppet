@@ -10,10 +10,15 @@ class profile::cfcc::camper {
     case $::osfamily {
         'windows': {
             # Platform things
+            include profile::firewall::windows
+            include profile::winrm::server
+            include profile::windows::rdp::enable
             include profile::windows::explorer
             include profile::windows::power
             include profile::windows::xbox::disable
             include profile::windows::update
+
+            # OS-specific System 3rd Party Tools
             include profile::mdns::bonjour
             include profile::tools::spacemonger
 

@@ -1,6 +1,6 @@
 #
-# To change the current network zone:
-# - Helper Bar -> Network -> Click on Network -> Setting
+# Base Firewall class for Windows. Only generic things should be specified
+# here.
 #
 class profile::firewall::windows {
     # There is a bug that prevents state checking.
