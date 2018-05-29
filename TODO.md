@@ -7,6 +7,16 @@ Scratchpad for random ideas of things that need done.
 * Verify RDP enable
 * Linux repos
 * Whole buncha stuff for profile::cfcc::camper
+Charlie's $0.02
+
+* jdk8 > jdk10
+* remove eclipse
+* add a good text editor (I use notepad2-mod; I think lots of the others are overkill and overwhelming, nbd though)
+* add python 2.7? I recall we use odd python stuff that has compatibility issues and thought that might be one; I'm okay leaving it out if it's not an issue
+* We still do alice? is it update?
+* Any way to pre-configure SDKs in PyCharm and IDEA?
+* Add games? Especially one with a hacked up q3 config
+
 
 
 Metrics & Logging
