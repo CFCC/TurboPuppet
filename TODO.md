@@ -12,6 +12,7 @@ Charlie's $0.02
 * jdk8 > jdk10
 * remove eclipse
 * add a good text editor (I use notepad2-mod; I think lots of the others are overkill and overwhelming, nbd though)
+* Add registry entry to allow edit of any file from context menu in classesroot/*/editinnotepad[Edit in Notepad]/command/notepad.exe %1
 * add python 2.7? I recall we use odd python stuff that has compatibility issues and thought that might be one; I'm okay leaving it out if it's not an issue
 * We still do alice? is it update?
 * Any way to pre-configure SDKs in PyCharm and IDEA?
