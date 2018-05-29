@@ -17,6 +17,7 @@ Charlie's $0.02
 * We still do alice? is it update?
 * Any way to pre-configure SDKs in PyCharm and IDEA?
 * Add games? Especially one with a hacked up q3 config
+* Add Chrome, Firefox with homepage set to computercampwiki.com and prelogged in as camper
 
 
 
