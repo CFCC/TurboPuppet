@@ -9,6 +9,17 @@ class profile::windows::xbox::disable {
 
     # But this did!
     # https://www.reddit.com/r/Windows10/comments/53xbef/game_bar_is_still_there_after_removing_xbox_app/
+    registry_key { 'XboxGameDVRCurrentKey':
+        path   => 'HKLM\SOFTWARE\Microsoft\PolicyManager\current\device\ApplicationManagement\AllowGameDVR',
+        ensure => present,
+    }
+
+    registry_value { 'XboxGameDVRCurrentValue': 
+        path   => 'HKLM\SOFTWARE\Microsoft\PolicyManager\current\device\ApplicationManagement\AllowGameDVR',
+        ensure => present,
+        type   => dword,
+        data   => 0
+    }
 
     registry_value { 'HKLM\SOFTWARE\Microsoft\PolicyManager\default\ApplicationManagement\AllowGameDVR\value':
         ensure => present,
@@ -16,9 +27,5 @@ class profile::windows::xbox::disable {
         data   => 0
     }
 
-    registry_value { 'HKLM\SOFTWARE\Microsoft\PolicyManager\current\device\ApplicationManagement\AllowGameDVR':
-        ensure => present,
-        type   => dword,
-        data   => 0
-    }
+    Registry_key['XboxGameDVRCurrentKey'] -> Registry_value['XboxGameDVRCurrentValue']
 }
