@@ -21,6 +21,7 @@ class profile::cfcc::camper {
             # OS-specific System 3rd Party Tools
             include profile::mdns::bonjour
             include profile::tools::spacemonger
+            include profile::tools::cpuz
 
             # OS-specific Camper Tools
             include profile::tools::ccleaner

@@ -9,6 +9,7 @@ Scratchpad for random ideas of things that need done.
 * Whole buncha stuff for profile::cfcc::camper
 * https://sites.google.com/site/easylinuxtipsproject/mint-cinnamon-first#TOC-Select-an-update-policy-and-apply-all-available-updates
 * NetBench
+* NTP and Timezone
 
 
 Metrics & Logging
