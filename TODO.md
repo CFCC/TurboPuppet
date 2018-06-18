@@ -10,6 +10,18 @@ Scratchpad for random ideas of things that need done.
 * https://sites.google.com/site/easylinuxtipsproject/mint-cinnamon-first#TOC-Select-an-update-policy-and-apply-all-available-updates
 * NetBench
 * NTP and Timezone
+* Remove icons
+  * Cortana
+  * Task Manager
+  * People icon
+  * Store
+* Features (.NET 3.5, WSL?)
+* Auto-login
+
+Per-Device Problems
+-------------------
+* zotac02: power settings applied but still sleeps every 30 mins
+* zotac02: Net Location Policy exec runs every time
 
 
 Metrics & Logging

@@ -25,4 +25,6 @@ class profile::access::camper {
         groups   => $user_groups,
         # password => "${::site::cfcc::camper_username}",
     }
+
+    include profile::access::autologin::enable
 }

@@ -3,4 +3,5 @@
 #
 class profile::access::camper::windows {
     include profile::windows::uac::disable
+
 }
