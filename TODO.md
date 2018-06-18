@@ -8,7 +8,6 @@ Scratchpad for random ideas of things that need done.
 * Linux repos
 * Whole buncha stuff for profile::cfcc::camper
 * https://sites.google.com/site/easylinuxtipsproject/mint-cinnamon-first#TOC-Select-an-update-policy-and-apply-all-available-updates
-* NetBench
 * NTP and Timezone
 * Remove icons
   * Cortana
@@ -16,7 +15,6 @@ Scratchpad for random ideas of things that need done.
   * People icon
   * Store
 * Features (.NET 3.5, WSL?)
-* Auto-login
 
 Per-Device Problems
 -------------------
