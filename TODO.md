@@ -3,12 +3,9 @@ To Do
 
 Scratchpad for random ideas of things that need done.
 
-* Drivers
-* Verify RDP enable
 * Linux repos
 * Whole buncha stuff for profile::cfcc::camper
 * https://sites.google.com/site/easylinuxtipsproject/mint-cinnamon-first#TOC-Select-an-update-policy-and-apply-all-available-updates
-* NTP and Timezone
 * Remove icons
   * Cortana
   * Task Manager

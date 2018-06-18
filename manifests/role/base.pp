@@ -19,6 +19,9 @@ class role::base {
             # the defaults should probably have a profile setting them up.
             include profile::packaging::chocolatey
             include profile::powershell::executionpolicy::unrestricted
+
+            # Time, DNS, etc
+            include profile::time::client
         }
         'RedHat': {
             # Nothing yet since Linux is sane!

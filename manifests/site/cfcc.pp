@@ -14,4 +14,8 @@ class site::cfcc {
     $camper_username = 'camper'
 
     $puppet_master = 'puppet.grantcohoe.com'
+
+    # @TODO This was loaded from the profile::time::client but role::base
+    # does not load the site class.
+    # $time_zone = 'Eastern Standard Time'
 }
