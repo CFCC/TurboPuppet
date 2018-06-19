@@ -3,9 +3,6 @@ To Do
 
 Scratchpad for random ideas of things that need done.
 
-* Linux repos
-* Whole buncha stuff for profile::cfcc::camper
-* https://sites.google.com/site/easylinuxtipsproject/mint-cinnamon-first#TOC-Select-an-update-policy-and-apply-all-available-updates
 * Remove icons
   * Cortana
   * Task Manager
@@ -14,9 +11,13 @@ Scratchpad for random ideas of things that need done.
 * Features (.NET 3.5, WSL?)
 * psexpr() needs to eliminate user requirement of ()'s
 * Roblox
-* Q3 Config (Remove refresh rate 0)
 * Generic HKCU resource
 
+Linux
+-----
+* Linux repos
+* Whole buncha stuff for profile::cfcc::camper
+* https://sites.google.com/site/easylinuxtipsproject/mint-cinnamon-first#TOC-Select-an-update-policy-and-apply-all-available-updates
 
 Per-Device Problems
 -------------------
