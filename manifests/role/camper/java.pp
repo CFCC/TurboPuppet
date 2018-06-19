@@ -11,7 +11,6 @@ class role::camper::java inherits role::base {
 
     include profile::java::jdk
     include profile::ide::intellij
-    include profile::ide::eclipse
 
-    Class['profile::java::jdk8'] -> Class['profile::ide::intellij']
+    Class['profile::java::jdk'] -> Class['profile::ide::intellij']
 }
