@@ -74,7 +74,7 @@ class profile::windows::explorer {
 
     # Test-Path returns False if nonexistant, True if existant
     exec { 'CreatePeopleBarKey':
-        command => "New-Item -Path ${people_bar_key} -Name Explorer",
+        command => "New-Item -Path ${people_bar_key}",
         unless  => psexpr("(Test-Path -Path ${people_bar_key})")
     }
 

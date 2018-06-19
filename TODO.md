@@ -3,11 +3,6 @@ To Do
 
 Scratchpad for random ideas of things that need done.
 
-* Remove icons
-  * Cortana
-  * Task Manager
-  * People icon
-  * Store
 * Features (.NET 3.5, WSL?)
 * psexpr() needs to eliminate user requirement of ()'s
 * Roblox
