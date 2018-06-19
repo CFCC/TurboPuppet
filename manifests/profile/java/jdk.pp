@@ -1,9 +1,9 @@
 #
-# JDK 8
+# JDK
 #
-class profile::java::jdk8 {
+class profile::java::jdk {
     $runtime_package_name = $::osfamily ? {
-        'windows' => 'jdk8',
+        'windows' => 'jdk10',
         default   => fail('Unsupported OS')
     }
 

@@ -9,7 +9,7 @@ class role::camper::java inherits role::base {
     Class['site::cfcc'] -> Class['profile::cfcc::camper']
     Class['site::cfcc'] -> Class['profile::access::camper']
 
-    include profile::java::jdk8
+    include profile::java::jdk
     include profile::ide::intellij
     include profile::ide::eclipse
 
