@@ -14,5 +14,5 @@ class role::camper::test inherits role::base {
     include profile::cfcc::camper
     include profile::access::camper
 
-    include profile::python::python3
+    # include profile::python::python3
 }

@@ -47,8 +47,61 @@ class profile::windows::explorer {
         notify  => Exec['Reload Explorer']
     }
 
+    # https://www.askvg.com/how-to-remove-search-and-task-view-icons-from-windows-10-taskbar/
+    $cortana_search_key = 'HKCU:Software\Microsoft\Windows\CurrentVersion\Search'
+    $cortana_search_value = 'SearchboxTaskbarMode'
+    $cortana_search_data = 0
+    exec { 'DisableCortanaSearch':
+        command => "Set-ItemProperty -Path ${cortana_search_key} -Name ${cortana_search_value} ${cortana_search_data}",
+        onlyif  => psexpr("((Get-ItemProperty -Path ${cortana_search_key} -Name ${cortana_search_value} | Select -ExpandProperty ${cortana_search_value}) -ne ${cortana_search_data})"),
+        notify  => Exec['Reload Explorer']
+    }
+
+    $taskview_button_key = 'HKCU:Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced'
+    $taskview_button_value = 'ShowTaskViewButton'
+    $taskview_button_data = 0
+    exec { 'DisableTaskview':
+        command => "Set-ItemProperty -Path ${taskview_button_key} -Name ${taskview_button_value} ${taskview_button_data}
+            ",
+        onlyif  => psexpr("((Get-ItemProperty -Path ${taskview_button_key} -Name ${taskview_button_value}
+             | Select -ExpandProperty ${taskview_button_value}) -ne ${taskview_button_data})"),
+        notify  => Exec['Reload Explorer']
+    }
+
+    $people_bar_key = 'HKCU:Software\Policies\Microsoft\Windows\Explorer'
+    $people_bar_value = 'HidePeopleBar'
+    $people_bar_data = 1
+
+    # Test-Path returns False if nonexistant, True if existant
+    exec { 'CreatePeopleBarKey':
+        command => "New-Item -Path ${people_bar_key} -Name Explorer",
+        unless  => psexpr("(Test-Path -Path ${people_bar_key})")
+    }
+
+    exec { 'DisablePeopleBar':
+        command => "Set-ItemProperty -Path ${people_bar_key} -Name ${people_bar_value} ${people_bar_data}",
+        onlyif  => psexpr("((Get-ItemProperty -Path ${people_bar_key} -Name ${people_bar_value} | Select -ExpandProperty ${people_bar_value}) -ne ${people_bar_data})"),
+        notify  => Exec['Reload Explorer']
+    }
+
     exec { 'Reload Explorer':
         command     => "Stop-Process -ProcessName explorer",
         refreshonly => true,
+    }
+
+    Exec['CreatePeopleBarKey'] -> Exec['DisablePeopleBar']
+
+    # Mail
+    # get-appxpackage *microsoft.windowscommunicationsapps* | remove-appxpackage
+    # REG DELETE HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Taskband /F
+    $taskband_key = 'HKCU:Software\Microsoft\Windows\CurrentVersion\Explorer\Taskband'
+    $taskband_value = 'Favorites'
+    $taskband_data = 255
+
+    # Test-Path returns False if nonexistant, True if existant
+    exec { 'DeleteTaskband':
+        command => "Set-ItemProperty -Path ${taskband_key} -Name ${taskband_value} ${taskband_data}",
+        onlyif  => psexpr("((Get-ItemProperty -Path ${taskband_key} -Name ${taskband_value} | Select -ExpandProperty ${taskband_value}) -ne ${taskband_data})"),
+        notify  => Exec['Reload Explorer']
     }
 }
