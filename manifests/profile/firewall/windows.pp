@@ -22,6 +22,8 @@ class profile::firewall::windows {
         description  => 'Allow ping',
     }
 
+    # This will exec on every run if Miracast is enabled. It causes multiple
+    # networks to appear in the results of the Get- which doesn't match.
     exec { 'SetConnectionPolicy':
         command  => 'Set-NetConnectionProfile -NetworkCategory Private',
         onlyif   => psexpr("((Get-NetConnectionProfile | select -ExpandProperty NetworkCategory) -ne 'Private')"),

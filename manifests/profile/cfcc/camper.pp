@@ -29,7 +29,7 @@ class profile::cfcc::camper {
 
             # Text editors. We all have opinions on these.
             include profile::editors::notepadplusplus
-            include profile::editors::atom
+            #include profile::editors::atom
         }
         'Linux': {
             include profile::mdns::avahi

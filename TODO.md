@@ -4,25 +4,25 @@ To Do
 Scratchpad for random ideas of things that need done.
 
 * Features (.NET 3.5, WSL?)
-* psexpr() needs to eliminate user requirement of ()'s
-* Robloxk
-* Generic HKCU resource
+  * https://www.microsoft.com/en-au/download/details.aspx?id=45520
+  * choco install RSAT
+  * Can't do this easily since RSAT doesn't support Windows10
+  
 * Template config of PyCharm
 * Wamp
 * MobaXterm Config
+
+Fancy Puppet Things
+-------------------
 * one-time file resource
+* Generic HKCU resource
+* psexpr() needs to eliminate user requirement of ()'s
 
 Linux
 -----
 * Linux repos
 * Whole buncha stuff for profile::cfcc::camper
 * https://sites.google.com/site/easylinuxtipsproject/mint-cinnamon-first#TOC-Select-an-update-policy-and-apply-all-available-updates
-
-Per-Device Problems
--------------------
-* zotac02: power settings applied but still sleeps every 30 mins
-* zotac02: Net Location Policy exec runs every time
-
 
 Metrics & Logging
 -----------------
