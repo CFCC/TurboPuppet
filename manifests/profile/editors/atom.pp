@@ -1,9 +1,9 @@
 #
 # SublimeText Editor
 #
-class profile::tools::sublime {
+class profile::editors::atom {
     $package_name = $::osfamily ? {
-        'Debian' => 'sublime-text',
+        'windows' => 'atom',
         default   => fail('Unsupported OS')
     }
     package { $package_name: }

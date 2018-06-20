@@ -1,9 +1,9 @@
 #
-# Notepad++ Editor
+# SublimeText Editor
 #
-class profile::tools::notepadplusplus {
+class profile::editors::sublime {
     $package_name = $::osfamily ? {
-        'windows' => 'notepadplusplus',
+        'Debian' => 'sublime-text',
         default   => fail('Unsupported OS')
     }
     package { $package_name: }

@@ -5,8 +5,12 @@ Scratchpad for random ideas of things that need done.
 
 * Features (.NET 3.5, WSL?)
 * psexpr() needs to eliminate user requirement of ()'s
-* Roblox
+* Robloxk
 * Generic HKCU resource
+* Template config of PyCharm
+* Wamp
+* MobaXterm Config
+* one-time file resource
 
 Linux
 -----

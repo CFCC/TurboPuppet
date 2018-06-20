@@ -25,15 +25,18 @@ class profile::cfcc::camper {
 
             # OS-specific Camper Tools
             include profile::tools::ccleaner
-            include profile::tools::notepadplusplus
             include profile::tools::mobaxterm
+
+            # Text editors. We all have opinions on these.
+            include profile::editors::notepadplusplus
+            include profile::editors::atom
         }
         'Linux': {
             include profile::mdns::avahi
             # @TODO include profile::firewall::linux
             # @TODO include profile::ssh::server
-            include profile::tools::vim
-            include profile::tools::sublime
+            include profile::editors::vim
+            include profile::editors::sublime
             # @TODO include profile::linux::windowmanager
         }
         default: {}
