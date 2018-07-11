@@ -12,6 +12,8 @@ Scratchpad for random ideas of things that need done.
 * Wamp (Xampp is much easier)
 * MobaXterm Config
 * Chocolatey cache
+* Purge CCleaner
+* 7zip
 
 Fancy Puppet Things
 -------------------
@@ -37,6 +39,8 @@ Caching
 * http://blog.multiplay.co.uk/2013/04/caching-steam-downloads-lans/
 * https://arstechnica.com/gaming/2017/01/building-a-local-steam-caching-server-to-ease-the-bandwidth-blues/
 * https://github.com/steamcache/
+* https://github.com/ContainX/docker-volume-netshare
+* https://docs.docker.com/engine/extend/plugin_api/#systemd-socket-activation
 
 Bolt
 ----
