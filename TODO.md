@@ -17,7 +17,6 @@ Scratchpad for random ideas of things that need done.
 
 Fancy Puppet Things
 -------------------
-* one-time file resource
 * Generic HKCU resource
 * psexpr() needs to eliminate user requirement of ()'s
 

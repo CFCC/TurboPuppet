@@ -45,9 +45,11 @@ class profile::games::quake3 {
             # and any other changes will be on the user. If we need to do a mass
             # deploy we should be able to delete the file then run Puppet so that
             # it will deploy whatever change is needed.
-            exec { 'q3config':
-                command => "cp '${source_repo}\q3config.cfg' 'C:/Users/${::site::cfcc::camper_username}/AppData/Roaming/Quake3/baseq3/q3config.cfg'",
-                unless  => psexpr("(Test-Path -Path C:/Users/${::site::cfcc::camper_username}/AppData/Roaming/Quake3/baseq3/q3config.cfg)")
+            file { 'q3config':
+                path    => "C:/Users/${::site::cfcc::camper_username}/AppData/Roaming/Quake3/baseq3/q3config.cfg",
+                ensure  => present,
+                replace => no,
+                source  => 'puppet:///modules/cfcc/q3config.cfg',
             }
 
             shortcut { 'C:/Users/Public/Desktop/Quake III Arena.lnk':
