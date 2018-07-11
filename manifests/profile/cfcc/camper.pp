@@ -24,7 +24,6 @@ class profile::cfcc::camper {
             include profile::tools::cpuz
 
             # OS-specific Camper Tools
-            include profile::tools::ccleaner
             include profile::tools::mobaxterm
 
             # Text editors. We all have opinions on these.
