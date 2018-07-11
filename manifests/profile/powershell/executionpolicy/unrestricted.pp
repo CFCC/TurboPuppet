@@ -7,6 +7,6 @@ class profile::powershell::executionpolicy::unrestricted {
 
     exec { 'SetExecutionPolicy':
         command  => "Set-ExecutionPolicy -Scope ${scope} -ExecutionPolicy ${policy}",
-        onlyif   => psexpr("((Get-ExecutionPolicy -Scope ${scope}) -ne '${policy}')"),
+        onlyif   => psexpr("(Get-ExecutionPolicy -Scope ${scope}) -ne '${policy}'"),
     }
 }

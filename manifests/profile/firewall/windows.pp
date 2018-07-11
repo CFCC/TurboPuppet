@@ -26,7 +26,7 @@ class profile::firewall::windows {
     # networks to appear in the results of the Get- which doesn't match.
     exec { 'SetConnectionPolicy':
         command  => 'Set-NetConnectionProfile -NetworkCategory Private',
-        onlyif   => psexpr("((Get-NetConnectionProfile | select -ExpandProperty NetworkCategory) -ne 'Private')"),
+        onlyif   => psexpr("(Get-NetConnectionProfile | select -ExpandProperty NetworkCategory) -ne 'Private'"),
     }
 
     Exec['SetConnectionPolicy'] -> Windows_firewall::Exception['Allow-ICMPv4']

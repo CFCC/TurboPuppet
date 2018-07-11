@@ -9,7 +9,7 @@ class profile::windows::power {
 
     exec { 'SetPowerPlan':
         command => "powercfg -setactive ${guid_power_plan}",
-        onlyif  => psexpr("((powercfg -getactivescheme).split()[3] -ne '${guid_power_plan}')")
+        onlyif  => psexpr("(powercfg -getactivescheme).split()[3] -ne '${guid_power_plan}'")
     }
 
     # Make the display never sleep
@@ -23,7 +23,7 @@ class profile::windows::power {
     $cmd_get_displaysleep_setting = "powercfg /Q ${guid_power_plan} ${guid_subgroup_display} ${guid_setting_displaysleep} | Select-String 'Current AC Power' | select -exp 'line'"
     exec { 'SetDisplaySleep':
         command => "powercfg /SETACVALUEINDEX ${guid_power_plan} ${guid_subgroup_display} ${guid_setting_displaysleep} ${display_sleep_interval}",
-        onlyif  => psexpr("([int](${cmd_get_displaysleep_setting}).split()[-1] -ne ${display_sleep_interval})")
+        onlyif  => psexpr("[int](${cmd_get_displaysleep_setting}).split()[-1] -ne ${display_sleep_interval}")
     }
 
     # Make the system never sleep
@@ -35,7 +35,7 @@ class profile::windows::power {
 
     exec { 'SetSystemSleep':
         command => "powercfg /SETACVALUEINDEX ${guid_power_plan} ${guid_subgroup_sleep} ${guid_setting_sleepafter} ${system_sleep_interval}",
-        onlyif  => psexpr("([int](${cmd_get_systemsleep_setting}).split()[-1] -ne ${system_sleep_interval})")
+        onlyif  => psexpr("[int](${cmd_get_systemsleep_setting}).split()[-1] -ne ${system_sleep_interval}")
     }
 
     # Also disable hibernation
@@ -45,7 +45,7 @@ class profile::windows::power {
     # get enabled. Hopefully....
     exec { 'DisableHibernation':
         command => "powercfg -h off",
-        onlyif  => psexpr("([System.IO.Directory]::EnumerateFiles('C:\\') -contains ('C:\\hiberfil.sys'))")
+        onlyif  => psexpr("[System.IO.Directory]::EnumerateFiles('C:\\') -contains ('C:\\hiberfil.sys')")
     }
 
     Exec['SetPowerPlan'] -> Exec['SetDisplaySleep'] -> Exec['SetSystemSleep'] -> Exec['DisableHibernation']

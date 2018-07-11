@@ -41,7 +41,7 @@
 # In an expression this looks like "exit [int]('Foo' -ne 'Foo') - 1".
 # It's kinda gross, but it works.
 function psexpr(String $input) >> String {
-    $expression = "exit [int]${input} - 1"
+    $expression = "exit [int](${input}) - 1"
 
     # Return
     $expression
