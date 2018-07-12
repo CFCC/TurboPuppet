@@ -46,3 +46,27 @@ function psexpr(String $input) >> String {
     # Return
     $expression
 }
+
+# This resource will create HKCU registry entries. You can't use the regular
+# registry_key and registry_value resources because you don't necessarily control
+# who the current user is. In our case, we do.
+define hkcu(
+    $key,
+    $value,
+    $data,
+) {
+    $formatted_key = "HKCU:${key}"
+
+    # Test-Path returns False if nonexistant, True if existant
+    exec { "Create-${name}":
+        command => "New-Item -Path ${formatted_key}",
+        unless  => psexpr("Test-Path -Path ${formatted_key}")
+    }
+
+    exec { "Set-${name}":
+        command => "Set-ItemProperty -Path ${formatted_key} -Name ${value} ${data}",
+        onlyif  => psexpr("(Get-ItemProperty -Path ${formatted_key} -Name ${value} | Select -ExpandProperty ${value}) -ne ${data}"),
+    }
+
+    Exec["Create-${name}"] -> Exec["Set-${name}"]
+}
