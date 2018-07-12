@@ -63,6 +63,27 @@ class profile::windows::explorer {
         data  => 255,
     }
 
+    # Add an Open with Notepad action to context menu of every file
+    registry_key { 'OpenWithNotepadKey':
+        path   => 'HKCR\*\shell\Open with Notepad',
+        ensure => present,
+        notify => Exec['Reload Explorer']
+    }
+    registry_key { 'OpenWithNotepadCommandKey':
+        path   => 'HKCR\*\shell\Open with Notepad\command',
+        ensure => present,
+        notify => Exec['Reload Explorer']
+    }
+
+    registry::value { 'OpenWithNotepadCommandValue':
+        key   => 'HKCR\*\shell\Open with Notepad\command',
+        value => '(default)',
+        data  => 'notepad.exe %1',
+        notify => Exec['Reload Explorer']
+    }
+
+    Registry_key['OpenWithNotepadKey'] -> Registry_key['OpenWithNotepadCommandKey'] -> Registry::Value['OpenWithNotepadCommandValue']
+
     exec { 'Reload Explorer':
         command     => "Stop-Process -ProcessName explorer",
         refreshonly => true,

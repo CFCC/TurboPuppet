@@ -12,8 +12,6 @@ Scratchpad for random ideas of things that need done.
 * MobaXterm Config
 * Chocolatey cache
 * site::cfcc is a problem
-* Add registry entry to allow edit of any file from context menu in classesroot/*/editinnotepad[Edit in Notepad]/command/notepad.exe %1
-
 
 Fancy Puppet Things
 -------------------
