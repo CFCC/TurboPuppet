@@ -9,15 +9,12 @@ Scratchpad for random ideas of things that need done.
   * Can't do this easily since RSAT doesn't support Windows10
   
 * Template config of PyCharm
-* Wamp (Xampp is much easier)
 * MobaXterm Config
 * Chocolatey cache
-* Purge CCleaner
 * 7zip
 
 Fancy Puppet Things
 -------------------
-* Generic HKCU resource
 
 Linux
 -----
