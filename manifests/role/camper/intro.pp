@@ -10,6 +10,5 @@ class role::camper::intro inherits role::base {
     Class['site::cfcc'] -> Class['profile::access::camper']
 
     include profile::python::turtle
-    include profile::ide::alice
     include profile::ide::scratch
 }
