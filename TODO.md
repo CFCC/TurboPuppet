@@ -9,7 +9,6 @@ Scratchpad for random ideas of things that need done.
   * Can't do this easily since RSAT doesn't support Windows10
   
 * Template config of PyCharm
-* MobaXterm Config
 * Chocolatey cache
 * site::cfcc is a problem
 
