@@ -22,8 +22,10 @@ class profile::cfcc::camper {
             include profile::mdns::bonjour
             include profile::tools::spacemonger
             include profile::tools::cpuz
+            include profile::tools::sevenzip
 
             # OS-specific Camper Tools
+            # @TODO maybe this becomes profile::terminal::mobaxterm?
             include profile::tools::mobaxterm
 
             # Text editors. We all have opinions on these.

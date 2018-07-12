@@ -11,7 +11,7 @@ Scratchpad for random ideas of things that need done.
 * Template config of PyCharm
 * MobaXterm Config
 * Chocolatey cache
-* 7zip
+* site::cfcc is a problem
 
 Fancy Puppet Things
 -------------------
