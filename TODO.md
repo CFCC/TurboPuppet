@@ -5,9 +5,6 @@ Scratchpad for random ideas of things that need done.
 
 * Figure out how to install Ubuntu
 * Template config of PyCharm (https://serverfault.com/questions/739604/copy-folder-and-its-subfolders-from-puppet-master-to-agent)
-* Chocolatey cache
-* Explorer open to current directory in tree view
-
 
 Fancy Puppet Things
 -------------------
@@ -33,6 +30,7 @@ Caching
 * https://github.com/steamcache/
 * https://github.com/ContainX/docker-volume-netshare
 * https://docs.docker.com/engine/extend/plugin_api/#systemd-socket-activation
+* Chocolatey cache
 
 Bolt
 ----

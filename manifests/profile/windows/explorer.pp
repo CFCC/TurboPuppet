@@ -63,6 +63,20 @@ class profile::windows::explorer {
         data  => 255,
     }
 
+    # Show full path to files in the title and address bar
+    hkcu { 'DisplayFullPath':
+        key   => 'Software\Microsoft\Windows\CurrentVersion\Explorer\CabinetState',
+        value => 'FullPath',
+        data  => 1
+    }
+
+    # Expand to current folder in nav tree
+    hkcu { 'ExpandCurrentNavTree':
+        key   => 'Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced',
+        value => 'NavPaneExpandToCurrentFolder',
+        data  => 1,
+    }
+
     # Add an Open with Notepad action to context menu of every file
     registry_key { 'OpenWithNotepadKey':
         path   => 'HKCR\*\shell\Open with Notepad',
@@ -74,15 +88,16 @@ class profile::windows::explorer {
         ensure => present,
         notify => Exec['Reload Explorer']
     }
-
     registry::value { 'OpenWithNotepadCommandValue':
-        key   => 'HKCR\*\shell\Open with Notepad\command',
-        value => '(default)',
-        data  => 'notepad.exe %1',
+        key    => 'HKCR\*\shell\Open with Notepad\command',
+        value  => '(default)',
+        data   => 'notepad.exe %1',
         notify => Exec['Reload Explorer']
     }
 
-    Registry_key['OpenWithNotepadKey'] -> Registry_key['OpenWithNotepadCommandKey'] -> Registry::Value['OpenWithNotepadCommandValue']
+    Registry_key['OpenWithNotepadKey']
+    -> Registry_key['OpenWithNotepadCommandKey']
+    -> Registry::Value['OpenWithNotepadCommandValue']
 
     exec { 'Reload Explorer':
         command     => "Stop-Process -ProcessName explorer",
