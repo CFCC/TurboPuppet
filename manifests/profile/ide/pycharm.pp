@@ -41,5 +41,21 @@ class profile::ide::pycharm {
         }
     }
 
-    # @TODO maybe figure out a way to auto-detect the installed Python so that we don't have to set it manually.
+    # The config dir does not do patch release number
+    $config_version = $pycharm_version[0,6]
+
+    file { 'PycharmConfigRoot':
+        path   => "C:/Users/${::site::cfcc::camper_username}/.PyCharmCE${config_version}",
+        ensure => directory
+    }
+
+    file { 'PycharmConfig':
+        path    => "C:/Users/${::site::cfcc::camper_username}/.PyCharmCE${config_version}/config",
+        ensure  => directory,
+        source  => "puppet:///modules/cfcc/PyCharmCE${config_version}/config",
+        recurse => 'remote',
+        replace => 'no'
+    }
+
+    File['PycharmConfigRoot'] -> File['PycharmConfig']
 }

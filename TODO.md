@@ -4,7 +4,6 @@ To Do
 Scratchpad for random ideas of things that need done.
 
 * Figure out how to install Ubuntu
-* Template config of PyCharm (https://serverfault.com/questions/739604/copy-folder-and-its-subfolders-from-puppet-master-to-agent)
 
 Fancy Puppet Things
 -------------------
