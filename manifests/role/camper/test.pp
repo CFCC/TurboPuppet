@@ -15,5 +15,9 @@ class role::camper::test inherits role::base {
     include profile::access::camper
 
     # include profile::python::python3
-    include profile::webservers::xampp
+    # include profile::webservers::xampp
+    #
+    # windows_feature { 'Microsoft-Windows-Subsystem-Linux':
+    #     ensure => absent
+    # }
 }

@@ -3,17 +3,15 @@ To Do
 
 Scratchpad for random ideas of things that need done.
 
-* Features (.NET 3.5, WSL?)
-  * https://www.microsoft.com/en-au/download/details.aspx?id=45520
-  * choco install RSAT
-  * Can't do this easily since RSAT doesn't support Windows10
-  
-* Template config of PyCharm
+* Figure out how to install Ubuntu
+* Template config of PyCharm (https://serverfault.com/questions/739604/copy-folder-and-its-subfolders-from-puppet-master-to-agent)
 * Chocolatey cache
-* site::cfcc is a problem
+* Explorer open to current directory in tree view
+
 
 Fancy Puppet Things
 -------------------
+* site::cfcc is a problem. Refactor how we do site stuff to be more generic.
 
 Linux
 -----
