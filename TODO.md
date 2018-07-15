@@ -3,11 +3,8 @@ To Do
 
 Scratchpad for random ideas of things that need done.
 
-* Figure out how to install Ubuntu
-
 Fancy Puppet Things
 -------------------
-* site::cfcc is a problem. Refactor how we do site stuff to be more generic.
 
 Linux
 -----

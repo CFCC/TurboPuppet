@@ -28,15 +28,15 @@ class profile::games::quake3 {
 
             # q3config is in %APPDATA%\Quake3\baseq3
             $config_directories = [
-                "C:/Users/${::site::cfcc::camper_username}/AppData/Roaming/Quake3/",
-                "C:/Users/${::site::cfcc::camper_username}/AppData/Roaming/Quake3/baseq3"
+                "C:/Users/${turbosite::camper_username}/AppData/Roaming/Quake3/",
+                "C:/Users/${turbosite::camper_username}/AppData/Roaming/Quake3/baseq3"
             ]
             file { $config_directories:
                 ensure => directory,
             }
 
             file { "q3key":
-                path   => "C:/Users/${::site::cfcc::camper_username}/AppData/Roaming/Quake3/baseq3/q3key",
+                path   => "C:/Users/${turbosite::camper_username}/AppData/Roaming/Quake3/baseq3/q3key",
                 source => "${source_repo}\\q3key"
             }
 
@@ -46,7 +46,7 @@ class profile::games::quake3 {
             # deploy we should be able to delete the file then run Puppet so that
             # it will deploy whatever change is needed.
             file { 'q3config':
-                path    => "C:/Users/${::site::cfcc::camper_username}/AppData/Roaming/Quake3/baseq3/q3config.cfg",
+                path    => "C:/Users/${turbosite::camper_username}/AppData/Roaming/Quake3/baseq3/q3config.cfg",
                 ensure  => present,
                 replace => no,
                 source  => 'puppet:///modules/cfcc/q3config.cfg',

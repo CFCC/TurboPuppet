@@ -20,10 +20,10 @@ class profile::access::camper {
         }
     }
 
-    user { "${::site::cfcc::camper_username}":
+    user { "${turbosite::camper_username}":
         ensure   => present,
         groups   => $user_groups,
-        # password => "${::site::cfcc::camper_username}",
+        # password => "${turbosite::camper_username}",
     }
 
     include profile::access::autologin::enable

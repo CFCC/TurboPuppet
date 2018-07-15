@@ -11,7 +11,7 @@ node /^cfccnuc04/ { include role::camper::web }
 node /^cfcczotac01/ { include role::camper::pyle }
 node /^cfcczotac02/ { include role::camper::pyle }
 node /^cfcczotac03/ { include role::camper::pyle }
-node /^cfcczotac04/ { include role::camper::test }
+node /^cfcczotac04/ { include role::camper::pyle }
 node /^cfcczotac05/ { include role::camper::pyle }
 node /^cfcczotac06/ { include role::camper::pyle }
 node /^cfcczotac07/ { include role::camper::test }

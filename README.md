@@ -16,24 +16,18 @@ no more than one role. Roles should not include other roles. Some examples:
 
 An example role:
 ```puppet
-class role::camper::java inherits role::base {
-    include site::cfcc
-    include profile::cfcc::camper
-    include profile::access::camper
-
+class role::camper::java inherits role::camper {
     include profile::java::jdk8
     include profile::ide::intellij
 
-    Class['site::cfcc'] -> Class['profile::cfcc::camper']
-    Class['site::cfcc'] -> Class['profile::access::camper']
     Class['profile::java::jdk8'] -> Class['profile::ide::intellij']
 }
 ```
 This role defines the tools that are needed for that role and some class ordering.
 
-Every role needs to inherit from ```role::base ``` as this includes
-the common stuff to every role and operating-system defaults. Roles are made up 
-of profiles described below.
+Every camper role needs to inherit from ```role::camper``` as this includes
+the common stuff to every role, operating-system defaults, and the big three below. 
+Roles are made up of profiles described below.
 
 #### "The Big Three"
 Every role should include a minimum of three things:
@@ -41,7 +35,8 @@ Every role should include a minimum of three things:
 2) Device class (ex: ```profile::cfcc::camper```)
 3) Access profile (ex: ```profile::access::camper```)
 
-These are the basic building blocks of a role. Everything else comes afterward.
+These are the basic building blocks of a role. Everything else comes afterward. These
+are defined for camper roles in the ```role::camper``` class.
 
 ### Profiles
 Profiles are a single logical unit for a feature. Profiles can include
@@ -99,6 +94,10 @@ class site::cfcc {
     $puppet_master = 'puppet.campcomputer.com'
 }
 ```
+
+These sites are then loaded into a generic ```turbosite``` class which can
+then be referenced in the profiles. Since there could be multiple sites
+it would be inappropriate to statically reference say ```site::cfcc::nas_host```.
 
 ### Modules
 Modules provide specific functions and components. These are commonly

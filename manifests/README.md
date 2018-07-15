@@ -8,11 +8,13 @@ Sets up all Puppet resources for a given operating system. Examples:
 * Powershell
 * Chocolatey
 
-### role::camper::topic
-A specific purpose for a camper machine.
+### role::camper
+Generic camper computer
 * Site
 * Master Profile
 * Access
+### role::camper::topic
+A specific purpose for a camper machine.
 * Topic tools
 
 Profiles

@@ -28,13 +28,13 @@ class profile::access::autologin::enable {
             registry_value { 'DefaultUsername':
                 path => "${reg_path}\DefaultUsername",
                 type => string,
-                data => $::site::cfcc::camper_username,
+                data => $turbosite::camper_username,
             }
 
             registry_value { 'DefaultPassword':
                 path => "${reg_path}\DefaultPassword",
                 type => string,
-                data => $::site::cfcc::camper_username,
+                data => $turbosite::camper_username,
             }
 
             registry_value { 'AutoLogonCount':

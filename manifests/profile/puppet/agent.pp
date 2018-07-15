@@ -15,7 +15,7 @@ class profile::puppet::agent {
         default   => fail('Unsupported OS')
     }
 
-    $puppet_master = $::site::cfcc::puppet_master
+    $puppet_master = $turbosite::puppet_master
 
     File {
         notify => [Service[$agent_service]]

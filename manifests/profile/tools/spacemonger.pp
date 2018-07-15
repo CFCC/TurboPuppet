@@ -10,7 +10,7 @@ class profile::tools::spacemonger {
 
     file { 'SpaceMonger-Exe':
         path   => "C:/Program Files (x86)/Spacemonger/SpaceMonger.exe",
-        source => "${::site::cfcc::nas_installers_path}\\SpaceMonger.exe",
+        source => "${turbosite::nas_installers_path}\\SpaceMonger.exe",
     }
 
     shortcut { 'SpaceMonger-shortcut':

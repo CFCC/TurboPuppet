@@ -14,7 +14,7 @@ class profile::tools::netbench {
 
     file { 'NetBenchJar':
         path   => "${install_path}/NetBench.jar",
-        source => "${::site::cfcc::nas_installers_path}\\NetBench.jar"
+        source => "${turbosite::nas_installers_path}\\NetBench.jar"
     }
 
     # Shortcut

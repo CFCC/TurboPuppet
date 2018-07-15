@@ -45,12 +45,12 @@ class profile::ide::pycharm {
     $config_version = $pycharm_version[0,6]
 
     file { 'PycharmConfigRoot':
-        path   => "C:/Users/${::site::cfcc::camper_username}/.PyCharmCE${config_version}",
+        path   => "C:/Users/${turbosite::camper_username}/.PyCharmCE${config_version}",
         ensure => directory
     }
 
     file { 'PycharmConfig':
-        path    => "C:/Users/${::site::cfcc::camper_username}/.PyCharmCE${config_version}/config",
+        path    => "C:/Users/${turbosite::camper_username}/.PyCharmCE${config_version}/config",
         ensure  => directory,
         source  => "puppet:///modules/cfcc/PyCharmCE${config_version}/config",
         recurse => 'remote',
