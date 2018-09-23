@@ -5,12 +5,16 @@ Scratchpad for random ideas of things that need done.
 
 Fancy Puppet Things
 -------------------
+* Freedesktop Shortcut resource
+* Remove static files from modules/cfcc since we now have campfs
 
 Linux
 -----
 * Linux repos
 * Whole buncha stuff for profile::cfcc::camper
 * https://sites.google.com/site/easylinuxtipsproject/mint-cinnamon-first#TOC-Select-an-update-policy-and-apply-all-available-updates
+* http://yum.puppetlabs.com/puppet5/fedora/28/$basearch
+* https://download.sublimetext.com/rpm/stable/x86_64/sublime-text.repo
 
 Metrics & Logging
 -----------------

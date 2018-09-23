@@ -10,12 +10,9 @@ class role::camper inherits role::base {
     include site::cfcc
 
     class { 'turbosite':
-        camper_username     => $site::cfcc::camper_username,
-        time_zone           => $site::cfcc::time_zone,
-        nas_host            => $site::cfcc::nas_host,
-        nas_share           => $site::cfcc::nas_share,
-        puppet_master       => $site::cfcc::puppet_master,
-        nas_installers_path => $site::cfcc::nas_installers_path,
+        camper_username => $site::cfcc::camper_username,
+        time_zone       => $site::cfcc::time_zone,
+        puppet_master   => $site::cfcc::puppet_master,
     }
 
     # Tools need to make the system work. DNS, time, etc. While those

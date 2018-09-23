@@ -12,8 +12,5 @@
 class turbosite (
     $camper_username,
     $time_zone,
-    $nas_host,
-    $nas_share,
     $puppet_master,
-    $nas_installers_path,
 ) { }

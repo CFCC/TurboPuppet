@@ -10,7 +10,7 @@ class profile::python::turtle {
             # https://puppet.com/docs/puppet/5.0/resources_package_windows.html#packages-that-include-version-info-in-their-displayname
             package { 'PythonTurtle 0.1':
                 provider => windows,
-                source   => "${turbosite::nas_installers_path}\\pythonturtle-0.1.2009.8.2.1-unattended.msi",
+                source   => 'puppet:///campfs/pythonturtle-0.1.2009.8.2.1-unattended.msi',
             }
         }
         'Linux': {

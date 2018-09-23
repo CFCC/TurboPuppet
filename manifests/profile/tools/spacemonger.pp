@@ -9,13 +9,12 @@ class profile::tools::spacemonger {
     }
 
     file { 'SpaceMonger-Exe':
-        path   => "C:/Program Files (x86)/Spacemonger/SpaceMonger.exe",
-        source => "${turbosite::nas_installers_path}\\SpaceMonger.exe",
+        path   => 'C:/Program Files (x86)/Spacemonger/SpaceMonger.exe',
+        source => 'puppet:///campfs/SpaceMonger.exe',
     }
 
     shortcut { 'SpaceMonger-shortcut':
         path => 'C:/ProgramData/Microsoft/Windows/Start Menu/Programs/SpaceMonger.lnk',
-        # icon_location => 'C:\ProgramData\scratch.ico',
         target => 'C:/Program Files (x86)/Spacemonger/SpaceMonger.exe'
     }
 

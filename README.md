@@ -3,6 +3,13 @@ TurboPuppet
 Monolithic Puppet repo for [Camp Fitch Tech Focus](http://campcomputer.com). The code here may
 someday be used to do automatic camper PC deployment and more!
 
+Supported Platforms
+-------------------
+* Clients: Windows 10, Fedora 28\*, MacOS\*
+* Servers: CentOS 7
+
+\*=Not fully or even partially baked
+
 Organization
 ------------
 
@@ -89,15 +96,13 @@ There is a semantic difference between what Puppet considers a site
 An example of the former (and more relevant) usage of the word Site:
 ```puppet
 class site::cfcc {
-    $nas_host = 'CFCCFS01'
-    $nas_share = 'Public'
     $puppet_master = 'puppet.campcomputer.com'
 }
 ```
 
 These sites are then loaded into a generic ```turbosite``` class which can
 then be referenced in the profiles. Since there could be multiple sites
-it would be inappropriate to statically reference say ```site::cfcc::nas_host```.
+it would be inappropriate to statically reference say ```site::cfcc::puppet_master```.
 
 ### Modules
 Modules provide specific functions and components. These are commonly
@@ -113,6 +118,13 @@ in the Profiles.
 
 We do keep one single module here (the cfcc module). It's too small
 to be it's own repo right now so I'll deal with it later.
+
+## File Serving
+Seeing as referencing files on a NAS is a pain between OS's, a custom Puppet 
+HTTP file server is configured in ```fileserver.conf```. This is referenced as
+```puppet:///campfs/${FILENAME}``` in the code. It's actually a mount on the
+Puppetmaster to an underlying NAS share, but could be anything as long as
+the files are there.
 
 To update:
 ```shell

@@ -4,17 +4,18 @@
 class profile::tools::netbench {
     $install_path = $::osfamily ? {
         'windows' => 'C:/Program Files (x86)/NetBench',
+        'RedHat'  => '/opt/netbench',
         default   => fail('Unsupported OS')
     }
 
     file { 'NetBenchInstallDir':
         path   => $install_path,
-        ensure => directory
+        ensure => directory,
     }
 
     file { 'NetBenchJar':
         path   => "${install_path}/NetBench.jar",
-        source => "${turbosite::nas_installers_path}\\NetBench.jar"
+        source => 'puppet:///campfs/NetBench.jar',
     }
 
     # Shortcut
@@ -22,13 +23,11 @@ class profile::tools::netbench {
         'windows': {
             shortcut { 'NetBenchShortcut':
                 path   => 'C:/ProgramData/Microsoft/Windows/Start Menu/Programs/NetBench.lnk',
-                # icon_location => 'C:\ProgramData\scratch.ico',
+                # @TODO icon_location => '',
                 target => "${install_path}/NetBench.jar"
             }
         }
     }
 
     File['NetBenchInstallDir'] -> File['NetBenchJar']
-
-    # Scheduled runs cost $$$ :(
 }
