@@ -13,4 +13,10 @@ class turbosite (
     $camper_username,
     $time_zone,
     $puppet_master,
-) { }
+) {
+    $camper_homedir = $::kernel ? {
+        'windows' => "C:/Users/${camper_username}",
+        'Linux'   => "/home/${camper_username}",
+        default   => fail('Unsupported OS')
+    }
+}

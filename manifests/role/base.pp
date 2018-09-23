@@ -26,15 +26,6 @@ class role::base {
                 ensure => present
             }
         }
-        'Debian': {
-            # Ubuntu 16.04 (which Mint 18.04 is based) has a problem
-            # with services. Some compatibility crap between Upstart
-            # and Systemd.
-            # https://bugs.launchpad.net/ubuntu/+source/puppet/+bug/1570472#57
-            Service {
-                provider => systemd
-            }
-        }
         default: {
             fail("platform is unsupported")
         }
