@@ -28,7 +28,7 @@ class profile::tools::netbench {
         }
         'RedHat': {
             freedesktop::shortcut { 'NetBench':
-                exec    => "${install_path}/NetBench.jar",
+                exec    => "java -jar ${install_path}/NetBench.jar",
                 comment => 'Network Benchmark Utility',
                 icon    => 'network-transmit-receive'
             }

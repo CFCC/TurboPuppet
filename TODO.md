@@ -9,7 +9,7 @@ Fancy Puppet Things
 
 Linux
 -----
-* Linux repos
+* Linux repos <-- THIS!!!!!
 * Whole buncha stuff for profile::cfcc::camper
 * https://sites.google.com/site/easylinuxtipsproject/mint-cinnamon-first#TOC-Select-an-update-policy-and-apply-all-available-updates
 * http://yum.puppetlabs.com/puppet5/fedora/28/$basearch

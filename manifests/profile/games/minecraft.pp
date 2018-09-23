@@ -2,10 +2,38 @@
 # Minecraft
 #
 class profile::games::minecraft {
-    $package_name = $::osfamily ? {
-        'windows' => 'minecraft',
-        default   => fail('Unsupported OS')
+    # It's really funny that this is easier to install on Windows than Linux.
+    case $::osfamily {
+        'windows': {
+            package { 'minecraft': }
+        }
+
+        'RedHat': {
+            $minecraft_root = '/opt/minecraft'
+            $minecraft_jar = 'Minecraft.jar'
+
+            file { 'MinecraftRoot':
+                path   => $minecraft_root,
+                ensure => directory,
+            } ->
+            file { 'MinecraftJar':
+                path   => "${minecraft_root}/${minecraft_jar}",
+                source => "puppet:///campfs/${minecraft_jar}",
+            } ->
+            file { 'MinecraftIcon':
+                path   => "${minecraft_root}/icon.png",
+                source => "puppet:///campfs/minecraft.png"
+            } ->
+            freedesktop::shortcut { 'Minecraft':
+                exec       => "java -jar ${minecraft_root}/${minecraft_jar}",
+                comment    => 'Minecraft',
+                icon       => "${minecraft_root}/icon.png",
+                categories => ['Games']
+            }
+        }
+
+        default: { fail('unsupported OS') }
     }
 
-    package { $package_name: }
+    # @TODO seed initial set of files so it doesnt go out to the internet
 }
