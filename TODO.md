@@ -5,7 +5,6 @@ Scratchpad for random ideas of things that need done.
 
 Fancy Puppet Things
 -------------------
-* Freedesktop Shortcut resource
 * Remove static files from modules/cfcc since we now have campfs
 
 Linux

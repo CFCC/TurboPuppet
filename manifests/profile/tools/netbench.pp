@@ -23,8 +23,14 @@ class profile::tools::netbench {
         'windows': {
             shortcut { 'NetBenchShortcut':
                 path   => 'C:/ProgramData/Microsoft/Windows/Start Menu/Programs/NetBench.lnk',
-                # @TODO icon_location => '',
                 target => "${install_path}/NetBench.jar"
+            }
+        }
+        'RedHat': {
+            freedesktop::shortcut { 'NetBench':
+                exec    => "${install_path}/NetBench.jar",
+                comment => 'Network Benchmark Utility',
+                icon    => 'network-transmit-receive'
             }
         }
     }

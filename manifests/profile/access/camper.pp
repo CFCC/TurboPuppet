@@ -11,9 +11,9 @@ class profile::access::camper {
             # $user_groups = ['BUILTIN\Administrators', "BUILTIN\Remote Management Users"]
             $user_groups = ['BUILTIN\Administrators']
         }
-        'Debian': {
+        'RedHat': {
             # camper : camper adm cdrom sudo dip plugdev lpadmin sambashare
-            $user_groups = ['sudo']
+            $user_groups = ['wheel']
         }
         default: {
             fail("platform is unsupported")

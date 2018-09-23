@@ -22,6 +22,9 @@ class role::base {
         }
         'RedHat': {
             # Nothing yet since Linux is sane!
+            Package {
+                ensure => present
+            }
         }
         'Debian': {
             # Ubuntu 16.04 (which Mint 18.04 is based) has a problem

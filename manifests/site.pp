@@ -94,3 +94,22 @@ define windows_feature(
         }
     }
 }
+
+define freedesktop::shortcut(
+    $path="/usr/local/share/applications/${name}.desktop",
+    $ensure='present',
+    $version=1.0,
+    $type='Application',
+    $displayname=$name,
+    $exec,
+    $icon='',
+    $comment='',
+    $categories=[],
+    $terminal=false,
+) {
+    file { "${name}-Shortcut":
+        path    => $path,
+        ensure  => $ensure,
+        content => template('cfcc/freedesktop/shortcut.erb'),
+    }
+}
