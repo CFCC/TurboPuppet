@@ -11,11 +11,11 @@ class profile::packaging::repositories::fedora {
     #
     # A class containing Virtual Resources for all of the repos in that category is included here.
     # By virtue of being a Virtual Resource, this does not mean that it is "realized" (aka created)
-    # here. This we enter the ethereal realm of Puppet. Using a UFO Collector (flying-saucer looking
-    # thing a la:
+    # here. This we enter the ethereal realm of Puppet. Using a Resource Collector, aka "UFO Collector"
+    # (flying-saucer looking thing a la:
     #   Yumrepo <| tag == 'yumrepo-system' |>
     # This will gather up all virtual resources with that specific tag and force them into existence.
-    # WARNING: the flying saucer picks up from everything included here (if it matches the search)!
+    # WARNING: the flying saucer picks up from everything that matches the search!
 
     include profile::packaging::repositories::fedora::system
     include profile::packaging::repositories::fedora::thirdparty
@@ -28,4 +28,20 @@ class profile::packaging::repositories::fedora {
     Yumrepo <| tag == 'yumrepo-system' |>
     Yumrepo <| tag == 'yumrepo-collections' |>
     Yumrepo <| tag == 'yumrepo-thirdparty' |>
+
+    # In the model of profiles that would not rely on thirtparty repos being automatically
+    # available, they would look something like the following:
+    #
+    # class profile::tools::slack {
+    #     Yumrepo <| name == 'slack' |>
+    #
+    #     package { 'slack':
+    #         ensure => latest,
+    #         require => Yumrepo['slack']
+    #     }
+    #
+    #     ...
+    # }
+    #
+    # This way the Slack repo doesn't exist where it is not explicitly called for.
 }
