@@ -76,6 +76,7 @@ define hkcu(
 # code of 3010 (restart required) rather than 0. A flag of
 # --ignore-package-exit-codes is supposed to do this but apparently
 # that doesn't work? idk, so we do it manually.
+# @TODO purge this
 define windows_feature(
     $ensure
 ) {
@@ -111,5 +112,33 @@ define freedesktop::shortcut(
         path    => $path,
         ensure  => $ensure,
         content => template('cfcc/freedesktop/shortcut.erb'),
+    }
+}
+
+# I'm not sure if the XDG_RUNTIME_DIR environment will magically work
+# for all dconf commands. But at least for the clock it's the only one
+# that is needed to make it work in real time. dbus-launch breaks it.
+# Without the XDG var, the changes don't happen until you reboot.
+# A restart of Cinnamon doesn't seem sufficient.
+define dconf::setting(
+    $key,
+    $value,
+    $user,
+) {
+    # Format the value a bit
+    if ($value != 'true' and $value != 'false') {
+        $raw_value = "'${value}'"
+    }
+    # @TODO add more logic here as needed
+    else {
+        $raw_value = $value
+    }
+    exec { "${name}-Exec":
+        command => "/usr/bin/dconf write ${key} ${raw_value}",
+        onlyif => "/usr/bin/test $(/usr/bin/dconf read ${key}) != ${raw_value}",
+        environment => [
+            'XDG_RUNTIME_DIR=/run/user/1000'
+        ],
+        user => $user,
     }
 }

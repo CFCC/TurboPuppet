@@ -1,7 +1,7 @@
 #
 # Tweaks to Explorer.exe
 #
-class profile::windows::explorer {
+class profile::desktop::explorer {
     # We want to preserve the "RunAsAdministrator" bit.
     # https://stackoverflow.com/questions/28997799/how-to-create-a-run-as-administrator-shortcut-using-powershell
     file { "C:/Users/${turbosite::camper_username}/Desktop/sudo cmd.lnk":

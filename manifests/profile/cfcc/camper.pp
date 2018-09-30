@@ -10,10 +10,10 @@ class profile::cfcc::camper {
     case $::kernel {
         'windows': {
             # Platform things
+            include profile::desktop::explorer
             include profile::firewall::windows
             include profile::winrm::server
             include profile::windows::rdp::enable
-            include profile::windows::explorer
             include profile::windows::power
             include profile::windows::xbox::disable
             include profile::windows::update
@@ -33,12 +33,12 @@ class profile::cfcc::camper {
             #include profile::editors::atom
         }
         'Linux': {
+            include profiles::desktop::cinnamon
             include profile::mdns::avahi
             # @TODO include profile::firewall::linux
             # @TODO include profile::ssh::server
             include profile::editors::vim
             include profile::editors::sublime
-            # @TODO include profile::linux::windowmanager
         }
         default: {}
     }
