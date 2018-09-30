@@ -36,6 +36,11 @@ class profile::packaging::keys::fedora {
         path => "/etc/pki/rpm-gpg/RPM-GPG-KEY-copr_phracek-pycharm"
     }
 
+    file { "RPM-GPG-KEY-copr_elken-gitkraken":
+        source => "https://copr-be.cloud.fedoraproject.org/results/elken/gitkraken/pubkey.gpg",
+        path => "/etc/pki/rpm-gpg/RPM-GPG-KEY-copr_elken-gitkraken"
+    }
+
     file { "RPM-GPG-KEY-google-chrome":
         source => "https://dl.google.com/linux/linux_signing_key.pub",
         path => "/etc/pki/rpm-gpg/RPM-GPG-KEY-google-chrome"

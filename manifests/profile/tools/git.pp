@@ -18,7 +18,17 @@ class profile::tools::git {
             }
         }
         'Linux': {
-            # @TODO git desktop
+            package { 'gitkraken':
+                require => Yumrepo['_copr_elken-gitkraken']
+            }
+
+            # There's a thing where it's linked against a filename that doesn't exist.
+            # But the library does. Whatevs.....
+            file { '/usr/lib64/libcurl-gnutls.so.4':
+                ensure  => link,
+                target  => '/usr/lib64/libcurl.so.4',
+                require => Package['gitkraken']
+            }
         }
         default: { }
     }

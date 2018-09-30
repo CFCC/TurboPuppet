@@ -14,6 +14,11 @@ class profile::access::camper {
         'RedHat': {
             # camper : camper adm cdrom sudo dip plugdev lpadmin sambashare
             $user_groups = ['wheel']
+
+            sudo::conf { 'camper':
+                priority => 10,
+                content  => "${turbosite::camper_username} ALL=(ALL) NOPASSWD: ALL"
+            }
         }
         default: {
             fail("platform is unsupported")

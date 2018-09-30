@@ -25,6 +25,8 @@ class role::base {
             Package {
                 ensure => present
             }
+
+            include profile::packaging::yum
         }
         default: {
             fail("platform is unsupported")

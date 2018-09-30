@@ -26,8 +26,7 @@ class profile::cfcc::camper {
             include profile::tools::sevenzip
 
             # OS-specific Camper Tools
-            # @TODO maybe this becomes profile::terminal::mobaxterm?
-            include profile::tools::mobaxterm
+            include profile::terminals::mobaxterm
 
             # Text editors. We all have opinions on these.
             include profile::editors::notepadplusplus
