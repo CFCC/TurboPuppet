@@ -17,3 +17,4 @@ mod 'winrm_ssl',
     :branch => 'master'
 mod 'souldo-remotedesktop', '1.0.2'
 mod 'souldo-wmi', '0.1.0'
+mod 'ghoneycutt-ssh', '3.57.1'

@@ -7,7 +7,7 @@ class profile::access::camper {
     # work for us here since different distros have different groups.
     case $::osfamily {
         'windows': {
-            include profile::access::camper::windows
+            include profile::access::uac::disable
             # $user_groups = ['BUILTIN\Administrators', "BUILTIN\Remote Management Users"]
             $user_groups = ['BUILTIN\Administrators']
         }
@@ -24,6 +24,7 @@ class profile::access::camper {
         ensure   => present,
         groups   => $user_groups,
         # password => "${turbosite::camper_username}",
+        before   => Class['profile::access::autologin::enable']
     }
 
     include profile::access::autologin::enable

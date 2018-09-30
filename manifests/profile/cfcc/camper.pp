@@ -11,9 +11,10 @@ class profile::cfcc::camper {
         'windows': {
             # Platform things
             include profile::desktop::explorer
+            include profile::remoteaccess::rdp::enable
+            include profile::remoteaccess::winrm::enable
+
             include profile::firewall::windows
-            include profile::winrm::server
-            include profile::windows::rdp::enable
             include profile::windows::power
             include profile::windows::xbox::disable
             include profile::windows::update
@@ -33,10 +34,10 @@ class profile::cfcc::camper {
             #include profile::editors::atom
         }
         'Linux': {
-            include profiles::desktop::cinnamon
+            include profile::desktop::cinnamon
+            include profile::remoteaccess::ssh::enable
             include profile::mdns::avahi
             # @TODO include profile::firewall::linux
-            # @TODO include profile::ssh::server
             include profile::editors::vim
             include profile::editors::sublime
         }

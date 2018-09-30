@@ -1,7 +1,7 @@
 #
 # Remote Desktop Protocol - Enable
 #
-class profile::windows::rdp::enable {
+class profile::remoteaccess::rdp::enable {
     # @TODO this module sucks donkey balls
     class { 'remotedesktop':
         ensure          => present,

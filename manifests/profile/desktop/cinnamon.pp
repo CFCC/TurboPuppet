@@ -1,7 +1,7 @@
 #
 #
 #
-class profiles::desktop::cinnamon {
+class profile::desktop::cinnamon {
     # Exec {
     # user => $::turbosite::camper_username
     # user => 'camper'

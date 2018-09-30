@@ -2,7 +2,7 @@
 # Windows Remote Management service. It's like SSH, kinda.
 # @TODO File transfers from the NAS dont work when puppet is run over bolt/winrm.
 #
-class profile::winrm::server {
+class profile::remoteaccess::winrm::enable {
 
     # This class doesn't do Powershell. Bad things happen. Since we
     # specify that default in role::base this must override it.
