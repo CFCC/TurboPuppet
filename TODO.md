@@ -6,6 +6,9 @@ Scratchpad for random ideas of things that need done.
 All
 ---
 * Wireshark
+* VirtualBox
+* GIMP
+* Drop the S from groups of profiles
 
 Fancy Puppet Things
 -------------------
@@ -13,11 +16,7 @@ Fancy Puppet Things
 
 Linux
 -----
-* Linux repos <-- THIS!!!!!
 * Whole buncha stuff for profile::cfcc::camper
-* https://sites.google.com/site/easylinuxtipsproject/mint-cinnamon-first#TOC-Select-an-update-policy-and-apply-all-available-updates
-* http://yum.puppetlabs.com/puppet5/fedora/28/$basearch
-* https://download.sublimetext.com/rpm/stable/x86_64/sublime-text.repo
 
 Metrics & Logging
 -----------------

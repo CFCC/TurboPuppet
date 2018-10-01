@@ -23,7 +23,6 @@ class profile::cfcc::camper {
             include profile::mdns::bonjour
             include profile::tools::spacemonger
             include profile::tools::cpuz
-            include profile::tools::sevenzip
 
             # OS-specific Camper Tools
             include profile::terminals::mobaxterm
@@ -51,6 +50,7 @@ class profile::cfcc::camper {
     include profile::browsers::firefox
     include profile::tools::git
     include profile::tools::netbench
+    include profile::tools::sevenzip
 
     # Games
     include profile::games::quake3

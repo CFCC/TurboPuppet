@@ -20,40 +20,42 @@ class profile::packaging::keys::fedora {
     # They do some funky user-agent-specific crap to prevent that. It's stupid, so we
     # must deal with it.
     package { "rpmfusion-free-${::operatingsystemmajrelease}":
-        name => 'rpmfusion-free-release',
-        source => "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-${::operatingsystemmajrelease}.noarch.rpm",
+        name   => 'rpmfusion-free-release',
+        source => "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-${::operatingsystemmajrelease}
+            .noarch.rpm",
         ensure => present
     }
     package { "rpmfusion-nonfree-${::operatingsystemmajrelease}":
-        name => 'rpmfusion-nonfree-release',
-        source => "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-${::operatingsystemmajrelease}.noarch.rpm",
+        name   => 'rpmfusion-nonfree-release',
+        source => "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-${
+            ::operatingsystemmajrelease}.noarch.rpm",
         ensure => present
     }
 
     # ThirdParty
     file { "RPM-GPG-KEY-copr_phracek-pycharm":
         source => "https://copr-be.cloud.fedoraproject.org/results/phracek/PyCharm/pubkey.gpg",
-        path => "/etc/pki/rpm-gpg/RPM-GPG-KEY-copr_phracek-pycharm"
+        path   => "/etc/pki/rpm-gpg/RPM-GPG-KEY-copr_phracek-pycharm"
     }
 
     file { "RPM-GPG-KEY-copr_elken-gitkraken":
         source => "https://copr-be.cloud.fedoraproject.org/results/elken/gitkraken/pubkey.gpg",
-        path => "/etc/pki/rpm-gpg/RPM-GPG-KEY-copr_elken-gitkraken"
+        path   => "/etc/pki/rpm-gpg/RPM-GPG-KEY-copr_elken-gitkraken"
     }
 
     file { "RPM-GPG-KEY-google-chrome":
         source => "https://dl.google.com/linux/linux_signing_key.pub",
-        path => "/etc/pki/rpm-gpg/RPM-GPG-KEY-google-chrome"
+        path   => "/etc/pki/rpm-gpg/RPM-GPG-KEY-google-chrome"
     }
 
     file { "RPM-GPG-KEY-puppet":
         source => 'http://yum.puppetlabs.com/RPM-GPG-KEY-puppet',
-        path => "/etc/pki/rpm-gpg/RPM-GPG-KEY-puppet"
+        path   => "/etc/pki/rpm-gpg/RPM-GPG-KEY-puppet"
     }
 
     file { "RPM-GPG-KEY-sublime-text":
         source => 'https://download.sublimetext.com/sublimehq-rpm-pub.gpg',
-        path => "/etc/pki/rpm-gpg/RPM-GPG-KEY-sublime-text"
+        path   => "/etc/pki/rpm-gpg/RPM-GPG-KEY-sublime-text"
     }
 
     # This is an unfixed bug in Puppet where you cannot HEAD against an S3 repo, thus making
@@ -71,7 +73,8 @@ class profile::packaging::keys::fedora {
     # By the way: `rpm -qpi /path/to/package.rpm` will show the signature of the signer,
     # which you can punch into Google to find said key.
     file { "RPM-GPG-KEY-slack":
-        source => 'https://slack.com/gpg/slack_pubkey.gpg',
-        path => "/etc/pki/rpm-gpg/RPM-GPG-KEY-slack"
+        source   => 'https://slack.com/gpg/slack_pubkey.gpg',
+        path     => "/etc/pki/rpm-gpg/RPM-GPG-KEY-slack",
+        checksum => 'md5'
     }
 }
