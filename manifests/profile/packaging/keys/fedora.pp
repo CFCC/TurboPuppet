@@ -34,27 +34,27 @@ class profile::packaging::keys::fedora {
 
     # ThirdParty
     file { "RPM-GPG-KEY-copr_phracek-pycharm":
-        source => "https://copr-be.cloud.fedoraproject.org/results/phracek/PyCharm/pubkey.gpg",
+        source => "puppet:///campfs/rpm-gpg/RPM-GPG-KEY-copr_phracek-pycharm",
         path   => "/etc/pki/rpm-gpg/RPM-GPG-KEY-copr_phracek-pycharm"
     }
 
     file { "RPM-GPG-KEY-copr_elken-gitkraken":
-        source => "https://copr-be.cloud.fedoraproject.org/results/elken/gitkraken/pubkey.gpg",
+        source => "puppet:///campfs/rpm-gpg/RPM-GPG-KEY-copr_elken-gitkraken",
         path   => "/etc/pki/rpm-gpg/RPM-GPG-KEY-copr_elken-gitkraken"
     }
 
     file { "RPM-GPG-KEY-google-chrome":
-        source => "https://dl.google.com/linux/linux_signing_key.pub",
+        source => "puppet:///campfs/rpm-gpg/RPM-GPG-KEY-google-chrome",
         path   => "/etc/pki/rpm-gpg/RPM-GPG-KEY-google-chrome"
     }
 
     file { "RPM-GPG-KEY-puppet":
-        source => 'http://yum.puppetlabs.com/RPM-GPG-KEY-puppet',
+        source => "puppet:///campfs/rpm-gpg/RPM-GPG-KEY-puppet",
         path   => "/etc/pki/rpm-gpg/RPM-GPG-KEY-puppet"
     }
 
     file { "RPM-GPG-KEY-sublime-text":
-        source => 'https://download.sublimetext.com/sublimehq-rpm-pub.gpg',
+        source => "puppet:///campfs/rpm-gpg/RPM-GPG-KEY-sublime-text",
         path   => "/etc/pki/rpm-gpg/RPM-GPG-KEY-sublime-text"
     }
 
@@ -72,9 +72,16 @@ class profile::packaging::keys::fedora {
     # proper distro key in Packagecloud. But it is on their website! Software suxx.
     # By the way: `rpm -qpi /path/to/package.rpm` will show the signature of the signer,
     # which you can punch into Google to find said key.
+    # 
+    # Well, it's not so simple. The Slack key at https://slack.com/gpg/slack_pubkey.gpg
+    # is served from Cloudfront, which I think is causing some weirdness with the
+    # Puppet File{} resource's https source. It keeps re-downloading every time even if
+    # the content or mtime don't change. Seems to be a sorta known thing?
+    # https://tickets.puppetlabs.com/browse/PUP-1072
+    # Regardless, I'm gonna have to be a good person and jam them into the Puppet
+    # filesystem.
     file { "RPM-GPG-KEY-slack":
-        source   => 'https://slack.com/gpg/slack_pubkey.gpg',
+        source => "puppet:///campfs/rpm-gpg/RPM-GPG-KEY-slack",
         path     => "/etc/pki/rpm-gpg/RPM-GPG-KEY-slack",
-        checksum => 'md5'
     }
 }

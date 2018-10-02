@@ -71,31 +71,7 @@ define hkcu(
     Exec["Create-${name}"] -> Exec["Set-${name}"]
 }
 
-# There is a Puppet module for Windows Features, but it only works
-# on Server and not 10. Installing features generally returns a
-# code of 3010 (restart required) rather than 0. A flag of
-# --ignore-package-exit-codes is supposed to do this but apparently
-# that doesn't work? idk, so we do it manually.
-# @TODO purge this
-define windows_feature(
-    $ensure
-) {
-    if ($ensure == 'present') {
-        exec { "Install-${name}":
-            command => "choco install --source windowsFeatures -y ${name}",
-            onlyif  => psexpr("[bool]((([string](choco list --source windowsFeatures | Select-String -Pattern '${name}')).Split('|').Trim()) -eq 'Disabled')"),
-            returns => [0, 3010]
-        }
-    }
-    elsif ($ensure == 'absent') {
-        exec { "Uninstall-${name}":
-            command => "choco uninstall --source windowsFeatures -y ${name}",
-            onlyif  => psexpr("[bool]((([string](choco list --source windowsFeatures | Select-String -Pattern '${name}')).Split('|').Trim()) -eq 'Enabled')"),
-            returns => [0, 3010]
-        }
-    }
-}
-
+# This creates a .desktop file for any given app. Pretty simple.
 define freedesktop::shortcut(
     $path="/usr/local/share/applications/${name}.desktop",
     $ensure='present',

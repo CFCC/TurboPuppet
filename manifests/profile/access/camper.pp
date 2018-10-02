@@ -17,7 +17,7 @@ class profile::access::camper {
 
             sudo::conf { 'camper':
                 priority => 10,
-                content  => "${turbosite::camper_username} ALL=(ALL) NOPASSWD: ALL"
+                content  => "${turbosite::camper_username} ALL=(ALL) NOPASSWD: ALL\nDefaults    secure_path = /usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/opt/puppetlabs/bin"
             }
         }
         default: {
