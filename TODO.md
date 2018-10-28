@@ -5,10 +5,14 @@ Scratchpad for random ideas of things that need done.
 
 All
 ---
-* Wireshark
+* Puppet 6
 * VirtualBox
 * GIMP
 * Drop the S from groups of profiles
+
+Windows
+-------
+Fix escapes in autologin
 
 Fancy Puppet Things
 -------------------
