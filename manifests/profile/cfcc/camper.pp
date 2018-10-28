@@ -42,13 +42,14 @@ class profile::cfcc::camper {
         default: {}
     }
 
-    # System stuff
+    # System-level stuff
     include profile::puppet::agent::disable
 
-    # Camper Tools
+    # Camper & System Tools
     include profile::browsers::chrome
     include profile::browsers::firefox
     include profile::tools::git
+    include profile::tools::wireshark
     include profile::tools::netbench
     include profile::tools::sevenzip
 

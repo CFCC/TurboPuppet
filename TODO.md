@@ -7,7 +7,6 @@ All
 ---
 * Puppet 6
 * VirtualBox
-* GIMP
 * Drop the S from groups of profiles
 
 Windows
