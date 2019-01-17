@@ -3,9 +3,9 @@
 #
 class profile::tools::sevenzip {
     $package_name = $::operatingsystem ? {
-        'Fedora' => 'p7zip',
+        'Fedora'  => 'p7zip',
         'windows' => '7zip',
-        default => fail('Unsupported OS')
+        default   => fail('Unsupported OS')
     }
 
     package { $package_name: }
