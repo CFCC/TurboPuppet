@@ -8,6 +8,12 @@ class profile::desktop::explorer {
         source => 'puppet:///modules/cfcc/sudocmd.lnk',
     }
 
+    # Admin panel. This may be a bad idea.
+    # https://www.howtogeek.com/402458/enable-god-mode-in-windows-10/
+    file { "C:/Users/${turbosite::camper_username}/Desktop/GodMode.{ED7BA470-8E54-465E-825C-99712043E01C}":
+        ensure => directory
+    }
+
     # Remove built-in shortcut files that are useless
     $junk_shortcuts = [
         "C:/Users/${turbosite::camper_username}/Desktop/Windows 10 Update Assistant.lnk",
