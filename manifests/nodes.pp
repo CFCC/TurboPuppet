@@ -8,7 +8,7 @@ node default { include role::camper::default }
 node /^cfccnuc01/ { include role::camper::pyle }
 node /^cfccnuc02/ { include role::camper::java }
 node /^cfccnuc04/ { include role::camper::web }
-node /^cfcczotac01/ { include role::camper::pyle }
+node /^cfcczotac01/ { include role::camper::test }
 node /^cfcczotac02/ { include role::camper::pyle }
 node /^cfcczotac03/ { include role::camper::test }
 node /^cfcczotac04/ { include role::camper::pyle }

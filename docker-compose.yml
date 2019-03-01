@@ -1,0 +1,12 @@
+version: "3"
+services:
+    puppetserver:
+        container_name: puppet
+        hostname: puppet
+        image: puppet/puppetserver-standalone
+        network_mode: "host"
+        volumes:
+            - "~/Projects/CFCC/puppet:/etc/puppetlabs/code/environments/production"
+            - "~/Projects/CFCC/puppet/r10k.yaml:/etc/puppetlabs/r10k/r10k.yaml"
+            - "~/Projects/CFCC/puppet/fileserver.conf:/etc/puppetlabs/puppet/fileserver.conf"
+            - "/media/Public:/mnt/Public"
