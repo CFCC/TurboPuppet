@@ -1,6 +1,0 @@
-# /etc/puppetlabs/r10k/r10k.yaml
----
-sources:
-  puppet:
-    remote: 'https://github.com/cohoe/TurboPuppet'
-    basedir: '/etc/puppetlabs/code/environments'
