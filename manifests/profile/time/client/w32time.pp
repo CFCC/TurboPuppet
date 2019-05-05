@@ -20,6 +20,17 @@ class profile::time::client::w32time {
         notify => Service['W32Time']
     }
 
+    # https://blogs.msdn.microsoft.com/w32time/2008/02/26/configuring-the-time-service-ntpserver-and-specialpollinterval/
+    registry_value { 'NtpServer':
+        ensure => present,
+        path   => 'HKLM\SYSTEM\CurrentControlSet\Services\W32Time\Parameters\NtpServer',
+        type   => string,
+        data   => 'time.windows.com,0x9'
+        notify => Service['W32Time']
+    }
+
+    # 20190504 I dont understand why this isn't running by default. Seems that Wumboze
+    # had no idea it was ahead and didn't trigger the manual start.
     service { 'W32Time':
         ensure => running,
         enable => true

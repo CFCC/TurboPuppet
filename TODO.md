@@ -3,12 +3,12 @@ To Do
 
 Scratchpad for random ideas of things that need done.
 
-* Puppet 6
-* VirtualBox
 * Drop the S from groups of profiles
 * Fix escapes in autologin
+* Deal with any server warnings
 * Remove static files from modules/cfcc since we now have campfs
 * Linux support for a whole buncha stuff for profile::cfcc::camper
+* Time servers
 
 Infrastructure
 --------------
