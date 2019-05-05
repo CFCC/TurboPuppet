@@ -3,8 +3,5 @@
 #
 class site::cfcc {
     $camper_username = 'camper'
-
-    $puppet_master = 'puppet.boston.grantcohoe.com'
-
-    $time_zone = 'Eastern Standard Time'
+    $puppet_master = 'puppet'
 }

@@ -11,7 +11,6 @@
 #
 class turbosite (
     $camper_username,
-    $time_zone,
     $puppet_master,
 ) {
     $camper_homedir = $::kernel ? {

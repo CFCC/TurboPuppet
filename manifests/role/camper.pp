@@ -11,7 +11,6 @@ class role::camper inherits role::base {
 
     class { 'turbosite':
         camper_username => $site::cfcc::camper_username,
-        time_zone       => $site::cfcc::time_zone,
         puppet_master   => $site::cfcc::puppet_master,
     }
 
