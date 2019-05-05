@@ -3,7 +3,7 @@ $puppet_local_package='puppet-agent-6.3.0-x64.msi'
 $puppet_download_directory='C:\Users\camper\Downloads'
 
 if (!(Test-Path $puppet_download_directory\$puppet_local_package)) {
-    Invoke-WebRequest https://downloads.puppetlabs.com/windows/puppet-agent-x64-latest.msi -OutFile $puppet_download_directory\$puppet_local_package
+    Invoke-WebRequest https://downloads.puppetlabs.com/windows/puppet6/$puppet_local_package -OutFile $puppet_download_directory\$puppet_local_package
 }
 
 cd $puppet_download_directory
