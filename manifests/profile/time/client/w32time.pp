@@ -25,8 +25,7 @@ class profile::time::client::w32time {
         ensure => present,
         path   => 'HKLM\SYSTEM\CurrentControlSet\Services\W32Time\Parameters\NtpServer',
         type   => string,
-        data   => 'time.windows.com,0x9'
-        data   => inline_template('<%= time_servers.join(",0x9 ") %>'),
+        data   => join(suffix($::turbosite::time_servers, ',0x9'), ' '),
         notify => Service['W32Time']
     }
 
