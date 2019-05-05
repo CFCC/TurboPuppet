@@ -18,9 +18,10 @@ class profile::tools::virtualbox {
 
     # Guest Additions
     
+    # 20190504 apparently Choco does this for us! Just leaves Linux to deal with...
     # Install GA
-    exec { foo:
-        unless => "vboxmanage list extpacks | grep 'Oracle VM Virtualbox Extention Pack'"
-    }
+    #exec { foo:
+    #    unless => "vboxmanage list extpacks | grep 'Oracle VM Virtualbox Extention Pack'"
+    #}
 
 }

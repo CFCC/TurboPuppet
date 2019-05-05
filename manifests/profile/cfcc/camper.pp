@@ -52,6 +52,7 @@ class profile::cfcc::camper {
     include profile::tools::wireshark
     include profile::tools::netbench
     include profile::tools::sevenzip
+    include profile::tools::virtualbox
 
     # Games
     include profile::games::quake3
