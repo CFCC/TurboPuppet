@@ -14,7 +14,7 @@ class profile::tool::wireshark {
     case $::osfamily {
         'windows': {
             package { 'winpcap':
-                before => [ Package[$pacakge_name] ]
+                before => [ Package[$package_name] ]
             }
         }
     }
