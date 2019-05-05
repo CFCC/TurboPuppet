@@ -20,25 +20,25 @@ class profile::access::autologin::enable {
             }
 
             registry_value { 'AutoAdminLogon':
-                path   => "${reg_path}\AutoAdminLogon",
+                path   => "${reg_path}\\AutoAdminLogon",
                 type   => string,
                 data   => '1',
             }
 
             registry_value { 'DefaultUsername':
-                path => "${reg_path}\DefaultUsername",
+                path => "${reg_path}\\DefaultUsername",
                 type => string,
                 data => $turbosite::camper_username,
             }
 
             registry_value { 'DefaultPassword':
-                path => "${reg_path}\DefaultPassword",
+                path => "${reg_path}\\DefaultPassword",
                 type => string,
                 data => $turbosite::camper_username,
             }
 
             registry_value { 'AutoLogonCount':
-                path => "${reg_path}\AutoLogonCount",
+                path => "${reg_path}\\AutoLogonCount",
                 type => dword,
                 data => 1
             }
