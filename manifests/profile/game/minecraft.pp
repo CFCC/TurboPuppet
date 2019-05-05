@@ -1,7 +1,7 @@
 #
 # Minecraft
 #
-class profile::games::minecraft {
+class profile::game::minecraft {
     # It's really funny that this is easier to install on Windows than Linux.
     case $::osfamily {
         'windows': {

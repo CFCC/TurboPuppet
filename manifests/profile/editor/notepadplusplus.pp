@@ -1,11 +1,10 @@
 #
+# Notepad++ Editor
 #
-#
-class profile::webservers::xampp {
+class profile::editor::notepadplusplus {
     $package_name = $::osfamily ? {
-        'windows' => 'Bitnami-XAMPP',
+        'windows' => 'notepadplusplus',
         default   => fail('Unsupported OS')
     }
-
     package { $package_name: }
 }

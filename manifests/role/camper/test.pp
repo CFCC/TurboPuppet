@@ -3,5 +3,5 @@
 #
 class role::camper::test inherits role::camper {
     # include profile::remoteaccess::ssh::enable
-    include profile::editors::gimp
+    include profile::editor::gimp
 }

@@ -1,7 +1,7 @@
 #
 # Wireshark
 #
-class profile::tools::wireshark {
+class profile::tool::wireshark {
     # FC28 wireshark has both qt and gtk. The wireshark metapackage
     # provides qt and cli.
     $package_name = $::operatingsystem ? {

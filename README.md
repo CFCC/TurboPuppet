@@ -49,9 +49,9 @@ are defined for camper roles in the ```role::camper``` class.
 Profiles are a single logical unit for a feature. Profiles can include
 or depend on other profiles. Examples include:
 
-* ```profile::browsers::chrome```
+* ```profile::browser::chrome```
 * ```profile::ide::pycharm```
-* ```profile::games::starcraft```
+* ```profile::game::starcraft```
 
 Normally profiles cobble together modules and misc other manifest-y stuff
 to complete a feature. But since most of the modules out there don't

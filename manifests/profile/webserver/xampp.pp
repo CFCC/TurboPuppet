@@ -1,10 +1,11 @@
 #
-# SublimeText Editor
 #
-class profile::editors::atom {
+#
+class profile::webserver::xampp {
     $package_name = $::osfamily ? {
-        'windows' => 'atom',
+        'windows' => 'Bitnami-XAMPP',
         default   => fail('Unsupported OS')
     }
+
     package { $package_name: }
 }

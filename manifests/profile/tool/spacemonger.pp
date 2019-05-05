@@ -1,7 +1,7 @@
 #
 #
 #
-class profile::tools::spacemonger {
+class profile::tool::spacemonger {
 
     file { 'SpaceMonger-Dir':
         path   => "C:/Program Files (x86)/Spacemonger",

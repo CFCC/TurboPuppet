@@ -1,7 +1,7 @@
 #
 # VirtualBox
 #
-class profile::tools::virtualbox {
+class profile::tool::virtualbox {
     # Oracles provides their own repository/key for vbox. However
     # for simplicity we will rely on the one built in RPMFusion
     # which for Fedora is in our base set of repos. Biggest disadvantage

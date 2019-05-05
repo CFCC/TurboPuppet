@@ -1,10 +1,11 @@
 #
-# Steam
 #
-class profile::games::steam {
+#
+class profile::browser::firefox {
+
     $package_name = $::kernel ? {
-        'windows' => 'steam',
-        'Linux'   => 'steam',
+        'windows' => 'Firefox',
+        'Linux'   => 'firefox',
         default   => fail('Unsupported OS')
     }
 

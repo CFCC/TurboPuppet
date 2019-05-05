@@ -4,7 +4,7 @@
 # NOTE - the ordering here is somewhat complex. Take the pill that
 # says "I Believe".
 #
-class profile::games::quake3 {
+class profile::game::quake3 {
 
     # I'm use the open-sauce ioquake3 engine and copying our pk3's into the right
     # places. This may or may not work in a real setting. Yolo.

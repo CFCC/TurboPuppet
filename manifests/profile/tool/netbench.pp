@@ -1,7 +1,7 @@
 #
 # NetBench - Charlie's network benchmark utility.
 #
-class profile::tools::netbench {
+class profile::tool::netbench {
     $install_path = $::osfamily ? {
         'windows' => 'C:/Program Files (x86)/NetBench',
         'RedHat'  => '/opt/netbench',

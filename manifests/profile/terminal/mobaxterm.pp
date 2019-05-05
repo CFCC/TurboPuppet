@@ -1,7 +1,7 @@
 #
 # MobaXterm
 #
-class profile::terminals::mobaxterm {
+class profile::terminal::mobaxterm {
     $package_name = $::osfamily ? {
         'windows' => 'mobaxterm',
         default   => fail('Unsupported OS')

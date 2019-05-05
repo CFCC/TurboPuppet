@@ -1,6 +1,6 @@
 #
 # SublimeText Editor
 #
-class profile::editors::sublime {
+class profile::editor::sublime {
     package { 'sublime-text': }
 }

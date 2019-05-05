@@ -3,7 +3,6 @@ To Do
 
 Scratchpad for random ideas of things that need done.
 
-* Drop the S from groups of profiles
 * Fix escapes in autologin
 * Deal with any server warnings
 * Remove static files from modules/cfcc since we now have campfs

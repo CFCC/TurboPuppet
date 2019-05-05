@@ -21,23 +21,23 @@ class profile::cfcc::camper {
 
             # OS-specific System 3rd Party Tools
             include profile::mdns::bonjour
-            include profile::tools::spacemonger
-            include profile::tools::cpuz
+            include profile::tool::spacemonger
+            include profile::tool::cpuz
 
             # OS-specific Camper Tools
-            include profile::terminals::mobaxterm
+            include profile::terminal::mobaxterm
 
             # Text editors. We all have opinions on these.
-            include profile::editors::notepadplusplus
-            #include profile::editors::atom
+            include profile::editor::notepadplusplus
+            #include profile::editor::atom
         }
         'Linux': {
             include profile::desktop::cinnamon
             include profile::remoteaccess::ssh::enable
             include profile::mdns::avahi
             # @TODO include profile::firewall::linux
-            include profile::editors::vim
-            include profile::editors::sublime
+            include profile::editor::vim
+            include profile::editor::sublime
         }
         default: {}
     }
@@ -46,16 +46,16 @@ class profile::cfcc::camper {
     include profile::puppet::agent::disable
 
     # Camper & System Tools
-    include profile::browsers::chrome
-    include profile::browsers::firefox
-    include profile::tools::git
-    include profile::tools::wireshark
-    include profile::tools::netbench
-    include profile::tools::sevenzip
-    include profile::tools::virtualbox
+    include profile::browser::chrome
+    include profile::browser::firefox
+    include profile::tool::git
+    include profile::tool::wireshark
+    include profile::tool::netbench
+    include profile::tool::sevenzip
+    include profile::tool::virtualbox
 
     # Games
-    include profile::games::quake3
-    include profile::games::steam
-    include profile::games::minecraft
+    include profile::game::quake3
+    include profile::game::steam
+    include profile::game::minecraft
 }

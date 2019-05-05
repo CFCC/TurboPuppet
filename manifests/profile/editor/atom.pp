@@ -1,9 +1,9 @@
 #
-# Notepad++ Editor
+# SublimeText Editor
 #
-class profile::editors::notepadplusplus {
+class profile::editor::atom {
     $package_name = $::osfamily ? {
-        'windows' => 'notepadplusplus',
+        'windows' => 'atom',
         default   => fail('Unsupported OS')
     }
     package { $package_name: }

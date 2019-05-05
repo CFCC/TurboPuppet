@@ -1,7 +1,7 @@
 #
 # Google Chrome web browser
 #
-class profile::browsers::chrome {
+class profile::browser::chrome {
 
     $package_name = $::kernel ? {
         'windows' => 'GoogleChrome',

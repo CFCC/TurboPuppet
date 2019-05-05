@@ -1,7 +1,7 @@
 #
 # Git
 #
-class profile::tools::git {
+class profile::tool::git {
     package { 'git': }
 
     case $::kernel {
