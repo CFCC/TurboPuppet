@@ -24,9 +24,8 @@ node /^cfcctestvm01/ { include role::camper::test }
 node /^cfcctestvm02/ { include role::camper::pyle }
 node /^cfcctestvm03/ {  include role::camper::test }
 
-node /^cfccdocker01/ { include role::server::container::master }
-
 ### Server Infrastructure ###
+node /^lancache/ { include role::server::lancache }
 # Ideas:
 # - Steam Cache
 # - DNS
