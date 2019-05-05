@@ -6,6 +6,7 @@ Scratchpad for random ideas of things that need done.
 * Deal with any server warnings
 * Linux support for a whole buncha stuff for profile::cfcc::camper
 * role::server
+* disable windows login ads
 
 Infrastructure
 --------------
