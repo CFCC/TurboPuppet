@@ -1,0 +1,10 @@
+# This file is managed by Puppet
+
+<% @proxy_cache_paths.sort_by{|k,v| k}.each do |key,value| -%>
+<% if @value.extras.is_a? Array -%>
+proxy_cache_path <%= @value.path %> levels=<%= @value.levels %> keys_zone=<%= @key %>:<%= @value.size %> inactive=<%= @value.inactive %> max_size=<%=@value.max_size %> <%= @value.extras.join(' ') %>
+<% else -%>
+proxy_cache_path <%= @value.path %> levels=<%= @value.levels %> keys_zone=<%= @key %>:<%= @value.size %> inactive=<%= @value.inactive %> max_size=<%=@value.max_size %>
+
+<% end -%>
+<% end -%>
