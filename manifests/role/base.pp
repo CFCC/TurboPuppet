@@ -28,6 +28,12 @@ class role::base {
 
             include profile::packaging::yum
         }
+        'FreeBSD': {
+            Package {
+                ensure   => present,
+                provider => pkgng
+            }
+        }
         default: {
             fail("platform is unsupported")
         }
