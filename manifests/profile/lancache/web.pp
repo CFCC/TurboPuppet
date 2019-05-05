@@ -50,30 +50,16 @@ class profile::lancache::web {
         group => $::nginx::params::daemon_group,
     }
 
-    $steam_locations = {
 #        'depot' => {
 #            location => '/depotlolz/',
 #            proxy_ignore_header => ['Expires'],
 #            proxy_cache_key => '$server_name$uri',
 #        }
-    }
 
-    nginx::resource::server { 'lancache-steam':
-        listen_ip => undef,
-        server_name => ['steam', '_'],
-        access_log => '/var/log/lancache/steam-access.log',
-        error_log => '/var/log/lancache/steam-error.log',
-        locations => $steam_locations,
 
-        # BEGIN https://github.com/multiplay/lancache/blob/master/lancache/resolver
-        resolver => ['8.8.8.8', '8.8.4.4', 'ipv6=off']
-        # END https://github.com/multiplay/lancache/blob/master/lancache/resolver
-    }
-
-    nginx::resource::location { 'testing':
-
+    $steam_locations = {
+        depot => {
             # BEGIN https://github.com/multiplay/lancache/blob/master/lancache/node-steam
-            server => 'lancache-steam',
             location => '/depot/',
             proxy_ignore_header => ['Expires'],
             proxy_cache_key => '$server_name$uri',
@@ -115,12 +101,9 @@ class profile::lancache::web {
             proxy_max_temp_file_size => '40960m',
             # proxy_cache_purge not supported
             # END https://github.com/multiplay/lancache/blob/master/lancache/proxy-cache
-    }
-
-    nginx::resource::location { 'serverlist':
-
+        },
+        serverlist => {
             # BEGIN https://github.com/multiplay/lancache/blob/master/lancache/node-steam
-            server => 'lancache-steam',
             location => '/serverlist/',
             # proxy_store => /data/www/cache/steam$uri/servers.txt; Not supported
             # proxy_store_access user:rw group:rw all:r;
@@ -140,11 +123,60 @@ class profile::lancache::web {
             # proxy_ignore_client_abort => on Not supported by Puppet
             # END https://github.com/multiplay/lancache/blob/master/lancache/proxy-base
             proxy => 'http://$host$request_uri',
+        },
+#        root => {
+#            location => '/',
+#
+#            # BEGIN https://github.com/multiplay/lancache/blob/master/lancache/cache-key-default
+#            proxy_cache_key => '$server_name$request_uri',
+#            # END https://github.com/multiplay/lancache/blob/master/lancache/cache-key-default
+#
+#            # BEGIN https://github.com/multiplay/lancache/blob/master/lancache/cache-other
+#            proxy_cache => 'other',
+#            proxy => 'http://$host$request_uri',
+#            # # END https://github.com/multiplay/lancache/blob/master/lancache/cache-other
+#            # BEGIN https://github.com/multiplay/lancache/blob/master/lancache/proxy-base
+#            proxy_redirect => 'off',
+#            proxy_set_header => [
+#                'Host $proxy_host', # @TODO all we are doing is changing $host to $proxy host. Implciations?
+#                'X-Real-IP $remote_addr',
+#                'X-Forwarded-For $proxy_add_x_forwarded_for'
+#            ],
+#            add_header => {
+#                'X-Upstream-Status' => '$upstream_status',
+#                'X-Upstream-Response-Time' => '$upstream_response_time',
+#                'X-Upstream-Cache-Status' => '$upstream_cache_status'
+#            },
+#            # proxy_ignore_client_abort => on Not supported by Puppet
+#            # END https://github.com/multiplay/lancache/blob/master/lancache/proxy-base
+#
+#            # BEGIN https://github.com/multiplay/lancache/blob/master/lancache/proxy-cache
+#            proxy_cache_lock => 'on',
+#            # proxy_cache_lock_timeout => 1h Not Supported
+#            proxy_cache_use_stale => 'error timeout invalid_header updating http_500 http_502 http_503 http_504',
+#            proxy_cache_valid => [
+#                '200 90d',
+#                '301 302 0'
+#            ],
+#            # proxy_cache_revalidate not supported by Puppet
+#            proxy_cache_bypass => '$arg_nocache',
+#            proxy_max_temp_file_size => '40960m',
+#            # proxy_cache_purge not supported
+#            # END https://github.com/multiplay/lancache/blob/master/lancache/proxy-cache
+#        }
     }
 
-    nginx::resource::location { 'steamroot':
-        server => 'lancache-steam',
-        location => '/',
+    nginx::resource::server { 'lancache-steam':
+        listen_ip => undef,
+        server_name => ['steam', '_'],
+        access_log => '/var/log/lancache/steam-access.log',
+        error_log => '/var/log/lancache/steam-error.log',
+        locations => $steam_locations,
+
+        # BEGIN https://github.com/multiplay/lancache/blob/master/lancache/resolver
+        resolver => ['8.8.8.8', '8.8.4.4', 'ipv6=off'],
+        # END https://github.com/multiplay/lancache/blob/master/lancache/resolver
+
 
         # BEGIN https://github.com/multiplay/lancache/blob/master/lancache/cache-key-default
         proxy_cache_key => '$server_name$request_uri',
