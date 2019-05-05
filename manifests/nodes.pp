@@ -2,7 +2,7 @@
 # Node inventory. Hosts in here will have a single role that they
 # are assigned. Everything else come from that role.
 #
-node default { include role::camper::default }
+node default { include role::base }
 
 ### Camper Machines ###
 node /^cfccnuc01/ { include role::camper::pyle }
@@ -24,9 +24,8 @@ node /^cfcctestvm01/ { include role::camper::test }
 node /^cfcctestvm02/ { include role::camper::pyle }
 node /^cfcctestvm03/ {  include role::camper::test }
 
-node /^cfccdocker01/ { include role::server::container::master }
-
 ### Server Infrastructure ###
+node /^lancache/ { include role::server::lancache }
 # Ideas:
 # - Steam Cache
 # - DNS
