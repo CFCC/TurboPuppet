@@ -21,19 +21,19 @@ class profile::access::autologin::disable {
             }
 
             registry_value { 'AutoAdminLogon':
-                path   => "${reg_path}\AutoAdminLogon",
+                path   => "${reg_path}\\AutoAdminLogon",
             }
 
             registry_value { 'DefaultUsername':
-                path => "${reg_path}\DefaultUsername",
+                path => "${reg_path}\\DefaultUsername",
             }
 
             registry_value { 'DefaultPassword':
-                path => "${reg_path}\DefaultPassword",
+                path => "${reg_path}\\DefaultPassword",
             }
 
             registry_value { 'AutoLogonCount':
-                path => "${reg_path}\AutoLogonCount",
+                path => "${reg_path}\\AutoLogonCount",
             }
 
             Registry_key['WinLogon'] -> Registry_value['AutoAdminLogon'] ->
