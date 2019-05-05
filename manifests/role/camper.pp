@@ -12,6 +12,7 @@ class role::camper inherits role::base {
     class { 'turbosite':
         camper_username => $site::cfcc::camper_username,
         puppet_master   => $site::cfcc::puppet_master,
+        time_servers    => $site::cfcc::time_servers,
     }
 
     # Tools need to make the system work. DNS, time, etc. While those

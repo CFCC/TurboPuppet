@@ -4,9 +4,7 @@ To Do
 Scratchpad for random ideas of things that need done.
 
 * Deal with any server warnings
-* Remove static files from modules/cfcc since we now have campfs
 * Linux support for a whole buncha stuff for profile::cfcc::camper
-* Time servers
 
 Infrastructure
 --------------
