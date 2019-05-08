@@ -1,0 +1,32 @@
+#
+# https://hub.docker.com/r/puppet/puppetserver-standalone/
+# Some notes:
+# 1) If you have anything coming from a CIFS mount, you need to add:
+#      context=system_u:object_r:svirt_sandbox_file_t:s0
+#    to your mount line in /etc/fstab and remount.
+# 2) That SELinux type also applies to this and any other repo.
+#      chcon -R -t svirt_sandbox_file_t TurboPuppet
+# 3) To view the contents of the persisitent cert dir:
+#      sudo setfacl -Rm u:grant:rwx puppetserver-ssl
+# 4) To clean a nodes cert:
+#      docker exec -it puppet puppetserver ca clean --certname cfccmac01.boston.grantcohoe.com
+#    Then on the client run:
+#      puppet ssl clean --localca
+
+version: "3"
+services:
+    puppetserver:
+        container_name: puppet
+        hostname: puppet
+        image: puppet/puppetserver-standalone
+        network_mode: "host"
+        volumes:
+            - "~/Projects/CFCC/TurboPuppet:/etc/puppetlabs/code/environments/production"
+            - "~/Projects/CFCC/puppetserver/roles/r10k/files/r10k.yaml:/etc/puppetlabs/r10k/r10k.yaml"
+            - "~/Projects/CFCC/puppetserver/roles/fileserver/files/fileserver.conf:/etc/puppetlabs/puppet/fileserver.conf"
+            - "/media/CampFitch/PuppetFS:/mnt/PuppetFS"
+            - "~/Projects/CFCC/puppetserver-ssl:/etc/puppetlabs/puppet/ssl/"
+        environment:
+            - DNS_ALT_NAMES=seefra.boston.grantcohoe.com
+            - CA_HOSTNAME=seefra.boston.grantcohoe.com
+            - PUPPETSERVER_HOSTNAME=seefra.boston.grantcohoe.com
