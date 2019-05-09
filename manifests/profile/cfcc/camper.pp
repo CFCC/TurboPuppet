@@ -56,6 +56,6 @@ class profile::cfcc::camper {
 
     # Games
     include profile::game::quake3
-    # include profile::game::steam
-    # include profile::game::minecraft
+    include profile::game::steam
+    include profile::game::minecraft
 }
