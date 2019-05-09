@@ -7,12 +7,11 @@ class profile::puppet::agent {
     $agent_config_file = $::kernel ? {
         'windows' => 'C:\ProgramData\PuppetLabs\puppet\etc\puppet.conf',
         'Linux'   => '/etc/puppetlabs/puppet/puppet.conf',
+        'Darwin'  => '/etc/puppetlabs/puppet/puppet.conf',
         default   => fail('Unsupported OS')
     }
     $agent_service = $::kernel ? {
-        'windows' => 'puppet',
-        'Linux'   => 'puppet',
-        default   => fail('Unsupported OS')
+        default   => 'puppet'
     }
 
     $puppet_master = $turbosite::puppet_master

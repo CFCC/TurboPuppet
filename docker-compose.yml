@@ -12,6 +12,8 @@
 #      docker exec -it puppet puppetserver ca clean --certname cfccmac01.boston.grantcohoe.com
 #    Then on the client run:
 #      puppet ssl clean --localca
+# 5) To get modules:
+#      docker exec -it puppet bash -c 'cd /etc/puppetlabs/code/environments/production && r10k puppetfile install -v'
 
 version: "3"
 services:

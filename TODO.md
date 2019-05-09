@@ -7,6 +7,21 @@ Scratchpad for random ideas of things that need done.
 * Linux support for a whole buncha stuff for profile::cfcc::camper
 * role::server
 * disable windows login ads
+* Refactor role::base and role::camper to deal with site at the root.
+* It would help to have my dev stuff as a separate site....
+* Sane defaults for package names that are normal should be normal.
+* Figure out $::kernel (Linux) vs $::operatingsystem (Linux) vs $::osfamily (RedHat)
+* Update all modules
+
+Mac
+* time
+* netbench shortcut
+* Autologin
+* Quake3 broken (crashes on start)
+
+Linux
+* autologin
+* virtualbox extension
 
 Infrastructure
 --------------

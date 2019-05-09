@@ -11,7 +11,8 @@ class profile::game::quake3 {
     # Apparently ~ doesnt work with the console, and its SHIFT+ESC. Ok....
     $quake_packages = $::osfamily ? {
         'windows' => ['ioquake3', 'ioquake3-data'],
-        'RedHat'  => ['quake3'],
+        'RedHat'  => 'quake3',
+        'Darwin'  => 'ioquake3',
         default   => fail("platform is unsupported")
     }
     package { $quake_packages: }
@@ -20,6 +21,7 @@ class profile::game::quake3 {
     $baseq3 = $::osfamily ? {
         'windows' => 'C:\Program Files (x86)\ioquake3\baseq3',
         'RedHat'  => '/usr/share/quake3/baseq3',
+        'Darwin'  => '/Applications/ioquake3/baseq3',
         default   => fail("platform is unsupported")
     }
     file { 'system-baseq3':
@@ -37,6 +39,10 @@ class profile::game::quake3 {
         'RedHat'  => [
             "/home/${turbosite::camper_username}/.q3a",
             "/home/${turbosite::camper_username}/.q3a/baseq3"
+        ],
+        'Darwin'  => [
+            "/Users/${turbosite::camper_username}/Library/Application Support/Quake3/",
+            "/Users/${turbosite::camper_username}/Library/Application Support/Quake3/baseq3",
         ],
         default   => fail("platform is unsupported")
     }
@@ -71,6 +77,7 @@ class profile::game::quake3 {
     $q3key_path = $::osfamily ? {
         'windows' => "C:/Users/${turbosite::camper_username}/AppData/Roaming/Quake3/baseq3/q3key",
         'RedHat'  => "/home/${turbosite::camper_username}/.q3a/baseq3/q3key",
+        'Darwin'  => "/Users/${turbosite::camper_username}/Library/Application Support/Quake3/baseq3/q3key",
         default   => fail("platform is unsupported")
     }
     file { 'q3key':
@@ -88,12 +95,14 @@ class profile::game::quake3 {
     $config_file_path = $::osfamily ? {
         'windows' => "C:/Users/${turbosite::camper_username}/AppData/Roaming/Quake3/baseq3/q3config.cfg",
         'RedHat'  => "/home/${turbosite::camper_username}/.q3a/baseq3/q3config.cfg",
+        'Darwin'  => "/Users/${turbosite::camper_username}/Library/Application Support/Quake3/baseq3/q3config.cfg",
         default   => fail("platform is unsupported")
     }
     file { 'q3config':
         path    => $config_file_path,
         replace => no,
         source  => 'puppet:///modules/cfcc/q3config.cfg',
+        owner   => $turbosite::camper_username,
     }
     File[$user_config_directories] -> File['q3config']
 
@@ -120,9 +129,7 @@ class profile::game::quake3 {
 
             File['q3icon'] -> Freedesktop::Shortcut['Quake III Arena']
         }
-        default: {
-            fail("platform is unsupported")
-        }
+        default: {}
     }
 
 }

@@ -11,12 +11,21 @@ class profile::tool::virtualbox {
     $package_name = $::operatingsystem ? {
         'windows' => 'virtualbox',
         'Fedora'  => 'VirtualBox',
+        'Darwin'  => 'virtualbox',
         default   => fail('Unsupported OS')
     }
 
     package { $package_name: }
 
     # Guest Additions
+    # Amazing that Windows does this for us.
+    # @TODO Linux....
+    case $::operatingsystem {
+        'Darwin': {
+            package { 'virtualbox-extension-pack': }
+        }
+        default: {}
+    }
     
     # 20190504 apparently Choco does this for us! Just leaves Linux to deal with...
     # Install GA

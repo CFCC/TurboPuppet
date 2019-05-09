@@ -34,8 +34,17 @@ class role::base {
                 provider => pkgng
             }
         }
+        'Darwin': {
+            Package {
+                provider => homebrew
+            }
+
+            # See notes in Windows above for more details on this stuff
+            include profile::packaging::homebrew
+            include profile::ide::xcode
+        }
         default: {
-            fail("platform is unsupported")
+            fail("platform ${::osfamily} is unsupported")
         }
     }
 }

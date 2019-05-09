@@ -5,6 +5,7 @@ class profile::tool::netbench {
     $install_path = $::osfamily ? {
         'windows' => 'C:/Program Files (x86)/NetBench',
         'RedHat'  => '/opt/netbench',
+        'Darwin'  => '/opt/netbench',
         default   => fail('Unsupported OS')
     }
 

@@ -1,5 +1,6 @@
 #
 # Camper user access profile.
+# @TODO sudo class. It overrides /etc/sudoers for at least Mac.
 #
 class profile::access::camper {
 
@@ -18,6 +19,14 @@ class profile::access::camper {
             sudo::conf { 'camper':
                 priority => 10,
                 content  => "${turbosite::camper_username} ALL=(ALL) NOPASSWD: ALL\nDefaults    secure_path = /usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/opt/puppetlabs/bin"
+            }
+        }
+        'Darwin': {
+            # User is usually already in the admin group
+            $user_groups = ['admin']
+            sudo::conf { 'camper':
+                priority => 10,
+                content  => "${turbosite::camper_username} ALL=(ALL) NOPASSWD: ALL"
             }
         }
         default: {

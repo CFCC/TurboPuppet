@@ -30,6 +30,11 @@ class profile::tool::git {
                 require => Package['gitkraken']
             }
         }
+        'Darwin': {
+            # git itself is provided in profile::ide::xcode and
+            # is required for brew to function.
+            package { 'github': }
+        }
         default: { }
     }
 }
