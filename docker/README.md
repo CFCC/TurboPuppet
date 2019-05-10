@@ -1,10 +1,6 @@
-Contributing
-============
+Local Docker Development
+========================
 
-Local Development
------------------
-
-### Docker
 Image reference: https://hub.docker.com/r/puppet/puppetserver-standalone/
 
 If you have anything coming from a CIFS mount, you need to add this to your mount line in `/etc/fstab` and remount:
@@ -38,7 +34,9 @@ docker exec -it puppet bash -c 'cd /etc/puppetlabs/code/environments/production 
 ```
 or install r10k locally (`gem install r10k`) and do the same thing minus permission crap.
 
-### Deployment
+Deployment
+----------
+
 On the puppetmaster add this git hook to `.git/hooks/post-update`:
 ```bash
 #!/usr/bin/env bash
