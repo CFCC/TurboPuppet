@@ -11,6 +11,7 @@ class site::cfcc {
         'time.apple.com'
     ]
     $time_zone = $::kernel ? {
-        'Darwin' => 'America/New_York'
+        'windows' => 'Eastern Standard Time',
+        default => 'America/New_York'
     }
 }
