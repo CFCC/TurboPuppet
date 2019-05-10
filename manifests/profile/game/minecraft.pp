@@ -7,11 +7,11 @@ class profile::game::minecraft {
         'windows': {
             package { 'minecraft': }
         }
-
         'RedHat': {
             $minecraft_root = '/opt/minecraft'
             $minecraft_jar = 'Minecraft.jar'
 
+            # Note the chained ordering here!
             file { 'MinecraftRoot':
                 path   => $minecraft_root,
                 ensure => directory,
@@ -30,6 +30,9 @@ class profile::game::minecraft {
                 icon       => "${minecraft_root}/icon.png",
                 categories => ['Games']
             }
+        }
+        'Darwin': {
+            package { 'minecraft': }
         }
 
         default: { fail('unsupported OS') }

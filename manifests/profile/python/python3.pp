@@ -3,23 +3,18 @@
 #
 class profile::python::python3 {
 
-    # This also heavily depends on distribution
-    $runtime_package_name = $::osfamily ? {
-        'windows' => 'python3',
-        'RedHat'  => 'python3',
-        default   => fail('Unsupported OS')
-    }
-
-    package { $runtime_package_name: }
-
     # Install extra required packages
+    # We used to have a more normal common package structure
+    # but since MacOS requires a noop I broke it out into the
+    # individual cases here.
     case $::osfamily {
         'windows': {
+            package { 'python3': }
             # Since pip has no resource provider in Windows-land, we
             # have to install packages manually.
             Exec {
                 path      => 'C:/Python36/Scripts',
-                subscribe => Package[$runtime_package_name]
+                subscribe => Package['python3']
             }
             exec { 'install pygame':
                 command => 'pip.exe install pygame',
@@ -28,13 +23,22 @@ class profile::python::python3 {
             # Note - Python Turtle is included with Python3.
         }
         'RedHat': {
-            package { ['python3-pip', 'python3-idle']: }
+            package { ['python3', 'python3-pip', 'python3-idle']: }
             package { 'pygame':
                 ensure   => 'present',
                 provider => 'pip3'
             }
 
-            Package['python3-pip'] -> Package['pygame']
+            Package['python3']
+            -> Package['python3-pip']
+            -> Package['pygame']
+        }
+        'Darwin': {
+            # python3 is already included
+            package { 'pygame':
+                ensure   => 'present',
+                provider => 'pip3'
+            }
         }
         default: { fail('Unsupported OS') }
     }

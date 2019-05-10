@@ -16,7 +16,19 @@ class profile::python::turtle {
         'Linux': {
             # There is no EZ-Turtle for Linux
         }
-        default: { }
+        'Darwin': {
+            $local_dmg_path = '/var/tmp/PythonTurtle.Mac.installer.dmg'
+            file { 'turtle-dmg':
+                source => 'puppet:///campfs/PythonTurtle.Mac.installer.dmg',
+                path   => $local_dmg_path
+            } ->
+            package { 'PythonTurtle':
+                ensure   => present,
+                provider => appdmg,
+                source   => $local_dmg_path
+            }
+        }
+        default: {}
     }
 
 }

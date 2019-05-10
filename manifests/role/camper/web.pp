@@ -1,6 +1,18 @@
 #
-# Javascript is a plague on the world...
+# JavaScript is a plague on the world...
 #
 class role::camper::web inherits role::camper {
-    include profile::webserver::xampp
+
+    case $::osfamily {
+        'windows': {
+            include profile::webserver::xampp
+        }
+        'Darwin': {
+            # Web sharing is already a thing
+        }
+        default: {
+            fail('Unsupported OS')
+        }
+    }
+
 }

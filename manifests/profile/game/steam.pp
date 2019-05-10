@@ -3,9 +3,7 @@
 #
 class profile::game::steam {
     $package_name = $::kernel ? {
-        'windows' => 'steam',
-        'Linux'   => 'steam',
-        default   => fail('Unsupported OS')
+        default   => 'steam'
     }
 
     package { $package_name: }

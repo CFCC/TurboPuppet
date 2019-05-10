@@ -5,8 +5,10 @@
 node default { include role::base }
 
 ### Camper Machines ###
+# Wumboze
 node /^cfccnuc01/ { include role::camper::pyle }
 node /^cfccnuc02/ { include role::camper::java }
+node /^cfccnuc03/ { include role::camper::test }
 node /^cfccnuc04/ { include role::camper::web }
 node /^cfcczotac01/ { include role::camper::test }
 node /^cfcczotac02/ { include role::camper::pyle }
@@ -18,8 +20,11 @@ node /^cfcczotac07/ { include role::camper::test }
 node /^cfcczotac08/ { include role::camper::web }
 node /^cfcczotac09/ { include role::camper::pyle }
 node /^cfcczotac10/ { include role::camper::web }
-node /^cfccmac01/ { include role::camper::test }
 
+# Mac
+node /^cfccmac01/ { include role::camper::java }
+
+# Various
 node /^cfcctestvm01/ { include role::camper::test }
 node /^cfcctestvm02/ { include role::camper::pyle }
 node /^cfcctestvm03/ {  include role::camper::test }

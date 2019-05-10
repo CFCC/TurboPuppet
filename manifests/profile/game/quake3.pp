@@ -82,7 +82,8 @@ class profile::game::quake3 {
     }
     file { 'q3key':
         path   => $q3key_path,
-        source => "${source_repo}/baseq3/q3key"
+        source => "${source_repo}/baseq3/q3key",
+        owner  => $turbosite::camper_username,
     }
     File[$user_config_directories] -> File['q3key']
 
@@ -128,6 +129,11 @@ class profile::game::quake3 {
             }
 
             File['q3icon'] -> Freedesktop::Shortcut['Quake III Arena']
+        }
+        'Darwin': {
+            # @TODO shortcut resource.
+            # https://apple.stackexchange.com/questions/51709/can-i-create-a-desktop-shortcut-alias-to-a-folder-from-the-terminal
+            # .app is a file as far as osascript is concerned
         }
         default: {}
     }

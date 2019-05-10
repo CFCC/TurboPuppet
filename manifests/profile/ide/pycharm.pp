@@ -13,11 +13,17 @@ class profile::ide::pycharm {
     $package_name = $::osfamily ? {
         'windows' => 'PyCharm-community',
         'RedHat'  => 'pycharm-community',
+        'Darwin'  => 'pycharm-ce',
         default   => fail('Unsupported OS')
     }
 
     package { $package_name:
-        ensure => $pycharm_version
+        # Brew doesnt support ensuring specific versions. This
+        # isn't ideal but we can at least deal with it.
+        ensure => $::osfamily ? {
+            'Darwin' => 'present',
+            default  => $pycharm_version
+        }
     }
 
     # The config dir does not do patch release number
