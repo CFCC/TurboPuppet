@@ -3,9 +3,14 @@
 #
 class site::cfcc {
     $camper_username = 'camper'
-    $puppet_master = 'puppet'
+    # $puppet_master = 'puppet'
+    $puppet_master = 'seefra.boston.grantcohoe.com'
     $time_servers = [
+        'pool.ntp.org',
         'time.windows.com',
-        'pool.ntp.org'
+        'time.apple.com'
     ]
+    $time_zone = $::kernel ? {
+        'Darwin' => 'America/New_York'
+    }
 }

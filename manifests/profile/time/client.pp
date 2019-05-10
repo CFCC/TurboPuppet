@@ -10,7 +10,9 @@ class profile::time::client {
         'RedHat': {
             include profile::time::client::chrony
         }
-        'Darwin': {}
+        'Darwin': {
+            include profile::time::client::macos
+        }
         default: { fail('Unsupported OS') }
     }
 }

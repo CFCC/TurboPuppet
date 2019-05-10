@@ -13,6 +13,7 @@ class turbosite (
     $camper_username,
     $puppet_master,
     $time_servers,
+    $time_zone,
 ) {
     $camper_homedir = $::kernel ? {
         'windows' => "C:/Users/${camper_username}",

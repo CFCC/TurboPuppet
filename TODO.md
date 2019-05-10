@@ -13,10 +13,8 @@ Scratchpad for random ideas of things that need done.
 * Update all modules
 
 Mac
-* time
-* netbench shortcut
 * Autologin
-* quake shortcut
+* quake shortcut (any shortcut, need alias)
 * web sharing?
 
 Linux
