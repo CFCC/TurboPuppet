@@ -12,6 +12,6 @@ class site::cfcc {
     ]
     $time_zone = $::kernel ? {
         'windows' => 'Eastern Standard Time',
-        default => 'America/New_York'
+        default => 'America/New_York',
     }
 }
