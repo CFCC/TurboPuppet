@@ -41,11 +41,15 @@ class profile::lancache::web::steam {
             proxy_max_temp_file_size => '40960m',
         },
         serverlist => {
-            location         => '/serverlist/',
-            proxy_redirect   => 'off',
-            proxy_set_header => $proxy_headers,
-            add_header       => $add_headers,
-            proxy            => 'http://$host$request_uri',
+            location            => '/serverlist/',
+            proxy_redirect      => 'off',
+            proxy_set_header    => $proxy_headers,
+            add_header          => $add_headers,
+            proxy               => 'http://$host$request_uri',
+            location_cfg_append => {
+                'proxy_store'        => '/mnt/LanCache/cache/steam$uri/servers.txt',
+                'proxy_store_access' => 'user:rw group:rw all:r',
+            }
         },
     }
 
