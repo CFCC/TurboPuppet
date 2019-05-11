@@ -1,7 +1,7 @@
 #
+# This is lifted from https://github.com/steamcache/monolithic
 #
-#
-class profile::lancache::web {
+class profile::lancache::web::nginx {
     class { '::nginx':
         log_format                   => {
             'cachelog' =>
@@ -246,5 +246,9 @@ class profile::lancache::web {
         # Upstream Configuration (see also proxy_ext_upstream and proxy_ignore_client_abort)
         proxy                    => 'http://$host$request_uri',
         proxy_redirect           => 'off',
+        # # Abort any circular requests
+        raw_append               => [
+            'if ($http_X_SteamCache_Processed_By = $hostname) { return 508; }'
+        ]
     }
 }

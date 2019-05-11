@@ -11,6 +11,7 @@ Scratchpad for random ideas of things that need done.
 * Sane defaults for package names that are normal should be normal.
 * Figure out $::kernel (Linux) vs $::operatingsystem (Linux) vs $::osfamily (RedHat)
 * Update all modules
+* Proper lancache module
 
 Mac
 * Autologin
