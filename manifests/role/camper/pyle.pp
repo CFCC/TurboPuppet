@@ -1,7 +1,7 @@
 #
 # Pyle Power!
 #
-class role::cfcc::camper::pyle inherits role::cfcc::camper {
+class role::camper::pyle inherits role::camper {
     include profile::python::python3
     include profile::python::turtle
     include profile::ide::pycharm

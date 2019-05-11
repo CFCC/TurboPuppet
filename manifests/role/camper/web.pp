@@ -1,7 +1,7 @@
 #
 # JavaScript is a plague on the world...
 #
-class role::cfcc::camper::web inherits role::cfcc::camper {
+class role::camper::web inherits role::camper {
 
     case $::osfamily {
         'windows': {
