@@ -8,6 +8,7 @@ class profile::puppet::agent {
         'windows' => 'C:\ProgramData\PuppetLabs\puppet\etc\puppet.conf',
         'Linux'   => '/etc/puppetlabs/puppet/puppet.conf',
         'Darwin'  => '/etc/puppetlabs/puppet/puppet.conf',
+        'FreeBSD' => '/usr/local/etc/puppet/puppet.conf',
         default   => fail('Unsupported OS')
     }
     $agent_service = $::kernel ? {

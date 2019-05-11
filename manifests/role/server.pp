@@ -24,7 +24,7 @@ class role::server inherits role::base {
 
     # The basic blocks of a camper PC. These make a generic functioning computer
     # into something that we can actually use.
-    # include profile::cfcc::camper
+    include profile::cfcc::server
     # include profile::access::camper
 
     # Class['profile::cfcc::camper'] -> Class['profile::access::camper']

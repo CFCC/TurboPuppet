@@ -7,4 +7,5 @@ class profile::cfcc::server {
     # reload profile
     # cifs-utils
     # rsync
+    include profile::puppet::agent::disable
 }
