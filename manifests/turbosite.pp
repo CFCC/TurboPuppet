@@ -14,10 +14,12 @@ class turbosite (
     $puppet_master,
     $time_servers,
     $time_zone,
+    $upstream_dns
 ) {
     $camper_homedir = $::kernel ? {
         'windows' => "C:/Users/${camper_username}",
         'Linux'   => "/home/${camper_username}",
+        'FreeBSD' => "/home/${camper_username}",
         'Darwin'  => "/Users/${camper_username}",
         default   => fail('Unsupported OS')
     }

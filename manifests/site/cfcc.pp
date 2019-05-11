@@ -14,4 +14,8 @@ class site::cfcc {
         'windows' => 'Eastern Standard Time',
         default => 'America/New_York',
     }
+    $upstream_dns = [
+        '8.8.8.8',
+        '8.8.4.4'
+    ]
 }

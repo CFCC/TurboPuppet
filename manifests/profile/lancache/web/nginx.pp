@@ -193,11 +193,7 @@ class profile::lancache::web::nginx {
         listen_port              => 80,
         listen_options           => 'reuseport',
         format_log               => 'cachelog',
-        resolver                 => [
-            '8.8.8.8',
-            '8.8.4.4',
-            'ipv6=off'
-        ],
+        resolver                 => $turbosite::upstream_dns + 'ipv6=off',
         add_header               => {
             'X-SteamCache-Processed-By' => '$hostname,$http_X_SteamCache_Processed_By',
             # Debug headers

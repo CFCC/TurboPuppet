@@ -9,7 +9,7 @@ class profile::lancache::web::sniproxy {
         require => Package['sniproxy']
     }
 
-    $upstream_dns = '8.8.8.8'
+    $upstream_dns = $turbosite::upstream_dns[0]
     $access_log = '/var/log/sniproxy/access.log'
     $error_log = '/var/log/sniproxy/error.log'
 
