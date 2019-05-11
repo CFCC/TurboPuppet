@@ -12,6 +12,7 @@ Scratchpad for random ideas of things that need done.
 * Figure out $::kernel (Linux) vs $::operatingsystem (Linux) vs $::osfamily (RedHat)
 * Update all modules
 * Proper lancache module
+* Repositories need to be site-specific
 
 Mac
 * Autologin

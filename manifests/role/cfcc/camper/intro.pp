@@ -1,7 +1,7 @@
 #
 # Introductory stuff
 #
-class role::camper::intro inherits role::camper {
+class role::cfcc::camper::intro inherits role::cfcc::camper {
     include profile::python::turtle
     include profile::ide::scratch
 }

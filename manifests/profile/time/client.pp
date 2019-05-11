@@ -13,6 +13,9 @@ class profile::time::client {
         'Darwin': {
             include profile::time::client::macos
         }
+        'FreeBSD': {
+            # These are NAS jails and get their time from the host.
+        }
         default: { fail('Unsupported OS') }
     }
 }
