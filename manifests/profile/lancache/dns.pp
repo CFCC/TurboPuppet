@@ -38,6 +38,7 @@ class profile::lancache::dns {
         address => $turbosite::upstream_dns
     }
 
+    # https://protoxin.net/setting-up-a-freebsd-dns-adblocker/
     file { 'Blacklist':
         path   => '/usr/local/etc/unbound/conf.d/10_blacklist.conf',
         source => 'puppet:///modules/cfcc/unbound/10_blacklist.conf',
