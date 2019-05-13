@@ -1,0 +1,92 @@
+2019-05-12 14:37:56,184 [      0]   INFO -        #com.intellij.idea.Main - ------------------------------------------------------ IDE STARTED ------------------------------------------------------ 
+2019-05-12 14:37:56,252 [     68]   INFO -        #com.intellij.idea.Main - IDE: PyCharm (build #PC-191.7141.48, 07 May 2019 10:34) 
+2019-05-12 14:37:56,252 [     68]   INFO -        #com.intellij.idea.Main - OS: Windows 10 (10.0, amd64) 
+2019-05-12 14:37:56,252 [     68]   INFO -        #com.intellij.idea.Main - JRE: 11.0.2+9-b159.56 (JetBrains s.r.o) 
+2019-05-12 14:37:56,252 [     68]   INFO -        #com.intellij.idea.Main - JVM: 11.0.2+9-b159.56 (OpenJDK 64-Bit Server VM) 
+2019-05-12 14:37:56,252 [     68]   INFO -        #com.intellij.idea.Main - JVM Args: -Xms128m -Xmx750m -XX:ReservedCodeCacheSize=240m -XX:+UseConcMarkSweepGC -XX:SoftRefLRUPolicyMSPerMB=50 -ea -Dsun.io.useCanonCaches=false -Djava.net.preferIPv4Stack=true -Djdk.http.auth.tunneling.disabledSchemes="" -XX:+HeapDumpOnOutOfMemoryError -XX:-OmitStackTraceInFastThrow -Djb.vmOptionsFile=C:\Program Files (x86)\JetBrains\PyCharm Community Edition 2019.1.2\bin\pycharm64.exe.vmoptions -Didea.platform.prefix=PyCharmCore -Dide.native.launcher=true -Didea.paths.selector=PyCharmCE2019.1 -XX:ErrorFile=C:\Users\camper\java_error_in_pycharm_%p.log -XX:HeapDumpPath=C:\Users\camper\java_error_in_pycharm.hprof 
+2019-05-12 14:37:56,252 [     68]   INFO -        #com.intellij.idea.Main - charsets: JNU=Cp1252 file=Cp1252 
+2019-05-12 14:37:56,320 [    136]   INFO -        #com.intellij.idea.Main - JNA library (64-bit) loaded in 68 ms 
+2019-05-12 14:37:56,320 [    136]   INFO - penapi.util.io.win32.IdeaWin32 - Native filesystem for Windows is operational 
+2019-05-12 14:37:56,681 [    497]   INFO -     #com.intellij.util.ui.JBUI - User scale factor: 1.0 
+2019-05-12 14:37:56,901 [    717]   INFO -     #com.intellij.util.ui.JBUI - System scale factor: 1.0 (JRE-managed HiDPI) 
+2019-05-12 14:38:01,677 [   5493]   INFO - llij.ide.plugins.PluginManager - load plugin descriptors took 757 ms 
+2019-05-12 14:38:02,265 [   6081]   INFO - m.intellij.ui.mac.touchbar.NST - OS doesn't support touchbar, skip nst loading 
+2019-05-12 14:38:10,547 [  14363]   INFO - .intellij.idea.IdeaApplication - CPU cores: 2; ForkJoinPool.commonPool: java.util.concurrent.ForkJoinPool@58cf4382[Running, parallelism = 2, size = 0, active = 0, running = 0, steals = 0, tasks = 0, submissions = 0]; factory: com.intellij.concurrency.IdeaForkJoinWorkerThreadFactory@721fa550 
+2019-05-12 14:38:10,975 [  14791]   INFO - llij.ide.plugins.PluginManager - load plugin descriptors took 213 ms 
+2019-05-12 14:38:10,975 [  14791]   INFO - llij.ide.plugins.PluginManager - Plugin 'IntelliJ Configuration Script' can't be loaded because: Plugin does not include any module dependency tags in its plugin.xml therefore is assumed legacy and can be loaded only in IntelliJ IDEA 
+2019-05-12 14:38:11,079 [  14895]   INFO - llij.ide.plugins.PluginManager - 20 plugins initialized in 317 ms 
+2019-05-12 14:38:11,079 [  14895]   INFO - llij.ide.plugins.PluginManager - Loaded bundled plugins: Copyright (191.7141.48), EditorConfig (191.7141.48), Git Integration (191.7141.48), GitHub (191.7141.48), IDEA CORE (191.7141.48), IntelliLang (191.7141.48), Markdown support (191.7141.48), Mercurial Integration (191.7141.48), Properties Support (191.7141.48), Python Copyright (191.7141.48), Python IntelliLang (191.7141.48), Python ReStructureText Integration (191.7141.48), Python Terminal (191.7141.48), ReStructuredText Support (191.7141.48), Settings Repository (191.7141.48), Subversion (191.7141.48), Task Management (191.7141.48), Terminal (191.7141.48), YAML (191.7141.48) 
+2019-05-12 14:38:11,079 [  14895]   INFO - llij.ide.plugins.PluginManager - Disabled plugins: IntelliJ Configuration Script (191.7141.48) 
+2019-05-12 14:38:11,558 [  15374]   INFO - ellij.vfs.persistent.FSRecords - Marking VFS as corrupted: 'C:\Users\camper\.PyCharmCE2019.1\system\caches\names.dat' does not exist 
+2019-05-12 14:38:11,558 [  15374]   INFO - ellij.util.io.PagedFileStorage - lower=100; upper=500; buffer=10; max=713 
+2019-05-12 14:38:11,665 [  15481]   INFO - pl.local.NativeFileWatcherImpl - Starting file watcher: C:\Program Files (x86)\JetBrains\PyCharm Community Edition 2019.1.2\bin\fsnotifier64.exe 
+2019-05-12 14:38:11,880 [  15696]   INFO - pl.local.NativeFileWatcherImpl - Native file watcher is operational. 
+2019-05-12 14:38:12,230 [  16046]   INFO - .history.utils.LocalHistoryLog - local history version mismatch (was: 0, expected: 6), rebuilding... 
+2019-05-12 14:38:12,230 [  16046]   INFO - .history.utils.LocalHistoryLog - FS has been rebuild, rebuilding local history... 
+2019-05-12 14:38:12,842 [  16658]   INFO - til.net.ssl.CertificateManager - Default SSL context initialized 
+2019-05-12 14:38:13,015 [  16831]   INFO - rains.ide.BuiltInServerManager - built-in server started, port 63342 
+2019-05-12 14:38:13,032 [  16848]   INFO - gs.impl.UpdateCheckerComponent - channel: release 
+2019-05-12 14:38:13,238 [  17054]   INFO - il.indexing.FileBasedIndexImpl - Index exts enumerated:135, number of extensions:21 
+2019-05-12 14:38:13,238 [  17054]   INFO - il.indexing.FileBasedIndexImpl - Index scheduled:4 
+2019-05-12 14:38:13,299 [  17115]   INFO - tellij.psi.stubs.StubIndexImpl - All stub exts enumerated:38, number of extensions:11 
+2019-05-12 14:38:13,299 [  17115]   INFO - tellij.psi.stubs.StubIndexImpl - stub exts update scheduled:0 
+2019-05-12 14:38:13,392 [  17208]   INFO - il.indexing.FileBasedIndexImpl - Index FilenameIndex will be built. 
+2019-05-12 14:38:13,552 [  17368]   INFO - pi.util.registry.RegistryValue - Registry value 'ide.ssh.one.time.password' has changed to 'true' 
+2019-05-12 14:38:13,569 [  17385]   INFO - il.indexing.FileBasedIndexImpl - Index filetypes will be built. 
+2019-05-12 14:38:13,600 [  17416]   INFO - plication.impl.ApplicationImpl - 67 application components initialized in 2838ms 
+2019-05-12 14:38:13,616 [  17432]   INFO - .intellij.idea.IdeaApplication - App initialization took 17868 ms 
+2019-05-12 14:38:13,777 [  17593]   INFO - il.indexing.FileBasedIndexImpl - Index FrameworkDetectionIndex will be built. 
+2019-05-12 14:38:14,185 [  18001]   INFO - j.ide.ui.OptionsTopHitProvider - 1372 ms spent to cache options in application 
+2019-05-12 14:38:14,185 [  18001]   INFO - .openapi.application.Preloader - com.intellij.ide.ui.OptionsTopHitProvider$Activity took 1389 ms 
+2019-05-12 14:38:14,332 [  18148]   INFO - il.indexing.FileBasedIndexImpl - Index TodoIndex will be built. 
+2019-05-12 14:38:14,796 [  18612]   INFO - com.intellij.ide.ui.UISettings - Loaded: fontSize=12, fontScale=1.0; restored: fontSize=12, fontScale=1.0 
+2019-05-12 14:38:15,528 [  19344]   INFO - j.ide.ui.OptionsTopHitProvider - 1029 ms spent on EDT to cache options in application 
+2019-05-12 14:38:15,604 [  19420]   INFO - j.ide.plugins.RepositoryHelper - using cached plugin list (updated at 5/12/2019 2:38 PM) 
+2019-05-12 14:38:16,164 [  19980]   INFO - ndex.PrebuiltIndexProviderBase - Using prebuilt id-index from C:\Users\camper\.PyCharmCE2019.1\system\index\.persistent\prebuilt\Python\id-index.input 
+2019-05-12 14:38:16,206 [  20022]   INFO - il.indexing.FileBasedIndexImpl - Index IdIndex will be built. 
+2019-05-12 14:38:16,221 [  20037]   INFO - il.indexing.FileBasedIndexImpl - Index Stubs will be built. 
+2019-05-12 14:38:16,335 [  20151]   INFO - ij.psi.stubs.StubUpdatingIndex - Following new file types will be indexed:HTML,XML,Python,Markdown,PythonStub,Properties 
+2019-05-12 14:38:16,424 [  20240]   INFO - il.indexing.FileBasedIndexImpl - Index Trigram.Index will be built. 
+2019-05-12 14:38:16,437 [  20253]   INFO - il.indexing.FileBasedIndexImpl - Index fileIncludes will be built. 
+2019-05-12 14:38:16,506 [  20322]   INFO - il.indexing.FileBasedIndexImpl - Index DomFileIndex will be built. 
+2019-05-12 14:38:16,506 [  20322]   INFO - il.indexing.FileBasedIndexImpl - Index RelaxSymbolIndex will be built. 
+2019-05-12 14:38:16,534 [  20350]   INFO - il.indexing.FileBasedIndexImpl - Index XmlTagNames will be built. 
+2019-05-12 14:38:16,534 [  20350]   INFO - il.indexing.FileBasedIndexImpl - Index XmlNamespaces will be built. 
+2019-05-12 14:38:16,549 [  20365]   INFO - il.indexing.FileBasedIndexImpl - Index html5.custom.attributes.index will be built. 
+2019-05-12 14:38:16,605 [  20421]   INFO - il.indexing.FileBasedIndexImpl - Index SchemaTypeInheritance will be built. 
+2019-05-12 14:38:16,619 [  20435]   INFO - il.indexing.FileBasedIndexImpl - Index ImageFileInfoIndex will be built. 
+2019-05-12 14:38:16,633 [  20449]   INFO - il.indexing.FileBasedIndexImpl - Index json.file.root.values will be built. 
+2019-05-12 14:38:16,648 [  20464]   INFO - il.indexing.FileBasedIndexImpl - Index Py.module.name will be built. 
+2019-05-12 14:38:16,733 [  20549]   INFO - il.indexing.FileBasedIndexImpl - Index Py.setuptools.namespace will be built. 
+2019-05-12 14:38:16,747 [  20563]   INFO - il.indexing.FileBasedIndexImpl - Index xmlProperties will be built. 
+2019-05-12 14:38:16,761 [  20577]   INFO - il.indexing.FileBasedIndexImpl - Index editorconfig.index.name will be built. 
+2019-05-12 14:38:16,761 [  20577]   INFO - il.indexing.FileBasedIndexImpl - Index yaml.keys.name will be built. 
+2019-05-12 14:38:16,849 [  20665]   INFO - pl$FileIndexDataInitialization - Initialization done:3716 
+2019-05-12 14:38:16,849 [  20665]   INFO - tellij.psi.stubs.StubIndexImpl - Stub index dom.namespaceKey will be built. 
+2019-05-12 14:38:16,880 [  20696]   INFO - tellij.psi.stubs.StubIndexImpl - Stub index dom.elementClass will be built. 
+2019-05-12 14:38:16,894 [  20710]   INFO - tellij.psi.stubs.StubIndexImpl - Stub index Py.class.shortName will be built. 
+2019-05-12 14:38:16,894 [  20710]   INFO - tellij.psi.stubs.StubIndexImpl - Stub index Py.class.shortNameInsensitive will be built. 
+2019-05-12 14:38:16,909 [  20725]   INFO - tellij.psi.stubs.StubIndexImpl - Stub index Py.function.shortName will be built. 
+2019-05-12 14:38:16,909 [  20725]   INFO - tellij.psi.stubs.StubIndexImpl - Stub index Py.class.super will be built. 
+2019-05-12 14:38:16,924 [  20740]   INFO - tellij.psi.stubs.StubIndexImpl - Stub index Py.variable.shortName will be built. 
+2019-05-12 14:38:16,924 [  20740]   INFO - tellij.psi.stubs.StubIndexImpl - Stub index Python.Decorator will be built. 
+2019-05-12 14:38:16,939 [  20755]   INFO - tellij.psi.stubs.StubIndexImpl - Stub index Py.class.attributes will be built. 
+2019-05-12 14:38:16,939 [  20755]   INFO - tellij.psi.stubs.StubIndexImpl - Stub index properties.index will be built. 
+2019-05-12 14:38:16,954 [  20770]   INFO - tellij.psi.stubs.StubIndexImpl - Stub index markdown.header will be built. 
+2019-05-12 14:38:16,954 [  20770]   INFO - exImpl$StubIndexInitialization - Initialization done:130 
+2019-05-12 14:38:17,446 [  21262]   INFO - rationStore.ComponentStoreImpl - Saving appCodeInsightSettings took 14 ms, DaemonCodeAnalyzerSettings took 41 ms, EditorSettings took 14 ms, FileBasedIndex took 13 ms, GeneralSettings took 14 ms, PythonFoldingSettings took 13 ms, UISettings took 28 ms, UpdatesConfigurable took 13 ms 
+2019-05-12 14:38:17,584 [  21400]   INFO - stubs.SerializationManagerImpl - START StubSerializationManager SHUTDOWN 
+2019-05-12 14:38:17,612 [  21428]   INFO - .openapi.application.Preloader - com.intellij.openapi.actionSystem.impl.ActionPreloader took 3621 ms 
+2019-05-12 14:38:17,693 [  21509]   INFO - stubs.SerializationManagerImpl - END StubSerializationManager SHUTDOWN 
+2019-05-12 14:38:17,693 [  21509]   INFO - il.indexing.FileBasedIndexImpl - START INDEX SHUTDOWN 
+2019-05-12 14:38:18,110 [  21926]   INFO - .openapi.application.Preloader - com.intellij.ide.ui.search.SearchableOptionPreloader took 565 ms 
+2019-05-12 14:38:18,110 [  21926]   INFO - il.indexing.FileBasedIndexImpl - END INDEX SHUTDOWN 
+2019-05-12 14:38:18,124 [  21940]   INFO - org.jetbrains.io.BuiltInServer - web server stopped 
+2019-05-12 14:38:18,124 [  21940]   INFO - .openapi.application.Preloader - com.intellij.codeInsight.completion.CompletionPreloader took 13 ms 
+2019-05-12 14:38:18,138 [  21954]   INFO - Types.impl.FileTypeManagerImpl - FileTypeManager: 0 auto-detected files
+Elapsed time on auto-detect: 0 ms 
+2019-05-12 14:38:18,138 [  21954]   INFO - pl.local.NativeFileWatcherImpl - Watcher terminated with exit code 0 
+2019-05-12 14:38:18,138 [  21954]   INFO - newvfs.persistent.PersistentFS - VFS dispose started 
+2019-05-12 14:38:18,192 [  22008]   INFO - newvfs.persistent.PersistentFS - VFS dispose completed 
+2019-05-12 14:38:18,206 [  22022]   INFO -        #com.intellij.idea.Main - ------------------------------------------------------ IDE SHUTDOWN ------------------------------------------------------ 
+2019-05-12 14:38:18,206 [  22022]   INFO - org.jetbrains.io.BuiltInServer - web server stopped 
