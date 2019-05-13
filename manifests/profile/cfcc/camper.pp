@@ -44,6 +44,7 @@ class profile::cfcc::camper {
 
     # System-level stuff
     include profile::puppet::agent::disable
+    include profile::cfcc::filesystem
 
     # Camper & System Tools
     include profile::browser::chrome
