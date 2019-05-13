@@ -47,4 +47,7 @@ class role::base {
             fail("platform ${::osfamily} is unsupported")
         }
     }
+
+    # Very common Puppet stuff
+    include profile::packaging::packages
 }

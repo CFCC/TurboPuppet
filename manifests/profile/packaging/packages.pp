@@ -10,6 +10,6 @@
 # definition multiple times and only declare the package once!
 # See also: yumrepos
 #
-class profile::packages {
+class profile::packaging::packages {
     @package { 'rsync': }
 }
