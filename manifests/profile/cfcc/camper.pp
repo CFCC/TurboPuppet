@@ -54,6 +54,7 @@ class profile::cfcc::camper {
     include profile::tool::netbench
     include profile::tool::sevenzip
     include profile::tool::virtualbox
+    include profile::tool::iperf
 
     # Games
     include profile::game::quake3

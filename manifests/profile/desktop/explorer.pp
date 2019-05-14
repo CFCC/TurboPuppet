@@ -83,6 +83,13 @@ class profile::desktop::explorer {
         data  => 1,
     }
 
+    # Combine buttons on taskbar when full
+    hkcu { 'TaskbarGlomLevel':
+        key   => 'Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced',
+        value => 'TaskbarGlomLevel',
+        data  => 1,
+    }
+
     # Add an Open with Notepad action to context menu of every file
     registry_key { 'OpenWithNotepadKey':
         path   => 'HKCR\*\shell\Open with Notepad',

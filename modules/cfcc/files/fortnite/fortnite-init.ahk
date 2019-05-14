@@ -17,6 +17,8 @@
 uname = %1%
 pword = %2%
 
+; Kill EGL and delete its local data
+Process, Close, EpicGamesLauncher.exe
 cleanup_script =
 (
     Remove-Item -Path 'C:\users\camper\AppData\Local\EpicGamesLauncher' -Recurse -Force
@@ -72,13 +74,13 @@ MouseMove, 440, 230
 Click
 
 ; Shoot EGL
-RunWait PowerShell.exe -Command &{%local_copy%}
+Process, Close, EpicGamesLauncher.exe
 
 ; Transfer
 ; To get visual progress, this is way easier than the many attempts
 ; the Powershell world gave me. I fscking hate Windows...
 ; The path must be cygwin-esque https://stackoverflow.com/questions/10233330/cygwin-file-copy-to-unc-share
-RunWait rsync -ruaPv '//TARS/CampFitch/Camp Games/Fortnite/' '/cygdrive/c/Program Files/Epic Games/Fortnite'
+RunWait rsync --delete -ruaPv '//TARS/CampFitch/Camp Games/Fortnite/' '/cygdrive/c/Program Files/Epic Games/Fortnite'
 
 ; Fire up EGL and let it revalidate
 Run, EpicGamesLauncher.exe, C:\Program Files (x86)\Epic Games\Launcher\Portal\Binaries\Win32
@@ -95,3 +97,8 @@ Click
 Sleep 2000
 MouseMove, 340, 230
 Click
+
+; Done
+Sleep 1000
+MsgBox, Initialization complete. Monitor verification in EGL.
+WinActivate,Epic Games Launcher
