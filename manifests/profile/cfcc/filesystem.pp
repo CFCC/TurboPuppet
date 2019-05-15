@@ -3,36 +3,34 @@
 #
 class profile::cfcc::filesystem {
 
-    case $::kernel {
-        'windows': {
-            file { ['C:/CampFitch', 'C:/CampFitch/bin']:
-                ensure => directory,
-                owner  => $turbosite::camper_username,
-                group  => 'administrators',
-            }
+    $fs_root = $::kernel ? {
+        'windows' => 'C:/CampFitch',
+        default   => '/usr/cfcc'
+    }
+
+    File {
+        ensure => directory,
+        owner  => $turbosite::camper_username,
+        group  => $::kernel ? {
+            'windows' => 'administrators',
+            default   => 'wheel'
         }
-        'Linux': {
-            file { ['/usr/cfcc', '/usr/cfcc/bin']:
-                ensure => directory,
-                owner  => $turbosite::camper_username,
-                group  => 'wheel',
-            }
-        }
-        'Darwin': {
-            file { ['/usr/cfcc', '/usr/cfcc/bin']:
-                ensure => directory,
-                owner  => $turbosite::camper_username,
-                group  => 'wheel',
-            }
-        }
-        'FreeBSD': {
-            file { ['/usr/cfcc', '/usr/cfcc/bin']:
-                ensure => directory,
-                owner  => $turbosite::camper_username,
-                group  => 'wheel',
-            }
-        }
-        default: { fail("Unsupported OS ${::kernel}") }
+    }
+
+    file { $fs_root: }
+
+    file { ["${fs_root}/bin", "${fs_root}/etc"]:
+        require => File[$fs_root]
+    }
+
+    $buildinfo_path = "${fs_root}/etc/buildinfo.txt"
+    exec { 'LogInitialBuild':
+        command => $::kernel ? {
+            'windows' => "Date | Out-File -FilePath ${buildinfo_path}",
+            default   => "date > ${buildinfo_path}"
+        },
+        creates => $buildinfo_path,
+        require => File["${fs_root}/etc"]
     }
 
 }
