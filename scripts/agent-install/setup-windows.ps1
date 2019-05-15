@@ -1,4 +1,18 @@
 # Download the Puppet Agent
+
+$elevated_script = @'
+&{
+Write-Host "Enter this computers name. Examples of proper formatting:";
+Write-Host "    CFCCZOTAC05";
+Write-Host "    CFCCNUC01";
+Write-Host "    CFCCTESTVM02";
+Rename-Computer;
+Write-Host "Sleeping for 5 seconds...";
+Sleep 5;
+}
+'@
+Start-Process powershell -verb runAs -ArgumentList $elevated_script
+
 $puppet_local_package='puppet-agent-6.3.0-x64.msi'
 $puppet_download_directory='C:\Users\camper\Downloads'
 
