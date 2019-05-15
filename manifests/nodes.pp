@@ -6,27 +6,27 @@ node default { include role::base }
 
 ### Camper Machines ###
 # Wumboze
-node /^cfccnuc01/ { include role::camper::pyle }
-node /^cfccnuc02/ { include role::camper::java }
-node /^cfccnuc03/ { include role::camper::test }
-node /^cfccnuc04/ { include role::camper::web }
-node /^cfcczotac01/ { include role::camper::test }
-node /^cfcczotac02/ { include role::camper::pyle }
-node /^cfcczotac03/ { include role::camper::test }
-node /^cfcczotac04/ { include role::camper::pyle }
-node /^cfcczotac05/ { include role::camper::pyle }
-node /^cfcczotac06/ { include role::camper::pyle }
-node /^cfcczotac07/ { include role::camper::test }
-node /^cfcczotac08/ { include role::camper::web }
-node /^cfcczotac09/ { include role::camper::test }
-node /^cfcczotac10/ { include role::camper::web }
+node /^cfccnuc01/ { include role::camper::generic }
+node /^cfccnuc02/ { include role::camper::generic }
+node /^cfccnuc03/ { include role::camper::generic }
+node /^cfccnuc04/ { include role::camper::generic }
+node /^cfcczotac01/ { include role::camper::generic }
+node /^cfcczotac02/ { include role::camper::generic }
+node /^cfcczotac03/ { include role::camper::generic }
+node /^cfcczotac04/ { include role::camper::generic }
+node /^cfcczotac05/ { include role::camper::generic }
+node /^cfcczotac06/ { include role::camper::generic }
+node /^cfcczotac07/ { include role::camper::generic }
+node /^cfcczotac08/ { include role::camper::generic }
+node /^cfcczotac09/ { include role::camper::generic }
+node /^cfcczotac10/ { include role::camper::generic }
 
 # Mac
 node /^cfccmac01/ { include role::camper::java }
 
 # Various
 node /^cfcctestvm01/ { include role::camper::test }
-node /^cfcctestvm02/ { include role::camper::pyle }
+node /^cfcctestvm02/ { include role::camper::generic }
 node /^cfcctestvm03/ {  include role::camper::test }
 
 ### Server Infrastructure ###
