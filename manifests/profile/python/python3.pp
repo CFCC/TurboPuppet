@@ -10,17 +10,13 @@ class profile::python::python3 {
     case $::osfamily {
         'windows': {
             package { 'python3': }
-            # Since pip has no resource provider in Windows-land, we
-            # have to install packages manually.
-            Exec {
-                path      => 'C:/Python37/Scripts',
-                subscribe => Package['python3']
-            }
-            exec { 'install pygame':
-                command => 'pip.exe install pygame',
-                creates => 'C:/Python37/Lib/site-packages/pygame',
+            package { 'pygame':
+                ensure   => 'present',
+                provider => 'pip3'
             }
             # Note - Python Turtle is included with Python3.
+            Package['python3']
+            -> Package['pygame']
         }
         'RedHat': {
             package { ['python3', 'python3-pip', 'python3-idle']: }

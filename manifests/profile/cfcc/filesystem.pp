@@ -19,9 +19,15 @@ class profile::cfcc::filesystem {
 
     file { $fs_root: }
 
-    file { ["${fs_root}/bin", "${fs_root}/etc"]:
-        require => File[$fs_root]
+    $subdirs = ['bin', 'etc', 'usr', 'usr/share']
+    $subdirs.each |String $subdir| {
+        file { "${fs_root}/${subdir}":
+            require => File[$fs_root]
+        }
     }
+    # file { ["${fs_root}/bin", "${fs_root}/etc", "${fs_root}"]:
+    #     require => File[$fs_root]
+    # }
 
     $buildinfo_path = "${fs_root}/etc/buildinfo.txt"
     exec { 'LogInitialBuild':
