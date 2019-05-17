@@ -20,7 +20,8 @@ class profile::lancache::web::nginx {
         http_tcp_nopush              => 'on',
         types_hash_max_size          => '2048',
         gzip                         => 'on',
-        proxy_ignore_header          => ['Expires', 'Cache-Control'] # this exists for ::location but not ::server
+        proxy_ignore_header          => ['Expires', 'Cache-Control'], # this exists for ::location but not ::server
+        worker_rlimit_nofile         => 10000, # https://www.cyberciti.biz/faq/linux-unix-nginx-too-many-open-files/
     }
 
     # Origin has been seen downloading https client downloads on origin-a.akamaihd.net.
