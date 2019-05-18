@@ -9,6 +9,9 @@ class profile::webserver::xampp {
 
     package { $package_name: }
 
+    # So normally I wouldn't auto-make rules. However it seems that
+    # as part of the install httpd launches or does something. Also means
+    # we need the rules before we have the package.
     windows_firewall::exception { 'Allow XAMPP HTTP':
         ensure       => present,
         direction    => 'in',
@@ -22,8 +25,7 @@ class profile::webserver::xampp {
         # description  => 'Echo Request messages are sent as ping requests to other nodes.',
         description  => 'Allow httpd',
         program      => 'C:\xampp\apache\bin\httpd.exe'
-    }
-
+    } ->
     windows_firewall::exception { 'Allow XAMPP HTTPS':
         ensure       => present,
         direction    => 'in',
@@ -37,5 +39,6 @@ class profile::webserver::xampp {
         # description  => 'Echo Request messages are sent as ping requests to other nodes.',
         description  => 'Allow httpd',
         program      => 'C:\xampp\apache\bin\httpd.exe'
-    }
+    } ->
+    package { $package_name: }
 }
