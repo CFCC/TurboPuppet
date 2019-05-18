@@ -20,6 +20,7 @@ class profile::time::client::w32time {
         notify => Service['W32Time']
     }
 
+    # @TODO this doesn't change the active session, and stoping explorer.exe doesnt fix it.
     registry_value { 'TimeZoneKeyName':
         ensure => present,
         path   => 'HKLM\SYSTEM\CurrentControlSet\Control\TimeZoneInformation\TimeZoneKeyName',
