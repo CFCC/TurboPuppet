@@ -10,13 +10,22 @@ class profile::python::python3 {
     case $::osfamily {
         'windows': {
             package { 'python3': }
-            package { 'pygame':
-                ensure   => 'present',
-                provider => 'pip3'
+            # pip3 works on Windows but isn't in the path until you restart
+            # your shell. :(
+            exec { 'InstallPygame':
+                path      => 'C:/Python37/Scripts',
+                command   => 'pip3.exe install pygame',
+                subscribe => Package['python3'],
+                creates   => 'C:/Python37/Lib/site-packages/pygame'
             }
+            # package { 'pygame':
+            #     ensure   => 'present',
+            #     provider => 'pip3'
+            # }
+            # Package['python3']
+            # -> Package['pygame']
+
             # Note - Python Turtle is included with Python3.
-            Package['python3']
-            -> Package['pygame']
         }
         'RedHat': {
             package { ['python3', 'python3-pip', 'python3-idle']: }

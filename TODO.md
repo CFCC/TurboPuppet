@@ -9,7 +9,7 @@ Scratchpad for random ideas of things that need done.
 * Figure out $::kernel (Linux) vs $::operatingsystem (Linux) vs $::osfamily (RedHat)
 * Update all modules
 * enforce w32time timezone (auto isnt working)
-* pip3 not in path at runtime
+* Firewall default and sub profiles
 
 Mac
 * Autologin
