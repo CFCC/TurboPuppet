@@ -22,7 +22,7 @@ class profile::time::client::w32time {
 
     registry_value { 'TimeZoneKeyName':
         ensure => present,
-        path   => 'HKLM\SYSTEM\CurrentControlSet\Control\TimeZoneInformation',
+        path   => 'HKLM\SYSTEM\CurrentControlSet\Control\TimeZoneInformation\TimeZoneKeyName',
         type   => string,
         data   => $::turbosite::time_zone,
         notify => Service['W32Time']
