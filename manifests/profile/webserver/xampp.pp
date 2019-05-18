@@ -16,11 +16,11 @@ class profile::webserver::xampp {
         enabled      => 'yes',
         # protocol     => 'ICMPv4',
         # local_port   => '5985',
-        # remote_port  => 'any',
+        remote_port  => 'any',
         # display_name => 'File and Printer Sharing (Echo Request - ICMPv4-In)',
         display_name => 'TurboPuppet XAMPP HTTP Allow',
         # description  => 'Echo Request messages are sent as ping requests to other nodes.',
         description  => 'Allow httpd',
-        program      => 'C:/xampp/apache/bin/httpd.exe'
+        program      => 'C:\xampp\apache\bin\httpd.exe'
     }
 }
