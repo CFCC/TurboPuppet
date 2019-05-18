@@ -23,6 +23,7 @@ class profile::cfcc::camper {
             include profile::mdns::bonjour
             include profile::tool::spacemonger
             include profile::tool::cpuz
+            include profile::tool::gpuz
 
             # OS-specific Camper Tools
             include profile::terminal::mobaxterm

@@ -8,7 +8,6 @@ Scratchpad for random ideas of things that need done.
 * Refactor role::base and role::camper to deal with site at the root.
 * Figure out $::kernel (Linux) vs $::operatingsystem (Linux) vs $::osfamily (RedHat)
 * Update all modules
-* Firewall default and sub profiles
 
 Mac
 * Autologin
