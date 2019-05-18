@@ -119,14 +119,9 @@ in the Profiles.
 We do keep one single module here (the cfcc module). It's too small
 to be it's own repo right now so I'll deal with it later.
 
-## File Serving
+### File Serving
 Seeing as referencing files on a NAS is a pain between OS's, a custom Puppet 
 HTTP file server is configured in ```fileserver.conf```. This is referenced as
 ```puppet:///campfs/${FILENAME}``` in the code. It's actually a mount on the
 Puppetmaster to an underlying NAS share, but could be anything as long as
 the files are there.
-
-To update:
-```shell
-sudo docker exec -it puppet bash -c 'cd /etc/puppetlabs/code/environments/production && r10k puppetfile install -v'
-```
