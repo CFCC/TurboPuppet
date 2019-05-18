@@ -23,4 +23,19 @@ class profile::webserver::xampp {
         description  => 'Allow httpd',
         program      => 'C:\xampp\apache\bin\httpd.exe'
     }
+
+    windows_firewall::exception { 'Allow XAMPP HTTPS':
+        ensure       => present,
+        direction    => 'in',
+        action       => 'Allow',
+        enabled      => 'yes',
+        protocol     => 'TCP',
+        local_port   => '443',
+        remote_port  => 'any',
+        # display_name => 'File and Printer Sharing (Echo Request - ICMPv4-In)',
+        display_name => 'TurboPuppet XAMPP HTTPS Allow',
+        # description  => 'Echo Request messages are sent as ping requests to other nodes.',
+        description  => 'Allow httpd',
+        program      => 'C:\xampp\apache\bin\httpd.exe'
+    }
 }
