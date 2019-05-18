@@ -8,7 +8,7 @@ class profile::ide::pycharm {
     # versions.
 
     # $pycharm_version = '2017.3.4'
-    $pycharm_version = '2018.2.3'
+    $pycharm_version = '2019.1.2'
 
     $package_name = $::osfamily ? {
         'windows' => 'PyCharm-community',
