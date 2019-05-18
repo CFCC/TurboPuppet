@@ -7,8 +7,6 @@ class profile::webserver::xampp {
         default   => fail('Unsupported OS')
     }
 
-    package { $package_name: }
-
     # So normally I wouldn't auto-make rules. However it seems that
     # as part of the install httpd launches or does something. Also means
     # we need the rules before we have the package.
