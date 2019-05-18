@@ -16,7 +16,15 @@ class profile::time::client::w32time {
         ensure => present,
         path   => 'HKLM\SYSTEM\CurrentControlSet\Services\tzautoupdate\Start',
         type   => dword,
-        data   => 3, # 4 is disable
+        data   => 4, # 3 is enable
+        notify => Service['W32Time']
+    }
+
+    registry_value { 'TimeZoneKeyName':
+        ensure => present,
+        path   => 'HKLM\SYSTEM\CurrentControlSet\Control\TimeZoneInformation',
+        type   => string,
+        data   => $::turbosite::time_zone,
         notify => Service['W32Time']
     }
 
