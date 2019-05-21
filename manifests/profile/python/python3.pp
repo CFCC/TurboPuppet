@@ -21,12 +21,6 @@ class profile::python::python3 {
                 creates   => 'C:/Python37/Lib/site-packages/pygame',
                 provider  => 'windows'
             }
-            # package { 'pygame':
-            #     ensure   => 'present',
-            #     provider => 'pip3'
-            # }
-            # Package['python3']
-            # -> Package['pygame']
 
             # Note - Python Turtle is included with Python3.
         }
