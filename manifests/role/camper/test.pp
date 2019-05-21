@@ -1,6 +1,6 @@
 #
 # Testing
 #
-class role::camper::test inherits role::camper {
-
+class role::camper::test inherits role::base {
+    include profile::tool::furmark
 }

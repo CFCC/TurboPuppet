@@ -13,7 +13,7 @@ node /^cfccnuc04/ { include role::camper::generic }
 node /^cfcczotac01/ { include role::camper::generic }
 node /^cfcczotac02/ { include role::camper::generic }
 node /^cfcczotac03/ { include role::camper::generic }
-node /^cfcczotac04/ { include role::camper::generic }
+node /^cfcczotac04/ { include role::camper::test }
 node /^cfcczotac05/ { include role::camper::generic }
 node /^cfcczotac06/ { include role::camper::generic }
 node /^cfcczotac07/ { include role::camper::generic }
