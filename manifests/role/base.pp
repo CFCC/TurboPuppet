@@ -50,4 +50,8 @@ class role::base {
 
     # Very common Puppet stuff
     include profile::packaging::packages
+
+    # Drivers
+    # https://puppet.com/docs/puppet/5.3/lang_data_regexp.html
+    if $::hostname =~ /(?i:zotac)/ { include profile::driver::zotac }
 }
