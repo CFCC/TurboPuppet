@@ -90,6 +90,13 @@ class profile::desktop::explorer {
         data  => 1,
     }
 
+    # Shoot onedrive in the face
+    hkcu { 'OnedriveAutostart':
+        ensure => absent,
+        key    => 'Software\Microsoft\Windows\CurrentVersion\Run',
+        value  => 'OneDrive',
+    }
+
     # Add an Open with Notepad action to context menu of every file
     registry_key { 'OpenWithNotepadKey':
         path   => 'HKCR\*\shell\Open with Notepad',

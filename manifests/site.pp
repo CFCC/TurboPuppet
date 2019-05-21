@@ -40,7 +40,9 @@
 # True/1  -> 0
 # In an expression this looks like "exit [int]('Foo' -ne 'Foo') - 1".
 # It's kinda gross, but it works.
-function psexpr(String $input) >> String {
+function psexpr (
+    String $input
+) >> String {
     $expression = "exit [int](${input}) - 1"
 
     # Return
@@ -50,39 +52,56 @@ function psexpr(String $input) >> String {
 # This resource will create HKCU registry entries. You can't use the regular
 # registry_key and registry_value resources because you don't necessarily control
 # who the current user is. In our case, we do.
-define hkcu(
+# @TODO to pass in a string of data you have to put quotes in the value, ie
+# '"lolz"'. Otherwise you get a Powershell error hidden unless youre in debug
+# mode. Apparently I only ever set numbers....
+define hkcu (
     $key,
     $value,
-    $data,
+    $data   = undef,
+    $ensure = present
 ) {
     $formatted_key = "HKCU:${key}"
 
-    # Test-Path returns False if nonexistant, True if existant
-    exec { "Create-${name}":
-        command => "New-Item -Path ${formatted_key}",
-        unless  => psexpr("Test-Path -Path ${formatted_key}")
+    if ($ensure == 'present') {
+        if ($data == undef) {
+            fail('data must be defined')
+        }
+        # Test-Path returns False if nonexistant, True if existant
+        exec { "Create-${name}":
+            command => "New-Item -Path ${formatted_key}",
+            unless  => psexpr("Test-Path -Path ${formatted_key}")
+        }
+
+        exec { "Set-${name}":
+            command => "Set-ItemProperty -Path ${formatted_key} -Name ${value} ${data}",
+            onlyif  => psexpr("(Get-ItemProperty -Path ${formatted_key} -Name ${value} | Select -ExpandProperty ${value}) -ne ${data}"),
+        }
+
+        Exec["Create-${name}"] -> Exec["Set-${name}"]
+    }
+    else {
+        exec { "Remove-${name}":
+            command => "Remove-ItemProperty -Path ${formatted_key} -Name ${value}",
+            onlyif  => psexpr("Get-ItemProperty -Path ${formatted_key} -Name ${value}"),
+        }
     }
 
-    exec { "Set-${name}":
-        command => "Set-ItemProperty -Path ${formatted_key} -Name ${value} ${data}",
-        onlyif  => psexpr("(Get-ItemProperty -Path ${formatted_key} -Name ${value} | Select -ExpandProperty ${value}) -ne ${data}"),
-    }
 
-    Exec["Create-${name}"] -> Exec["Set-${name}"]
 }
 
 # This creates a .desktop file for any given app. Pretty simple.
-define freedesktop::shortcut(
-    $path="/usr/local/share/applications/${name}.desktop",
-    $ensure='present',
-    $version=1.0,
-    $type='Application',
-    $displayname=$name,
+define freedesktop::shortcut (
+    $path        = "/usr/local/share/applications/${name}.desktop",
+    $ensure      = 'present',
+    $version     = 1.0,
+    $type        = 'Application',
+    $displayname = $name,
     $exec,
-    $icon='',
-    $comment='',
-    $categories=[],
-    $terminal=false,
+    $icon        = '',
+    $comment     = '',
+    $categories  = [],
+    $terminal    = false,
 ) {
     file { "${name}-Shortcut":
         path    => $path,
@@ -96,7 +115,7 @@ define freedesktop::shortcut(
 # that is needed to make it work in real time. dbus-launch breaks it.
 # Without the XDG var, the changes don't happen until you reboot.
 # A restart of Cinnamon doesn't seem sufficient.
-define dconf::setting(
+define dconf::setting (
     $key,
     $value,
     $user,
@@ -110,11 +129,12 @@ define dconf::setting(
         $raw_value = $value
     }
     exec { "${name}-Exec":
-        command => "/usr/bin/dconf write ${key} ${raw_value}",
-        onlyif => "/usr/bin/test -z $(dconf read ${key}) || /usr/bin/test $(/usr/bin/dconf read ${key}) != ${raw_value}",
+        command     => "/usr/bin/dconf write ${key} ${raw_value}",
+        onlyif      => "/usr/bin/test -z $(dconf read ${key}) || /usr/bin/test $(/usr/bin/dconf read ${key}) != ${
+            raw_value}",
         environment => [
             'XDG_RUNTIME_DIR=/run/user/1000'
         ],
-        user => $user,
+        user        => $user,
     }
 }
