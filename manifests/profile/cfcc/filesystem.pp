@@ -33,7 +33,7 @@ class profile::cfcc::filesystem {
     exec { 'LogInitialBuild':
         command => $::kernel ? {
             'windows' => "Date | Out-File -FilePath ${buildinfo_path}",
-            default   => "date > ${buildinfo_path}"
+            default   => "/bin/date > ${buildinfo_path}"
         },
         creates => $buildinfo_path,
         require => File["${fs_root}/etc"]
