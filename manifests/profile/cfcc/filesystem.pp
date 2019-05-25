@@ -3,9 +3,10 @@
 #
 class profile::cfcc::filesystem {
 
+    # Was gonna do /usr/cfcc but apparently you can't do that on Mac....
     $fs_root = $::kernel ? {
         'windows' => 'C:/CampFitch',
-        default   => '/usr/cfcc'
+        default   => '/opt/CampFitch'
     }
 
     File {
