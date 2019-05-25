@@ -39,6 +39,7 @@ class profile::driver::gpu::nvidia {
             #   Haven't gotten here yet.
 
             package { 'nvidia-display-driver': }
+            package { 'ddu': }
         }
         default: {}
     }

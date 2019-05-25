@@ -18,6 +18,10 @@ class profile::python::turtle {
                 provider => windows,
                 source   => 'C:/CampFitch/usr/share/PyTurtle.msi',
             } ->
+            # Articles on The Internet(tm) suggest that deleting %LOCALAPPDATA%\IconCache.db
+            # and restarting explorer should fix this. And it did on one of the hosts.
+            # Unfortunately it has not on others. So I'm just gonna define it here and be
+            # done with it. 'cept for this caveat:
             # Specifying an icon causes this to change every time :(
             shortcut { 'C:/Users/Public/Desktop/PythonTurtle.lnk':
                 icon_location => 'C:\Program Files (x86)\PythonTurtle\icon.ico',
