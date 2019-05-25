@@ -24,6 +24,7 @@ class profile::cfcc::camper {
             include profile::tool::spacemonger
             include profile::tool::cpuz
             include profile::tool::gpuz
+            include profile::tool::produkey
 
             # OS-specific Camper Tools
             include profile::terminal::mobaxterm

@@ -10,6 +10,7 @@ Scratchpad for random ideas of things that need done.
 * Update all modules
 * windows features (cant use module because it only supported server. maybe clone?) .NET Framework 3.5
 * Bonjour package via choco takes two to successfully install
+* restoring open programs on reboot
 
 Mac
 * Autologin
