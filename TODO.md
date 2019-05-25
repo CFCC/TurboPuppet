@@ -9,6 +9,7 @@ Scratchpad for random ideas of things that need done.
 * Figure out $::kernel (Linux) vs $::operatingsystem (Linux) vs $::osfamily (RedHat)
 * Update all modules
 * windows features (cant use module because it only supported server. maybe clone?)
+* Bonjour package via choco takes two to successfully install
 
 Mac
 * Autologin

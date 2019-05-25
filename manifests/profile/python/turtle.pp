@@ -17,6 +17,11 @@ class profile::python::turtle {
             package { 'PythonTurtle 0.1':
                 provider => windows,
                 source   => 'C:/CampFitch/usr/share/PyTurtle.msi',
+            } ->
+            # Specifying an icon causes this to change every time :(
+            shortcut { 'C:/Users/Public/Desktop/PythonTurtle.lnk':
+                icon_location => 'C:\Program Files (x86)\PythonTurtle\icon.ico',
+                target        => 'C:\Program Files (x86)\PythonTurtle\pythonturtle.exe',
             }
         }
         'Linux': {
