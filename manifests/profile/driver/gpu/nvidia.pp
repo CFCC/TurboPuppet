@@ -27,6 +27,17 @@ class profile::driver::gpu::nvidia {
             #   attach a display after you boot. I suspect it may be related to
             #   the weirdness in the TechPowerUp article.
             #
+            #   Furthermore - while you can prevent the system from panicing I
+            #   found that after boot with no monitor or disconnection, the system
+            #   reverted to the Windows Update diver (2017-05-01 or something like that)
+            #   version 22.21.13.8205. Device Manager reported that there was an error
+            #   (Code 43) with the GPU (1070). Despite the nvidia-display-driver
+            #   package being installed, I had to install the new driver manually.
+            #   After that I was able to get proper display stuffs.
+            #
+            #   @TODO what if you install the nvidia driver before Windows updates?
+            #   Or at somewhere else in kickstart?
+            #
             # EN1070K:
             #   Windows Update applies the default version from Windows Update
             #   (22.21.13.8205, not sure what this means in terms of NVIDIA
@@ -37,6 +48,9 @@ class profile::driver::gpu::nvidia {
             #
             # EN1080K:
             #   Haven't gotten here yet.
+            #
+            # EN970
+            #   Haven't gotten here either.
 
             package { 'nvidia-display-driver': }
             package { 'ddu': }

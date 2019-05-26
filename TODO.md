@@ -11,6 +11,7 @@ Scratchpad for random ideas of things that need done.
 * windows features (cant use module because it only supported server. maybe clone?) .NET Framework 3.5
 * Bonjour package via choco takes two to successfully install
 * restoring open programs on reboot
+* Restructure mdns into profile::mdns::client with subs of bonjour, avahi, etc
 
 Mac
 * Autologin
