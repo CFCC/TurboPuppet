@@ -29,7 +29,31 @@ class profile::python::turtle {
             }
         }
         'Linux': {
-            # There is no EZ-Turtle for Linux
+            # https://github.com/cool-RR/PythonTurtle
+            # These packages were involved somehow (or not?)
+            # pip install pathlib2
+            # python3-pathlib2
+            # python3-wxpython4
+            # wxGTK-devel
+            # gtk3-devel
+            #
+            package { 'python3-wxpython4': } ->
+            vcsrepo { '/opt/PythonTurtle':
+                ensure => present,
+                provider => git,
+                source => 'https://github.com/cool-RR/PythonTurtle.git',
+            } ->
+            file { 'TurtleLauncher':
+                path   => '/usr/local/bin/python-turtle-launcher.sh',
+                source => 'puppet:///modules/cfcc/python/python-turtle-launcher.sh',
+                mode   => 0755,
+            } ->
+            freedesktop::shortcut { 'PythonTurtle':
+                exec       => '/usr/local/bin/python-turtle-launcher.sh',
+                comment    => 'Python Turtle',
+                icon       => "/opt/PythonTurtle/pythonturtle/resources/turtle.png",
+                displayname => 'Python Turtle'
+            }
         }
         'Darwin': {
             $local_dmg_path = '/var/tmp/PythonTurtle.Mac.installer.dmg'

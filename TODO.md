@@ -20,7 +20,6 @@ Linux
 * autologin
 * virtualbox extension
 * firewall
-* profile::python::turtle
 
 Infrastructure
 --------------
