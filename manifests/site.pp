@@ -107,6 +107,7 @@ define freedesktop::shortcut (
         path    => $path,
         ensure  => $ensure,
         content => template('cfcc/freedesktop/shortcut.erb'),
+        mode    => 0755,
     }
 }
 
