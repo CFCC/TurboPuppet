@@ -22,7 +22,6 @@ Linux
 * firewall
 * profile::python::turtle
 * profile::ide::scratch
-* profile::java::jdk
 
 Infrastructure
 --------------
