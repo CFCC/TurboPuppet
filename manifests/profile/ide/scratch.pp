@@ -27,6 +27,30 @@ class profile::ide::scratch {
             # Can't just copy a file because it doesnt have the
             # secret Mac attributes.
         }
+        'Fedora': {
+            file { 'scratch icon':
+                path   => '/usr/share/icons/hicolor/32x32/apps/scratch.ico',
+                ensure => file,
+                source => 'https://scratch.mit.edu/favicon.ico',
+            } ->
+            exec { 'convert scratch icon to png':
+                command => 'convert scratch.ico scratch.png',
+                path    => '/usr/share/icons/hicolor/32x32/apps/',
+                creates => '/usr/share/icons/hicolor/32x32/apps/scratch.png',
+                notify  => Exec['refresh icon cache']
+            } ->
+            freedesktop::shortcut { 'Scratch':
+                exec       => 'google-chrome https://scratch.mit.edu',
+                comment    => 'Scratch',
+                icon       => 'scratch'
+            }
+
+            # This only runs if called on
+            exec { 'refresh icon cache':
+                refreshonly => true,
+                command     => 'gtk-update-icon-cache /usr/share/icons/hicolor/'
+            }
+        }
         default: { fail('Unsupported OS') }
     }
 

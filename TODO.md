@@ -21,7 +21,6 @@ Linux
 * virtualbox extension
 * firewall
 * profile::python::turtle
-* profile::ide::scratch
 
 Infrastructure
 --------------
