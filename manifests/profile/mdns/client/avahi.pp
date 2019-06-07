@@ -4,7 +4,7 @@
 # This will reply when someone asks for you.local, but you need
 # to mess with /etc/nsswitch.conf in order to resolve other hosts.
 #
-class profile::mdns::avahi {
+class profile::mdns::client::avahi {
     $package_name = $::osfamily ? {
         'RedHat' => 'avahi',
         default   => fail('Unsupported OS')
