@@ -5,7 +5,7 @@ class profile::ide::scratch {
     # Since this is a webapp, we'll simply create a desktop shortcut to make
     # finding it easier.
 
-    case $::osfamily {
+    case $::operatingsystem {
         'windows': {
             file { 'scratch icon':
                 path   => 'C:\ProgramData\scratch.ico',

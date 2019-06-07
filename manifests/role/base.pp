@@ -3,7 +3,7 @@
 #
 class role::base {
     # Platform base
-    case $::osfamily {
+    case $::operatingsystem {
         'windows': {
             # This is where we specify defaults that automatically apply to ALL
             # resources in child classes. These can be overridden as needed.
@@ -20,7 +20,7 @@ class role::base {
             include profile::packaging::chocolatey
             include profile::powershell::executionpolicy::unrestricted
         }
-        'RedHat': {
+        'Fedora': {
             # Nothing yet since Linux is sane!
             Package {
                 ensure => present
@@ -44,7 +44,7 @@ class role::base {
             include profile::ide::xcode
         }
         default: {
-            fail("platform ${::osfamily} is unsupported")
+            fail("platform ${::operatingsystem} is unsupported")
         }
     }
 

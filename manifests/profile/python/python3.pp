@@ -7,7 +7,7 @@ class profile::python::python3 {
     # We used to have a more normal common package structure
     # but since MacOS requires a noop I broke it out into the
     # individual cases here.
-    case $::osfamily {
+    case $::operatingsystem {
         'windows': {
             package { 'python3': }
             # pip3 works on Windows but isn't in the path until you restart
@@ -24,7 +24,7 @@ class profile::python::python3 {
 
             # Note - Python Turtle is included with Python3.
         }
-        'RedHat': {
+        'Fedora': {
             package { ['python3', 'python3-pip', 'python3-idle']: }
             package { 'pygame':
                 ensure   => 'present',

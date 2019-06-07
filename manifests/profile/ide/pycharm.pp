@@ -10,9 +10,9 @@ class profile::ide::pycharm {
     # $pycharm_version = '2017.3.4'
     $pycharm_version = '2019.1.2'
 
-    $package_name = $::osfamily ? {
+    $package_name = $::operatingsystem ? {
         'windows' => 'PyCharm-community',
-        'RedHat'  => 'pycharm-community',
+        'Fedora'  => 'pycharm-community',
         'Darwin'  => 'pycharm-ce',
         default   => fail('Unsupported OS')
     }
@@ -20,7 +20,7 @@ class profile::ide::pycharm {
     package { $package_name:
         # Brew doesnt support ensuring specific versions. This
         # isn't ideal but we can at least deal with it.
-        ensure => $::osfamily ? {
+        ensure => $::operatingsystem ? {
             'Darwin' => 'present',
             default  => $pycharm_version
         }

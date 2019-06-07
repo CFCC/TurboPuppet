@@ -2,7 +2,7 @@
 # JDK
 #
 class profile::java::jdk {
-    $runtime_package_name = $::osfamily ? {
+    $runtime_package_name = $::operatingsystem ? {
         'windows' => 'jdk11',
         'Darwin'  => 'oracle-jdk',
         default   => fail('Unsupported OS')

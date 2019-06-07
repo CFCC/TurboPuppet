@@ -2,7 +2,7 @@
 #
 #
 class profile::webserver::xampp {
-    $package_name = $::osfamily ? {
+    $package_name = $::operatingsystem ? {
         'windows' => 'Bitnami-XAMPP',
         default   => fail('Unsupported OS')
     }

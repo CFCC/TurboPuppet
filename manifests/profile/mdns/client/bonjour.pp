@@ -3,7 +3,7 @@
 #
 class profile::mdns::client::bonjour {
     # 20180527 - v2.0.2 from 2016 is amazingly the "latest"
-    $package_name = $::osfamily ? {
+    $package_name = $::operatingsystem ? {
         'windows' => 'bonjour',
         default   => fail('Unsupported OS')
     }

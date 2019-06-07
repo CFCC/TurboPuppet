@@ -3,7 +3,7 @@
 #
 class role::camper::web inherits role::camper {
 
-    case $::osfamily {
+    case $::operatingsystem {
         'windows': {
             include profile::webserver::xampp
         }

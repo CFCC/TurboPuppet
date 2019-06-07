@@ -20,7 +20,7 @@ class role::camper::generic inherits role::camper {
     Class['profile::python::python3'] -> Class['profile::ide::pycharm']
 
     # Webz
-    case $::osfamily {
+    case $::operatingsystem {
         'windows': {
             include profile::webserver::xampp
         }

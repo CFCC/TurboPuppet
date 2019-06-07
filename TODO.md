@@ -6,7 +6,6 @@ Scratchpad for random ideas of things that need done.
 * Deal with any server warnings
 * Linux support for a whole buncha stuff for profile::cfcc::camper
 * Refactor role::base and role::camper to deal with site at the root.
-* Figure out $::kernel (Linux) vs $::operatingsystem (Linux) vs $::osfamily (RedHat)
 * Update all modules
 * windows features (cant use module because it only supported server. maybe clone?) .NET Framework 3.5
 * Bonjour package via choco takes two to successfully install

@@ -9,18 +9,18 @@ class profile::game::quake3 {
     # I'm use the open-sauce ioquake3 engine and copying our pk3's into the right
     # places. This may or may not work in a real setting. Yolo.
     # Apparently ~ doesnt work with the console, and its SHIFT+ESC. Ok....
-    $quake_packages = $::osfamily ? {
+    $quake_packages = $::operatingsystem ? {
         'windows' => ['ioquake3', 'ioquake3-data'],
-        'RedHat'  => 'quake3',
+        'Fedora'  => 'quake3',
         'Darwin'  => 'ioquake3',
         default   => fail("platform is unsupported")
     }
     package { $quake_packages: }
 
     # System configuration and content directory
-    $baseq3 = $::osfamily ? {
+    $baseq3 = $::operatingsystem ? {
         'windows' => 'C:\Program Files (x86)\ioquake3\baseq3',
-        'RedHat'  => '/usr/share/quake3/baseq3',
+        'Fedora'  => '/usr/share/quake3/baseq3',
         'Darwin'  => '/Applications/ioquake3/baseq3',
         default   => fail("platform is unsupported")
     }
@@ -31,12 +31,12 @@ class profile::game::quake3 {
     }
 
     # Per-user configuration
-    $user_config_directories = $::osfamily ? {
+    $user_config_directories = $::operatingsystem ? {
         'windows' => [
             "C:/Users/${turbosite::camper_username}/AppData/Roaming/Quake3/",
             "C:/Users/${turbosite::camper_username}/AppData/Roaming/Quake3/baseq3"
         ],
-        'RedHat'  => [
+        'Fedora'  => [
             "/home/${turbosite::camper_username}/.q3a",
             "/home/${turbosite::camper_username}/.q3a/baseq3"
         ],
@@ -74,9 +74,9 @@ class profile::game::quake3 {
     file { "${baseq3}/ezfountian.pk3": source => "${source_repo}/baseq3/ezfountian.pk3" }
 
     # License key
-    $q3key_path = $::osfamily ? {
+    $q3key_path = $::operatingsystem ? {
         'windows' => "C:/Users/${turbosite::camper_username}/AppData/Roaming/Quake3/baseq3/q3key",
-        'RedHat'  => "/home/${turbosite::camper_username}/.q3a/baseq3/q3key",
+        'Fedora'  => "/home/${turbosite::camper_username}/.q3a/baseq3/q3key",
         'Darwin'  => "/Users/${turbosite::camper_username}/Library/Application Support/Quake3/baseq3/q3key",
         default   => fail("platform is unsupported")
     }
@@ -93,9 +93,9 @@ class profile::game::quake3 {
     # and any other changes will be on the user. If we need to do a mass
     # deploy we should be able to delete the file then run Puppet so that
     # it will deploy whatever change is needed.
-    $config_file_path = $::osfamily ? {
+    $config_file_path = $::operatingsystem ? {
         'windows' => "C:/Users/${turbosite::camper_username}/AppData/Roaming/Quake3/baseq3/q3config.cfg",
-        'RedHat'  => "/home/${turbosite::camper_username}/.q3a/baseq3/q3config.cfg",
+        'Fedora'  => "/home/${turbosite::camper_username}/.q3a/baseq3/q3config.cfg",
         'Darwin'  => "/Users/${turbosite::camper_username}/Library/Application Support/Quake3/baseq3/q3config.cfg",
         default   => fail("platform is unsupported")
     }
@@ -108,14 +108,14 @@ class profile::game::quake3 {
     File[$user_config_directories] -> File['q3config']
 
     # Any last OS-specific stuff
-    case $::osfamily {
+    case $::operatingsystem {
         'windows': {
             shortcut { 'C:/Users/Public/Desktop/Quake III Arena.lnk':
                 # icon_location => 'C:\ProgramData\scratch.ico',
                 target => 'C:\Program Files (x86)\ioquake3\ioquake3.x86.exe'
             }
         }
-        'RedHat': {
+        'Fedora': {
             file { 'q3icon':
                 path   => "${baseq3}/icon.png",
                 source => "${source_repo}/icon.png",

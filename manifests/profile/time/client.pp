@@ -3,11 +3,11 @@
 #
 class profile::time::client {
 
-    case $::osfamily {
+    case $::operatingsystem {
         'windows': {
             include profile::time::client::w32time
         }
-        'RedHat': {
+        'Fedora': {
             include profile::time::client::chrony
         }
         'Darwin': {

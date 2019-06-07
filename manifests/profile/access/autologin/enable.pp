@@ -3,7 +3,7 @@
 #
 class profile::access::autologin::enable {
 
-    case $::osfamily {
+    case $::operatingsystem {
         'windows': {
             # https://gallery.technet.microsoft.com/scriptcenter/Set-AutoLogon-and-execute-19ec3879
             # https://support.microsoft.com/en-us/help/324737/how-to-turn-on-automatic-logon-in-windows

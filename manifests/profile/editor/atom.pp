@@ -2,7 +2,7 @@
 # SublimeText Editor
 #
 class profile::editor::atom {
-    $package_name = $::osfamily ? {
+    $package_name = $::operatingsystem ? {
         'windows' => 'atom',
         default   => fail('Unsupported OS')
     }

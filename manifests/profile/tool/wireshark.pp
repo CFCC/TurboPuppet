@@ -9,7 +9,7 @@ class profile::tool::wireshark {
     }
 
     # Some platforms require extra things to make it work
-    case $::osfamily {
+    case $::operatingsystem {
         'windows': {
             package { 'winpcap':
                 before => [ Package[$package_name] ]

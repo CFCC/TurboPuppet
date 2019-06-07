@@ -2,7 +2,7 @@
 # Notepad++ Editor
 #
 class profile::editor::notepadplusplus {
-    $package_name = $::osfamily ? {
+    $package_name = $::operatingsystem ? {
         'windows' => 'notepadplusplus',
         default   => fail('Unsupported OS')
     }

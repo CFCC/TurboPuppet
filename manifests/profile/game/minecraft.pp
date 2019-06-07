@@ -3,11 +3,11 @@
 #
 class profile::game::minecraft {
     # It's really funny that this is easier to install on Windows than Linux.
-    case $::osfamily {
+    case $::operatingsystem {
         'windows': {
             package { 'minecraft': }
         }
-        'RedHat': {
+        'Fedora': {
             $minecraft_root = '/opt/minecraft'
             $minecraft_jar = 'Minecraft.jar'
 

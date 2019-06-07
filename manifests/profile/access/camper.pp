@@ -6,13 +6,13 @@ class profile::access::camper {
 
     # In other places we key off of the $::kernel fact. That doesn't
     # work for us here since different distros have different groups.
-    case $::osfamily {
+    case $::operatingsystem {
         'windows': {
             include profile::access::uac::disable
             # $user_groups = ['BUILTIN\Administrators', "BUILTIN\Remote Management Users"]
             $user_groups = ['BUILTIN\Administrators']
         }
-        'RedHat': {
+        'Fedora': {
             # camper : camper adm cdrom sudo dip plugdev lpadmin sambashare
             $user_groups = ['wheel']
 

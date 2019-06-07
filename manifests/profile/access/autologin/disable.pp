@@ -3,7 +3,7 @@
 #
 class profile::access::autologin::disable {
 
-    case $::osfamily {
+    case $::operatingsystem {
         'windows': {
             # https://gallery.technet.microsoft.com/scriptcenter/Set-AutoLogon-and-execute-19ec3879
 

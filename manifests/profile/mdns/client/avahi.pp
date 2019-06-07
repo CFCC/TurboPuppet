@@ -5,8 +5,8 @@
 # to mess with /etc/nsswitch.conf in order to resolve other hosts.
 #
 class profile::mdns::client::avahi {
-    $package_name = $::osfamily ? {
-        'RedHat' => 'avahi',
+    $package_name = $::operatingsystem ? {
+        'Fedora' => 'avahi',
         default   => fail('Unsupported OS')
     }
     package { $package_name: }

@@ -6,7 +6,7 @@ class profile::ide::intellij {
     # $intellij_version = '2018.1.1'
     $intellij_version = '2019.1.2'
 
-    $package_name = $::osfamily ? {
+    $package_name = $::operatingsystem ? {
         'windows' => 'intellijidea-community',
         'Darwin'  => 'intellij-idea-ce',
         default   => fail('Unsupported OS')
@@ -14,7 +14,7 @@ class profile::ide::intellij {
 
     # Like Pycharm, Brew doesnt support ensure => version.
     package { $package_name:
-        ensure => $::osfamily ? {
+        ensure => $::operatingsystem ? {
             'Darwin' => present,
             default  => $intellij_version
         }

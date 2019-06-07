@@ -60,14 +60,14 @@ support Windows we're gonna need to put that logic in the profiles.
 In general a common profile looks like this:
 ```puppet
 class profile::category::feature {
-    case $::osfamily {
+    case $::operatingsystem {
         'windows': {
             include profile::category::feature::windows
         }
         default: { }
     }
     
-    package_name = $::osfamily ? {
+    package_name = $::operatingsystem ? {
         'windows' => 'feature-win',
         'fedora' => 'feature-fc27',
         default   => fail('Unsupported OS')

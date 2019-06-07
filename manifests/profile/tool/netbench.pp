@@ -2,9 +2,9 @@
 # NetBench - Charlie's network benchmark utility.
 #
 class profile::tool::netbench {
-    $install_path = $::osfamily ? {
+    $install_path = $::operatingsystem ? {
         'windows' => 'C:/Program Files (x86)/NetBench',
-        'RedHat'  => '/opt/netbench',
+        'Fedora'  => '/opt/netbench',
         'Darwin'  => '/opt/netbench',
         default   => fail('Unsupported OS')
     }
@@ -20,20 +20,21 @@ class profile::tool::netbench {
     }
 
     # Shortcut
-    case $::osfamily {
+    case $::operatingsystem {
         'windows': {
             shortcut { 'NetBenchShortcut':
                 path   => 'C:/ProgramData/Microsoft/Windows/Start Menu/Programs/NetBench.lnk',
                 target => "${install_path}/NetBench.jar"
             }
         }
-        'RedHat': {
+        'Fedora': {
             freedesktop::shortcut { 'NetBench':
                 exec    => "java -jar ${install_path}/NetBench.jar",
                 comment => 'Network Benchmark Utility',
                 icon    => 'network-transmit-receive'
             }
-        }
+        },
+        # @TODO Darwin
     }
 
     File['NetBenchInstallDir'] -> File['NetBenchJar']
