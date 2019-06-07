@@ -115,6 +115,15 @@ class profile::desktop::explorer {
         notify => Exec['Reload Explorer']
     }
 
+    # Disable re-opening programs after reboot
+    # https://superuser.com/questions/1229963/windows-10-disable-reopening-programs-after-restart-startup
+    registry_key { 'DisableAutomaticRestartSignOn':
+        key   => 'HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System',
+        value => 'DisableAutomaticRestartSignOn',
+        type  => 'dword',
+        data  => 1
+    }
+
     Registry_key['OpenWithNotepadKey']
     -> Registry_key['OpenWithNotepadCommandKey']
     -> Registry::Value['OpenWithNotepadCommandValue']
