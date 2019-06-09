@@ -2,7 +2,7 @@
 # Node inventory. Hosts in here will have a single role that they
 # are assigned. Everything else come from that role.
 #
-node default { include role::base }
+node default { include role::camper::generic }
 
 ### Camper Machines ###
 # Wumboze
