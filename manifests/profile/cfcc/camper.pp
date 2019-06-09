@@ -20,7 +20,6 @@ class profile::cfcc::camper {
             include profile::windows::update
 
             # OS-specific System 3rd Party Tools
-            include profile::mdns::bonjour
             include profile::tool::spacemonger
             include profile::tool::cpuz
             include profile::tool::gpuz
@@ -39,7 +38,6 @@ class profile::cfcc::camper {
         'Linux': {
             include profile::desktop::cinnamon
             include profile::remoteaccess::ssh::enable
-            include profile::mdns::avahi
             # @TODO include profile::firewall::linux
             include profile::editor::vim
             include profile::editor::sublime
@@ -49,6 +47,7 @@ class profile::cfcc::camper {
 
     # System-level stuff
     include profile::puppet::agent::disable
+    include profile::mdns::client
     include profile::cfcc::filesystem
 
     # Camper & System Tools

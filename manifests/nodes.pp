@@ -22,7 +22,7 @@ node /^cfcczotac09/ { include role::camper::generic }
 node /^cfcczotac10/ { include role::camper::generic }
 
 # Mac
-node /^cfccmac01/ { include role::camper::java }
+node /^cfccmac01/ { include role::camper::generic }
 
 # Various
 node /^cfcctestvm01/ { include role::camper::test }
