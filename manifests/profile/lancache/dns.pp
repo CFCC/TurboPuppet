@@ -9,6 +9,10 @@ class profile::lancache::dns {
         "boston.grantcohoe.com" => {
             address  => '192.168.1.1',
             insecure => true,
+        },
+        "localdomain" => {
+            address  => '10.0.0.1',
+            insecure => true,
         }
     }
 
