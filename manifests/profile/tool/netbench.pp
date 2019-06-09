@@ -33,7 +33,7 @@ class profile::tool::netbench {
                 comment => 'Network Benchmark Utility',
                 icon    => 'network-transmit-receive'
             }
-        },
+        }
         # @TODO Darwin
     }
 
