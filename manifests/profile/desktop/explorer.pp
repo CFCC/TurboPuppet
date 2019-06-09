@@ -117,8 +117,8 @@ class profile::desktop::explorer {
 
     # Disable re-opening programs after reboot
     # https://superuser.com/questions/1229963/windows-10-disable-reopening-programs-after-restart-startup
-    registry_key { 'DisableAutomaticRestartSignOn':
-        key   => 'HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System',
+    registry_value { 'DisableAutomaticRestartSignOn':
+        path  => 'HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System',
         value => 'DisableAutomaticRestartSignOn',
         type  => 'dword',
         data  => 1
