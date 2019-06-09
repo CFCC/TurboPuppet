@@ -120,8 +120,8 @@ class profile::desktop::explorer {
     registry_value { 'DisableAutomaticRestartSignOn':
         path   => 'HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System\DisableAutomaticRestartSignOn',
         type   => 'dword',
-        data   => 1
-        notify => Exec['Reload Explorer']
+        data   => 1,
+        notify => Exec['Reload Explorer'],
     }
 
     Registry_key['OpenWithNotepadKey']
