@@ -14,7 +14,7 @@ class profile::lancache::dns {
             address  => '10.0.0.1',
             insecure => true,
         },
-        "10.in-addr.arpa." => 
+        "10.in-addr.arpa." => {
             address  => '10.0.0.1',
             insecure => true,
         }
