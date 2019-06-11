@@ -32,7 +32,7 @@ class profile::packaging::repositories::fedora::system {
     @yumrepo { 'fedora-updates':
         descr           => 'Fedora $releasever - $basearch - Updates',
         failovermethod  => 'priority',
-        baseurl         => 'http://mirror.rit.edu/pub/fedora/linux/updates/$releasever/Everything/$basearch/',
+        baseurl         => 'http://mirror.rit.edu/fedora/fedora/linux/updates/$releasever/Everything/$basearch/',
         #metalink        => 'https://mirrors.fedoraproject.org/metalink?repo=updates-released-f$releasever&arch=$basearch',
         metadata_expire => '6h',
         gpgkey          => 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$releasever-$basearch',
