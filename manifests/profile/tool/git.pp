@@ -4,7 +4,7 @@
 class profile::tool::git {
     package { 'git': }
 
-    case $::kernel {
+    case $::operatingsystem {
         'windows': {
             package { 'github-desktop':
                 notify => Exec['kill github-desktop app']
@@ -17,9 +17,11 @@ class profile::tool::git {
                 refreshonly => true
             }
         }
-        'Linux': {
+        'Fedora': {
             package { 'gitkraken':
-                require => Yumrepo['_copr_elken-gitkraken']
+                # require => Yumrepo['_copr_elken-gitkraken']
+                source   => 'https://release.gitkraken.com/linux/gitkraken-amd64.rpm',
+                provider => 'rpm',
             }
 
             # There's a thing where it's linked against a filename that doesn't exist.
@@ -35,6 +37,6 @@ class profile::tool::git {
             # is required for brew to function.
             package { 'github': }
         }
-        default: { }
+        default: {}
     }
 }
