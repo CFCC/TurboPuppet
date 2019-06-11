@@ -48,7 +48,7 @@ class profile::ide::scratch {
             # This only runs if called on
             exec { 'refresh icon cache':
                 refreshonly => true,
-                command     => 'gtk-update-icon-cache /usr/share/icons/hicolor/'
+                command     => '/usr/bin/gtk-update-icon-cache /usr/share/icons/hicolor/'
             }
         }
         default: { fail('Unsupported OS') }
