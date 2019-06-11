@@ -13,6 +13,10 @@ class profile::lancache::dns {
         "localdomain" => {
             address  => '10.0.0.1',
             insecure => true,
+        },
+        "10.in-addr.arpa." => {
+            address  => '10.0.0.1',
+            insecure => true,
         }
     }
 
