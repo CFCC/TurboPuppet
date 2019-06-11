@@ -27,6 +27,9 @@ class role::camper::generic inherits role::camper {
         'Darwin': {
             # Web sharing is already a thing
         }
+        'Fedora': {
+            # @TODO include profile::webserver::apache
+        }
         default: {
             fail('Unsupported OS')
         }

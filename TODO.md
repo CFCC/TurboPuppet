@@ -17,6 +17,7 @@ Mac
 * web sharing?
 
 Linux
+* profile::webserver::apache
 * autologin
 * virtualbox extension
 * firewall
