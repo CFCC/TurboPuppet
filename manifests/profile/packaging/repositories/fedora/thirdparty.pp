@@ -17,6 +17,11 @@ class profile::packaging::repositories::fedora::thirdparty {
         baseurl => 'https://copr-be.cloud.fedoraproject.org/results/phracek/PyCharm/fedora-$releasever-$basearch/',
         gpgkey  => 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-copr_phracek-pycharm',
     }
+    @yumrepo { '_copr_lkiesow-intellij-idea-community':
+        descr   => 'Copr repo for intellij-idea-community owned by lkiesow',
+        baseurl => 'https://copr-be.cloud.fedoraproject.org/results/lkiesow/intellij-idea-community/fedora-$releasever-$basearch/',
+        gpgkey  => 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-copr_lkiesow-intellij-idea-community',
+    }
 
     # @TODO https://release.gitkraken.com/linux/gitkraken-amd64.rpm
     # https://release.gitkraken.com/linux/gitkraken-amd64.rpm

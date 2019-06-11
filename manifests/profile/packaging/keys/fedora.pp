@@ -36,6 +36,11 @@ class profile::packaging::keys::fedora {
         path   => "/etc/pki/rpm-gpg/RPM-GPG-KEY-copr_phracek-pycharm"
     }
 
+    file { "RPM-GPG-KEY-copr_lkiesow-intellij-idea-community":
+        source => "puppet:///campfs/rpm-gpg/RPM-GPG-KEY-copr_lkiesow-intellij-idea-community",
+        path   => "/etc/pki/rpm-gpg/RPM-GPG-KEY-copr_lkiesow-intellij-idea-community"
+    }
+
     file { "RPM-GPG-KEY-copr_elken-gitkraken":
         source => "puppet:///campfs/rpm-gpg/RPM-GPG-KEY-copr_elken-gitkraken",
         path   => "/etc/pki/rpm-gpg/RPM-GPG-KEY-copr_elken-gitkraken"
