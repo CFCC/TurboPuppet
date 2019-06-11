@@ -20,6 +20,7 @@ Linux
 * autologin
 * virtualbox extension
 * firewall
+* install puppet-agent, libxcrypt-compat
 
 Infrastructure
 --------------

@@ -30,24 +30,25 @@ class profile::packaging::repositories::fedora::thirdparty {
         gpgkey  => 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-google-chrome',
     }
 
-    @yumrepo { 'puppet5':
-        descr   => 'Puppet 5 Repository fedora 28 - $basearch',
-        baseurl => 'http://yum.puppetlabs.com/puppet5/fedora/$releasever/$basearch',
+    # @TODO fc30 not yet supported :(
+    @yumrepo { 'puppet6':
+        descr   => 'Puppet 6 Repository fedora 29 - $basearch',
+        baseurl => 'http://yum.puppetlabs.com/puppet6/fedora/29/$basearch',
         gpgkey  => 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-puppet',
     }
 
     @yumrepo { 'rpmfusion-nonfree-nvidia-driver':
-        descr    => 'RPM Fusion for Fedora $releasever - Nonfree - NVIDIA Driver',
-        # baseurl => 'http://download1.rpmfusion.org/nonfree/fedora/nvidia-driver/$releasever/$basearch/',
-        metalink =>
-            'https://mirrors.rpmfusion.org/metalink?repo=nonfree-fedora-nvidia-driver-$releasever&arch=$basearch',
-        gpgkey   => 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-rpmfusion-nonfree-fedora-$releasever',
+        descr   => 'RPM Fusion for Fedora $releasever - Nonfree - NVIDIA Driver',
+        baseurl => 'http://download1.rpmfusion.org/nonfree/fedora/nvidia-driver/$releasever/$basearch/',
+        # metalink => 'https://mirrors.rpmfusion.org/metalink?repo=nonfree-fedora-nvidia-driver-$releasever&arch=$basearch',
+        gpgkey  => 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-rpmfusion-nonfree-fedora-$releasever',
     }
 
     @yumrepo { 'rpmfusion-nonfree-steam':
-        descr    => 'RPM Fusion for Fedora $releasever - Nonfree - Steam',
-        metalink => 'https://mirrors.rpmfusion.org/metalink?repo=nonfree-fedora-steam-$releasever&arch=$basearch',
-        gpgkey   => 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-rpmfusion-nonfree-fedora-$releasever'
+        descr   => 'RPM Fusion for Fedora $releasever - Nonfree - Steam',
+        # metalink => 'https://mirrors.rpmfusion.org/metalink?repo=nonfree-fedora-steam-$releasever&arch=$basearch',
+        baseurl => 'http://download1.rpmfusion.org/nonfree/fedora/steam/$releasever/$basearch/',
+        gpgkey  => 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-rpmfusion-nonfree-fedora-$releasever'
     }
 
     @yumrepo { 'sublime-text':
