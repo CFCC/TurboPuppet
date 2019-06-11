@@ -25,7 +25,7 @@ node /^cfcczotac10/ { include role::camper::generic }
 node /^cfccmac01/ { include role::camper::generic }
 
 # Various
-node /^cfcctestvm01/ { include role::camper::test }
+node /^cfcctestvm01/ { include role::camper::generic }
 node /^cfcctestvm02/ { include role::camper::generic }
 node /^cfcctestvm03/ {  include role::camper::test }
 

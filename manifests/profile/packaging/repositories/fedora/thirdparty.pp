@@ -18,11 +18,13 @@ class profile::packaging::repositories::fedora::thirdparty {
         gpgkey  => 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-copr_phracek-pycharm',
     }
 
-    @yumrepo { '_copr_elken-gitkraken':
-        descr   => 'Copr repo for gitkraken owned by elken',
-        baseurl => 'https://copr-be.cloud.fedoraproject.org/results/elken/gitkraken/fedora-$releasever-$basearch/',
-        gpgkey  => 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-copr_elken-gitkraken',
-    }
+    # @TODO https://release.gitkraken.com/linux/gitkraken-amd64.rpm
+    # https://release.gitkraken.com/linux/gitkraken-amd64.rpm
+    # @yumrepo { '_copr_elken-gitkraken':
+    #     descr   => 'Copr repo for gitkraken owned by elken',
+    #     baseurl => 'https://copr-be.cloud.fedoraproject.org/results/elken/gitkraken/fedora-$releasever-$basearch/',
+    #     gpgkey  => 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-copr_elken-gitkraken',
+    # }
 
     @yumrepo { 'google-chrome':
         descr   => 'google-chrome',
