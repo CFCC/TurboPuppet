@@ -21,14 +21,12 @@ class profile::packaging::keys::fedora {
     # must deal with it.
     package { "rpmfusion-free-${::operatingsystemmajrelease}":
         name   => 'rpmfusion-free-release',
-        source => "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-${::operatingsystemmajrelease}
-            .noarch.rpm",
+        source => "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-${::operatingsystemmajrelease}.noarch.rpm",
         ensure => present
     }
     package { "rpmfusion-nonfree-${::operatingsystemmajrelease}":
         name   => 'rpmfusion-nonfree-release',
-        source => "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-${
-            ::operatingsystemmajrelease}.noarch.rpm",
+        source => "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-${::operatingsystemmajrelease}.noarch.rpm",
         ensure => present
     }
 
