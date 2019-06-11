@@ -46,7 +46,7 @@ class profile::python::turtle {
             file { 'TurtleLauncher':
                 path   => '/usr/local/bin/python-turtle-launcher.sh',
                 source => 'puppet:///modules/cfcc/python/python-turtle-launcher.sh',
-                mode   => 0755,
+                mode   => '0755',
             } ->
             freedesktop::shortcut { 'PythonTurtle':
                 exec       => '/usr/local/bin/python-turtle-launcher.sh',
