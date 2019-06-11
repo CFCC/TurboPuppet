@@ -34,7 +34,7 @@ class profile::ide::scratch {
                 source => 'https://scratch.mit.edu/favicon.ico',
             } ->
             exec { 'convert scratch icon to png':
-                command => 'convert scratch.ico scratch.png',
+                command => '/usr/bin/convert scratch.ico scratch.png',
                 path    => '/usr/share/icons/hicolor/32x32/apps/',
                 creates => '/usr/share/icons/hicolor/32x32/apps/scratch.png',
                 notify  => Exec['refresh icon cache']
