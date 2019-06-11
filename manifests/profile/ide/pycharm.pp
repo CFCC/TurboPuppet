@@ -31,7 +31,8 @@ class profile::ide::pycharm {
 
     file { 'PycharmConfigRoot':
         path   => "${turbosite::camper_homedir}/.PyCharmCE${config_version}",
-        ensure => directory
+        ensure => directory,
+        owner  => $::turbosite::camper_username,
     }
 
     file { 'PycharmConfig':
@@ -39,7 +40,8 @@ class profile::ide::pycharm {
         ensure  => directory,
         source  => "puppet:///modules/cfcc/PyCharmCE${config_version}/config",
         recurse => 'remote',
-        replace => 'no'
+        replace => 'no',
+        owner   => $::turbosite::camper_username
     }
 
     File['PycharmConfigRoot'] -> File['PycharmConfig']
