@@ -120,6 +120,7 @@ define dconf::setting (
     $key,
     $value,
     $user,
+    $uid
 ) {
     # Format the value a bit
     if ($value != 'true' and $value != 'false') {
@@ -131,10 +132,9 @@ define dconf::setting (
     }
     exec { "${name}-Exec":
         command     => "/usr/bin/dconf write ${key} ${raw_value}",
-        onlyif      => "/usr/bin/test -z $(dconf read ${key}) || /usr/bin/test $(/usr/bin/dconf read ${key}) != ${
-            raw_value}",
+        onlyif      => "/usr/bin/test -z $(dconf read ${key}) || /usr/bin/test $(/usr/bin/dconf read ${key}) != ${raw_value}",
         environment => [
-            'XDG_RUNTIME_DIR=/run/user/1000'
+            "XDG_RUNTIME_DIR=/run/user/${uid}"
         ],
         user        => $user,
     }

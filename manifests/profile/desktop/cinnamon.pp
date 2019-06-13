@@ -2,18 +2,10 @@
 #
 #
 class profile::desktop::cinnamon {
-    # Exec {
-    # user => $::turbosite::camper_username
-    # user => 'camper'
-    # }
-
-    # exec { 'SetClockFormat':
-    #     command => '/usr/bin/dbus-launch /usr/bin/dconf write /org/cinnamon/desktop/interface/clock-use-24h true',
-    #     onlyif => '/usr/bin/test $(dconf read /org/cinnamon/desktop/interface/clock-use-24h) != true'
-    # }
 
     Dconf::Setting {
-        user => 'camper'
+        user => $::turbosite::camper_username,
+        uid  => $::turbosite::camper_uid
     }
 
     # Change the clock to 12-hour format
@@ -48,8 +40,5 @@ class profile::desktop::cinnamon {
         key   => '/org/cinnamon/desktop/sound/volume-sound-enabled',
         value => false,
     }
-
-    # Remove crap we don't want
-    package { 'thunderbird': ensure => purged }
 
 }

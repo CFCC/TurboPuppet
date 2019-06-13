@@ -14,7 +14,8 @@ class role::camper inherits role::base {
         puppet_master   => $site::cfcc::puppet_master,
         time_servers    => $site::cfcc::time_servers,
         time_zone       => $site::cfcc::time_zone,
-        upstream_dns    => $site::cfcc::upstream_dns
+        upstream_dns    => $site::cfcc::upstream_dns,
+        camper_uid      => $site::cfcc::camper_uid,
     }
 
     # Tools need to make the system work. DNS, time, etc. While those

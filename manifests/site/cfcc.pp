@@ -3,6 +3,7 @@
 #
 class site::cfcc {
     $camper_username = 'camper'
+    $camper_uid = 1002
     $puppet_master = 'puppet'
     $time_servers = [
         'pool.ntp.org', # This should be first for Apple-related reasons

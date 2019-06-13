@@ -11,6 +11,7 @@
 #
 class turbosite (
     $camper_username,
+    $camper_uid,
     $puppet_master,
     $time_servers,
     $time_zone,
