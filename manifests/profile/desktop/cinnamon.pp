@@ -87,4 +87,7 @@ class profile::desktop::cinnamon {
         key   => '/org/cinnamon/desktop/background/picture-uri',
         value => 'file:///usr/share/backgrounds/images/camper.jpg'
     }
+
+    # @TODO sort desktop icons
+    # https://forums.linuxmint.com/viewtopic.php?t=261784 `nemo-desktop --quit && nohup nemo-desktop 2>&1 > /dev/null &`
 }
