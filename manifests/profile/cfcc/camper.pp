@@ -40,6 +40,7 @@ class profile::cfcc::camper {
             # @TODO include profile::firewall::linux
             include profile::editor::vim
             include profile::editor::sublime
+            include profile::terminal::gnome
         }
         default: {}
     }
