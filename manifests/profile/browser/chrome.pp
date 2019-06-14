@@ -17,7 +17,8 @@ class profile::browser::chrome {
         'Fedora': {
             file { "${turbosite::camper_homedir}/Desktop/google-chrome.desktop":
                 source => 'file:///usr/share/applications/google-chrome.desktop',
-                mode   => '0755'
+                mode   => '0755',
+                owner  => $turbosite::camper_username
             }
         }
         default: {}
