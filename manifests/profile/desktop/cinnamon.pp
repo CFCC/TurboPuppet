@@ -126,7 +126,7 @@ class profile::desktop::cinnamon {
     }
 
     exec { 'Reload Nemo':
-        command     => '/bin/echo hi >> /tmp/nemo.log /usr/bin/killall nemo-desktop; /usr/bin/nohup /usr/bin/nemo-desktop 2>&1 >>/tmp/nemo.log &',
+        command     => '/bin/echo hi >> /tmp/nemo.log; /usr/bin/killall nemo-desktop; /usr/bin/nohup /usr/bin/nemo-desktop 2>&1 >>/tmp/nemo.log &',
         refreshonly => true,
         user        => $turbosite::camper_username,
         environment => [
