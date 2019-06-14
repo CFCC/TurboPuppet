@@ -23,8 +23,7 @@ Linux
 * firewall (for netbench)
 * disable screensaver
 * Nemo - Disable autoarrange
-
-
+* Keyring auto-generate
 
 Infrastructure
 --------------
