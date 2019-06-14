@@ -138,7 +138,7 @@ define dconf::setting (
         $raw_value = $value
     }
 
-    exec { "${name}-Exec":
+    exec { "set-${name}":
         command     => "/usr/bin/dconf write ${key} ${raw_value}",
         onlyif      => "/usr/bin/test -z $(dconf read ${key}) || /usr/bin/test $(/usr/bin/dconf read ${key}) != ${raw_value}",
         environment => [

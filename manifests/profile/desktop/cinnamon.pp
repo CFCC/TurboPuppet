@@ -62,4 +62,15 @@ class profile::desktop::cinnamon {
         require => Package['ffmpegthumbnailer']
     }
 
+    # @TODO make this less disgusting
+    dconf::setting { 'PanelApplets':
+        key   => '/org/cinnamon/enabled-applets',
+        value => "['panel1:right:0:systray@cinnamon.org:0', 'panel1:left:0:menu@cinnamon.org:1', 'panel1:right:1:keyboard@cinnamon.org:4', 'panel1:right:2:notifications@cinnamon.org:5', 'panel1:right:3:removable-drives@cinnamon.org:6', 'panel1:right:5:network@cinnamon.org:7', 'panel1:right:6:blueberry@cinnamon.org:8', 'panel1:right:7:power@cinnamon.org:9', 'panel1:right:8:calendar@cinnamon.org:10', 'panel1:right:9:sound@cinnamon.org:11']",
+    }
+
+    file { 'CinnamonMenuConfig':
+        path   => "${::turbosite::camper_homedir}/.cinnamon/config/menu@cinnamon.org/1.json",
+        source => 'puppet:///modules/cfcc/cinnamon/menu.json',
+        owner  => $::turbosite::camper_username
+    }
 }
