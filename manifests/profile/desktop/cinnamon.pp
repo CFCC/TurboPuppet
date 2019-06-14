@@ -116,7 +116,10 @@ class profile::desktop::cinnamon {
     exec { 'Reload Nemo':
         command     => '/usr/bin/killall nemo-desktop && /usr/bin/nohup /usr/bin/nemo-desktop 2>&1 >/dev/null &',
         refreshonly => true,
-        user        => $turbosite::camper_username
+        user        => $turbosite::camper_username,
+        environment => [
+            "XDG_RUNTIME_DIR=/run/user/${turbosite::camper_uid}"
+        ],
     }
 
 }
