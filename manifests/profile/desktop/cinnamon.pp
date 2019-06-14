@@ -58,7 +58,7 @@ class profile::desktop::cinnamon {
     # Thumbnails everywhere
     dconf::setting { 'show-image-thumbnails':
         key     => '/org/nemo/preferences/show-image-thumbnails',
-        value   => 'always',
+        value   => "'always'",
         require => Package['ffmpegthumbnailer']
     }
 
