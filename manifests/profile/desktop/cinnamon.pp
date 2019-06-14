@@ -81,8 +81,6 @@ class profile::desktop::cinnamon {
         value => 'file:///usr/share/backgrounds/images/camper.jpg'
     }
 
-    # @TODO sort desktop icons
-    # https://forums.linuxmint.com/viewtopic.php?t=261784 `nemo-desktop --quit && nohup nemo-desktop 2>&1 > /dev/null &`
     $nemo_settings = {
         'default-folder-viewer'         => 'list-view',
         'click-double-parent-folder'    => true,
@@ -106,12 +104,8 @@ class profile::desktop::cinnamon {
         value => 'uint32 0'
     }
 
-    # file { 'NemoDesktopSettings':
-    #     path   => "${turbosite::camper_homedir}/.config/nemo/desktop-metadata",
-    #     source => 'puppet:///modules/cfcc/cinnamon/nemo-desktop-metadata.cfg',
-    #     notify => Exec['Reload Nemo'],
-    #     owner  => $turbosite::camper_username
-    # }
+    # Desktop icons
+    # https://forums.linuxmint.com/viewtopic.php?t=261784
     file_line { 'NemoDesktopAutoArrange':
         path   => "${turbosite::camper_homedir}/.config/nemo/desktop-metadata",
         line   => 'nemo-icon-view-auto-layout=false',
@@ -120,7 +114,7 @@ class profile::desktop::cinnamon {
     }
 
     exec { 'Reload Nemo':
-        command     => '/bin/echo hi >> /tmp/nemo.log; /usr/bin/killall nemo-desktop; /usr/bin/nohup /usr/bin/nemo-desktop 2>&1 >>/tmp/nemo.log &',
+        command     => '/usr/bin/killall nemo-desktop; /usr/bin/nohup /usr/bin/nemo-desktop 2>&1 >/dev/null &',
         refreshonly => true,
         user        => $turbosite::camper_username,
         environment => [
