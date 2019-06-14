@@ -117,10 +117,16 @@ class profile::desktop::cinnamon {
         line   => 'nemo-icon-view-sort-by=modification date',
         match  => '^nemo-icon-view-sort-by.*$',
         notify => Exec['Reload Nemo'],
+    } ->
+    file_line { 'NemoDesktopAutoArrange':
+        path   => "${turbosite::camper_homedir}/.config/nemo/desktop-metadata",
+        line   => 'nemo-icon-view-auto-layout=false',
+        match  => '^nemo-icon-view-auto-layout.*$',
+        notify => Exec['Reload Nemo'],
     }
 
     exec { 'Reload Nemo':
-        command     => '/usr/bin/killall nemo-desktop || /usr/bin/nohup /usr/bin/nemo-desktop 2>&1 >/dev/null &',
+        command     => '/usr/bin/killall nemo-desktop || /usr/bin/nohup /usr/bin/nemo-desktop 2>&1 >/tmp/nemo.log &',
         refreshonly => true,
         user        => $turbosite::camper_username,
         environment => [
