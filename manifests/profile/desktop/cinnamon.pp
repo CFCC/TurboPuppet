@@ -73,4 +73,17 @@ class profile::desktop::cinnamon {
         source => 'puppet:///modules/cfcc/cinnamon/menu.json',
         owner  => $::turbosite::camper_username
     }
+
+    file { 'CamperWallpaper':
+        path   => '/usr/share/backgrounds/images/camper.jpg',
+        source => 'puppet:///puppetfs/fedora-wallpaper.jpg'
+    } ->
+    dconf::setting { 'WallpaperMode':
+        key   => '/org/cinnamon/desktop/background/picture-options',
+        value => 'zoom'
+    } ->
+    dconf::setting { 'Wallpaper':
+        key   => '/org/cinnamon/desktop/background/picture-uri',
+        value => 'file:///usr/share/backgrounds/images/camper.jpg'
+    }
 }
