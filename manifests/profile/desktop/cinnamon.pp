@@ -76,7 +76,7 @@ class profile::desktop::cinnamon {
 
     file { 'CamperWallpaper':
         path   => '/usr/share/backgrounds/images/camper.jpg',
-        source => 'puppet:///puppetfs/fedora-wallpaper.jpg'
+        source => 'puppet:///campfs/fedora-wallpaper.jpg'
     } ->
     dconf::setting { 'WallpaperMode':
         key   => '/org/cinnamon/desktop/background/picture-options',
