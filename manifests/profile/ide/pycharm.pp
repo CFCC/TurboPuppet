@@ -44,5 +44,18 @@ class profile::ide::pycharm {
         owner   => $::turbosite::camper_username
     }
 
+    # OS-specific stuff
+    # Desktop Shortcut
+    case $::operatingsystem {
+        'Fedora': {
+            file { "${turbosite::camper_homedir}/Desktop/pycharm-community.desktop":
+                source => 'file:///usr/share/applications/pycharm-community.desktop',
+                mode   => '0755',
+                owner  => $turbosite::camper_username
+            }
+        }
+        default: {}
+    }
+
     File['PycharmConfigRoot'] -> File['PycharmConfig']
 }

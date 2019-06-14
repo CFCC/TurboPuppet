@@ -21,10 +21,15 @@ class profile::ide::intellij {
         }
     }
 
-    # Install any dependencies
+    # OS-specific stuff
     case $::operatingsystem {
         'Fedora': {
-            package { 'java-1.8.0-openjdk-devel': }
+            # Desktop Shortcut
+            file { "${turbosite::camper_homedir}/Desktop/intellij-idea-community.desktop":
+                source => 'file:///usr/share/applications/intellij-idea-community.desktop',
+                mode   => '0755',
+                owner  => $turbosite::camper_username
+            }
         }
         default: {}
     }
