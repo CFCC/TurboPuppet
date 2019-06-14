@@ -16,7 +16,8 @@ class profile::browser::chrome {
     case $::operatingsystem {
         'Fedora': {
             file { "${turbosite::camper_homedir}/Desktop/google-chrome.desktop":
-                source => 'file:///usr/share/applications/google-chrome.desktop'
+                source => 'file:///usr/share/applications/google-chrome.desktop',
+                mode   => '0755'
             }
         }
         default: {}
