@@ -29,7 +29,7 @@ class profile::terminal::gnome {
                 'login-shell'                     => 'true'
             }
 
-            $terminal_profile_settings.each |String $key, String $value| {
+            $terminal_profile_settings.each |String $key, $value| {
                 dconf::setting { $key:
                     key   => "/org/gnome/terminal/legacy/profiles:/:${profile_guid}/$key",
                     value => $value
