@@ -11,4 +11,14 @@ class profile::browser::chrome {
     }
 
     package { $package_name: }
+
+    # Desktop Shortcut
+    case $::operatingsystem {
+        'Fedora': {
+            file { "${turbosite::camper_homedir}/Desktop/google-chrome.desktop":
+                source => 'file:///usr/share/applications/google-chrome.desktop'
+            }
+        }
+        default: {}
+    }
 }

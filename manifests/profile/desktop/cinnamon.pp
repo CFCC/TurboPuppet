@@ -74,6 +74,7 @@ class profile::desktop::cinnamon {
         owner  => $::turbosite::camper_username
     }
 
+    # The stock wallpapers for FC30 suck.
     file { 'CamperWallpaper':
         path   => '/usr/share/backgrounds/images/camper.jpg',
         source => 'puppet:///campfs/fedora-wallpaper.jpg'
