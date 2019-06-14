@@ -111,6 +111,12 @@ class profile::desktop::cinnamon {
         line   => 'nemo-icon-view-auto-layout=false',
         match  => '^nemo-icon-view-auto-layout.*$',
         notify => Exec['Reload Nemo'],
+    } ->
+    file_line { 'NemoDesktopGridSize':
+        path   => "${turbosite::camper_homedir}/.config/nemo/desktop-metadata",
+        line   => 'desktop-grid-adjust=93;100;',
+        match  => '^desktop-grid-adjust.*$',
+        notify => Exec['Reload Nemo'],
     }
 
     exec { 'Reload Nemo':
