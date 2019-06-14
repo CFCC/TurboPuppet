@@ -15,7 +15,6 @@ class profile::cfcc::camper {
             include profile::remoteaccess::winrm::enable
 
             include profile::firewall::windows
-            include profile::windows::power
             include profile::windows::xbox::disable
             include profile::windows::update
 
@@ -49,6 +48,7 @@ class profile::cfcc::camper {
     include profile::puppet::agent::disable
     include profile::mdns::client
     include profile::cfcc::filesystem
+    include profile::power::alwayson
 
     # Camper & System Tools
     include profile::browser::chrome

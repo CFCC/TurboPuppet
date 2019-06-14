@@ -3,7 +3,7 @@
 # Some references:
 # https://facility9.com/2015/07/controlling-the-windows-power-plan-with-powershell/
 #
-class profile::windows::power {
+class profile::power::alwayson::windows {
     # This maps to the "High Performance" power plan
     $guid_power_plan = '8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c'
 

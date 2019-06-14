@@ -36,9 +36,30 @@ class profile::desktop::cinnamon {
         }
     }
 
+    # Disable the sound that sounds when you adjust the volume sound.
+    # Is that enough sound?
     dconf::setting { 'DisableVolumeSound':
         key   => '/org/cinnamon/desktop/sound/volume-sound-enabled',
         value => false,
+    }
+
+    # Desktop icons for common stuff
+    $desktop_icons = ['computer', 'home', 'trash']
+    $desktop_icons.each |String $icon| {
+        dconf::setting { "DisableIcon-${icon}":
+            key   => "/org/nemo/desktop/${icon}-icon-visible",
+            value => false,
+        }
+    }
+
+    # Thumbnailer backend
+    package { 'ffmpegthumbnailer': }
+
+    # Thumbnails everywhere
+    dconf::setting { 'show-image-thumbnails':
+        key     => '/org/nemo/preferences/show-image-thumbnails',
+        value   => 'always',
+        require => Package['ffmpegthumbnailer']
     }
 
 }
