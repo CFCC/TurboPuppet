@@ -21,6 +21,9 @@ Linux
 * autologin (in Puppet, already in Kickstart)
 * virtualbox extension
 * firewall (for netbench)
+* disable screensaver
+* Nemo - Disable autoarrange
+
 
 
 Infrastructure
