@@ -123,17 +123,21 @@ define dconf::setting (
     $uid
 ) {
     # Format the value a bit
-    if ($value != 'true' and $value != 'false') {
-        $raw_value = "'${value}'"
-    }
     # @TODO deprecated in Puppet6?
-    elsif is_string($value) {
-        $raw_value = "'${value}'"
-    }
     # @TODO add more logic here as needed
+    if is_string($value) {
+        if ($value == 'true' or $value == 'false') {
+            $raw_value = "'${value}'"
+        }
+        else {
+            $raw_value = "\"'${value}'\""
+        }
+    }
     else {
+        # This is basically just integers I think...
         $raw_value = $value
     }
+
     exec { "${name}-Exec":
         command     => "/usr/bin/dconf write ${key} ${raw_value}",
         onlyif      => "/usr/bin/test -z $(dconf read ${key}) || /usr/bin/test $(/usr/bin/dconf read ${key}) != ${raw_value}",
