@@ -53,6 +53,12 @@ class profile::python::turtle {
                 comment    => 'Python Turtle',
                 icon       => "/opt/PythonTurtle/pythonturtle/resources/turtle.png",
                 displayname => 'Python Turtle'
+            } ->
+            # Desktop Shortcut
+            file { "${turbosite::camper_homedir}/Desktop/PythonTurtle.desktop":
+                source => 'file:///usr/local/share/applications/PythonTurtle.desktop',
+                mode   => '0755',
+                owner  => $turbosite::camper_username
             }
         }
         'Darwin': {

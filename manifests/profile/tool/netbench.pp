@@ -32,6 +32,12 @@ class profile::tool::netbench {
                 exec    => "java -jar ${install_path}/NetBench.jar",
                 comment => 'Network Benchmark Utility',
                 icon    => 'network-transmit-receive'
+            } ->
+            # Desktop Shortcut
+            file { "${turbosite::camper_homedir}/Desktop/NetBench.desktop":
+                source => 'file:///usr/local/share/applications/NetBench.desktop',
+                mode   => '0755',
+                owner  => $turbosite::camper_username
             }
         }
         # @TODO Darwin

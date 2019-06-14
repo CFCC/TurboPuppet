@@ -43,6 +43,12 @@ class profile::ide::scratch {
                 exec       => 'google-chrome https://scratch.mit.edu',
                 comment    => 'Scratch',
                 icon       => 'scratch'
+            } ->
+            # Desktop Shortcut
+            file { "${turbosite::camper_homedir}/Desktop/scratch.desktop":
+                source => 'file:///usr/local/share/applications/scratch.desktop',
+                mode   => '0755',
+                owner  => $turbosite::camper_username
             }
 
             # This only runs if called on
