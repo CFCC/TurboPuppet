@@ -17,11 +17,6 @@ class profile::terminal::gnome {
                 uid  => $::turbosite::camper_uid
             }
 
-            dconf::setting { 'SetClockFormat':
-                key   => '/org/gnome/terminal/legacy/default-show-menubar',
-                value => false,
-            }
-
             $profile_guid = 'b1dcc9dd-5262-4d8d-a863-c897e6d979b9'
             $terminal_profile_settings = {
                 'visible-name'                    => 'camper',
