@@ -129,6 +129,9 @@ define dconf::setting (
         if ($value == 'true' or $value == 'false') {
             $raw_value = "'${value}'"
         }
+        elsif ('uint64' in $value) {
+            $raw_value = "'${value}'"
+        }
         else {
             $raw_value = "\"'${value}'\""
         }
