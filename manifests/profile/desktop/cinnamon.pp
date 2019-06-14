@@ -100,4 +100,22 @@ class profile::desktop::cinnamon {
             value => $value
         }
     }
+
+    dconf::setting { 'screensaver-idle':
+        key   => "/org/cinnamon/desktop/session/idle-delay",
+        value => 'uint32 0'
+    }
+
+    file { 'NemoDesktopSettings':
+        path   => "${turbosite::camper_homedir}/.config/nemo/desktop-metadata",
+        source => 'puppet:///modules/cfcc/cinnamon/nemo-desktop-metadata.cfg',
+        notify => 'Reload Nemo',
+        owner  => $turbosite::camper_username
+    }
+
+    exec { 'Reload Nemo':
+        command     => '/usr/bin/killall nemo-desktop && nemo-desktop 2>&1 >/dev/null &',
+        refreshonly => true
+    }
+
 }
