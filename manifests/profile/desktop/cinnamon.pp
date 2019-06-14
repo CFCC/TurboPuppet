@@ -69,7 +69,7 @@ class profile::desktop::cinnamon {
     }
 
     file { 'CinnamonMenuConfig':
-        path   => "${::turbosite::camper_homedir}/.cinnamon/config/menu@cinnamon.org/1.json",
+        path   => "${::turbosite::camper_homedir}/.cinnamon/configs/menu@cinnamon.org/1.json",
         source => 'puppet:///modules/cfcc/cinnamon/menu.json',
         owner  => $::turbosite::camper_username
     }
