@@ -112,12 +112,6 @@ class profile::desktop::cinnamon {
     #     notify => Exec['Reload Nemo'],
     #     owner  => $turbosite::camper_username
     # }
-    file_line { 'NemoDesktopSort':
-        path   => "${turbosite::camper_homedir}/.config/nemo/desktop-metadata",
-        line   => 'nemo-icon-view-sort-by=modification date',
-        match  => '^nemo-icon-view-sort-by.*$',
-        notify => Exec['Reload Nemo'],
-    } ->
     file_line { 'NemoDesktopAutoArrange':
         path   => "${turbosite::camper_homedir}/.config/nemo/desktop-metadata",
         line   => 'nemo-icon-view-auto-layout=false',
