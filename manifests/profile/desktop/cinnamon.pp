@@ -106,11 +106,17 @@ class profile::desktop::cinnamon {
         value => 'uint32 0'
     }
 
-    file { 'NemoDesktopSettings':
+    # file { 'NemoDesktopSettings':
+    #     path   => "${turbosite::camper_homedir}/.config/nemo/desktop-metadata",
+    #     source => 'puppet:///modules/cfcc/cinnamon/nemo-desktop-metadata.cfg',
+    #     notify => Exec['Reload Nemo'],
+    #     owner  => $turbosite::camper_username
+    # }
+    file_line { 'NemoDesktopSort':
         path   => "${turbosite::camper_homedir}/.config/nemo/desktop-metadata",
-        source => 'puppet:///modules/cfcc/cinnamon/nemo-desktop-metadata.cfg',
+        line   => 'nemo-icon-view-sort-by=modification date',
+        match  => '^nemo-icon-view-sort-by.*$',
         notify => Exec['Reload Nemo'],
-        owner  => $turbosite::camper_username
     }
 
     exec { 'Reload Nemo':
