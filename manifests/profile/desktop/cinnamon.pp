@@ -55,13 +55,6 @@ class profile::desktop::cinnamon {
     # Thumbnailer backend
     package { 'ffmpegthumbnailer': }
 
-    # Thumbnails everywhere
-    dconf::setting { 'show-image-thumbnails':
-        key     => '/org/nemo/preferences/show-image-thumbnails',
-        value   => 'always',
-        require => Package['ffmpegthumbnailer']
-    }
-
     # @TODO make this less disgusting
     dconf::setting { 'PanelApplets':
         key   => '/org/cinnamon/enabled-applets',
@@ -90,4 +83,21 @@ class profile::desktop::cinnamon {
 
     # @TODO sort desktop icons
     # https://forums.linuxmint.com/viewtopic.php?t=261784 `nemo-desktop --quit && nohup nemo-desktop 2>&1 > /dev/null &`
+    $nemo_settings = {
+        'default-folder-viewer'         => 'list-view',
+        'click-double-parent-folder'    => true,
+        'swap-trash-delete'             => true,
+        'show-image-thumbnails'         => 'always',
+        'thumbnail-limit'               => 'uint64 34359738368',
+        'tooltips-in-list-view'         => true,
+        'tooltips-show-file-type'       => true,
+        'tooltips-show-birth-date'      => true,
+        'show-open-in-terminal-toolbar' => true,
+    }
+    $nemo_settings.each |String $key, $value| {
+        dconf::setting { $key:
+            key   => "/org/nemo/preferences/$key",
+            value => $value
+        }
+    }
 }
