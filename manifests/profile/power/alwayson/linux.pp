@@ -19,7 +19,7 @@ class profile::power::alwayson::linux {
 
     dconf::setting { 'power-button':
         key   => '/org/cinnamon/settings-daemon/plugins/power/button-power',
-        value => "'shutdown'",
+        value => 'shutdown',
     }
 
 }

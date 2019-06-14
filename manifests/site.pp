@@ -126,6 +126,10 @@ define dconf::setting (
     if ($value != 'true' and $value != 'false') {
         $raw_value = "'${value}'"
     }
+    # @TODO deprecated in Puppet6?
+    elsif is_string($value) {
+        $raw_value = "'${value}'"
+    }
     # @TODO add more logic here as needed
     else {
         $raw_value = $value
