@@ -18,10 +18,10 @@ Mac
 
 Linux
 * profile::webserver::apache
-* autologin
+* autologin (in Puppet, already in Kickstart)
 * virtualbox extension
-* firewall
-* install puppet-agent, libxcrypt-compat
+* firewall (for netbench)
+
 
 Infrastructure
 --------------

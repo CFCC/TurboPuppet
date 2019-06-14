@@ -46,7 +46,7 @@ class profile::ide::scratch {
             } ->
             # Desktop Shortcut
             file { "${turbosite::camper_homedir}/Desktop/scratch.desktop":
-                source => 'file:///usr/local/share/applications/scratch.desktop',
+                source => 'file:///usr/local/share/applications/Scratch.desktop',
                 mode   => '0755',
                 owner  => $turbosite::camper_username
             }
