@@ -31,6 +31,12 @@ class profile::tool::git {
                 target  => '/usr/lib64/libcurl.so.4',
                 require => Package['gitkraken']
             }
+
+            file { "${turbosite::camper_homedir}/Desktop/gitkraken.desktop":
+                source => 'file:///usr/share/applications/gitkraken.desktop',
+                mode   => '0755',
+                owner  => $turbosite::camper_username
+            }
         }
         'Darwin': {
             # git itself is provided in profile::ide::xcode and

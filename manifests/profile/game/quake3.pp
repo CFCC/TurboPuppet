@@ -126,6 +126,11 @@ class profile::game::quake3 {
                 comment    => 'Quake III Arena',
                 icon       => "${baseq3}/icon.png",
                 categories => ['Games']
+            } ->
+            file { "${turbosite::camper_homedir}/Desktop/quake3.desktop":
+                source => 'file:///usr/local/share/applications/Quake III Arena.desktop',
+                mode   => '0755',
+                owner  => $turbosite::camper_username
             }
 
             File['q3icon'] -> Freedesktop::Shortcut['Quake III Arena']

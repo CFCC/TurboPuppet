@@ -29,6 +29,11 @@ class profile::game::minecraft {
                 comment    => 'Minecraft',
                 icon       => "${minecraft_root}/icon.png",
                 categories => ['Games']
+            } ->
+            file { "${turbosite::camper_homedir}/Desktop/minecraft.desktop":
+                source => 'file:///usr/local/share/applications/Minecraft.desktop',
+                mode   => '0755',
+                owner  => $turbosite::camper_username
             }
         }
         'Darwin': {
