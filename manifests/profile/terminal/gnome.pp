@@ -34,7 +34,7 @@ class profile::terminal::gnome {
                     key   => "/org/gnome/terminal/legacy/profiles:/:${profile_guid}/$key",
                     value => $value
                 }
-            } ->
+            }
             dconf::setting { 'default-profile-list':
                 key   => '/org/gnome/terminal/legacy/profiles:/list',
                 value => "['${profile_guid}']"
