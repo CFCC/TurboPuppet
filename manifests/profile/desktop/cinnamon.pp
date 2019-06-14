@@ -109,7 +109,7 @@ class profile::desktop::cinnamon {
     file { 'NemoDesktopSettings':
         path   => "${turbosite::camper_homedir}/.config/nemo/desktop-metadata",
         source => 'puppet:///modules/cfcc/cinnamon/nemo-desktop-metadata.cfg',
-        notify => 'Reload Nemo',
+        notify => Exec['Reload Nemo'],
         owner  => $turbosite::camper_username
     }
 
