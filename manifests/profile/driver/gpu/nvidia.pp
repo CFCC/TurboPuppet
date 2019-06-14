@@ -55,6 +55,9 @@ class profile::driver::gpu::nvidia {
             package { 'nvidia-display-driver': }
             package { 'ddu': }
         }
+        'Fedora': {
+            package { 'kmod-nvidia-390xx': }
+        }
         default: {}
     }
 

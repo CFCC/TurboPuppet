@@ -54,4 +54,5 @@ class role::base {
     # Drivers
     # https://puppet.com/docs/puppet/5.3/lang_data_regexp.html
     if $::hostname =~ /(?i:zotac)/ { include profile::driver::zotac }
+    if $::hostname =~ /(?i:zaktop)/ { include profile::driver::zaktop }
 }
