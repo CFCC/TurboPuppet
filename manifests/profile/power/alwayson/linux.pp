@@ -17,9 +17,19 @@ class profile::power::alwayson::linux {
         value => 0,
     }
 
+    dconf::setting { 'sleep-display-battery':
+        key   => '/org/cinnamon/settings-daemon/plugins/power/sleep-display-battery',
+        value => 1800,
+    }
+
     dconf::setting { 'power-button':
         key   => '/org/cinnamon/settings-daemon/plugins/power/button-power',
         value => 'shutdown',
+    }
+
+    dconf::setting { 'lock-on-suspend':
+        key   => '/org/cinnamon/settings-daemon/plugins/power/lock-on-suspend',
+        value => false,
     }
 
 }
