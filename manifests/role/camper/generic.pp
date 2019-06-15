@@ -34,4 +34,5 @@ class role::camper::generic inherits role::camper {
             fail('Unsupported OS')
         }
     }
+    include profile::nodejs::runtime
 }

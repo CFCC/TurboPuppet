@@ -17,6 +17,8 @@ class profile::cfcc::camper {
             include profile::firewall::windows
             include profile::windows::xbox::disable
             include profile::windows::update
+            include profile::windows::wsl
+            include profile::windows::dotnet
 
             # OS-specific System 3rd Party Tools
             include profile::tool::spacemonger
