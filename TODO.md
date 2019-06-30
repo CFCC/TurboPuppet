@@ -11,6 +11,9 @@ Scratchpad for random ideas of things that need done.
 * Bonjour package via choco takes two to successfully install
 * Why did Zotac8 have a USB E drive that didn't exist?
 
+Windows
+* WSL
+
 Mac
 * Autologin
 * quake shortcut (any shortcut, need alias)

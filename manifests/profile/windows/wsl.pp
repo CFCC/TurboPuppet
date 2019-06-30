@@ -7,6 +7,6 @@ class profile::windows::wsl {
 
     # @TODO
     # * %PROGRAMDATA%\Choco\lib\tools\wsl-ubuntu\ubuntu1804.exe --default-user root|camper
-    # * useradd --create-home -g admin campoer -p HASH
+    # * useradd --create-home -g admin camper -p HASH
     # * icon/shortcut (start in C:\)
 }
