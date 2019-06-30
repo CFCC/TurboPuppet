@@ -15,7 +15,7 @@ node /^cfcczotac02/ { include role::camper::generic }
 node /^cfcczotac03/ { include role::camper::generic }
 node /^cfcczotac04/ { include role::camper::generic }
 node /^cfcczotac05/ { include role::camper::generic }
-node /^cfcczotac06/ { include role::camper::generic, profile::cfcc::mediacenter }
+node /^cfcczotac06/ { include role::camper::mediacenter }
 node /^cfcczotac07/ { include role::camper::generic }
 node /^cfcczotac08/ { include role::camper::generic }
 node /^cfcczotac09/ { include role::camper::generic }
