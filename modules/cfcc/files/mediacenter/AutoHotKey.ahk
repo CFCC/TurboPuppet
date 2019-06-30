@@ -1,5 +1,5 @@
-# AutoHotKey.ahk
-# THIS FILE IS MANAGED BY PUPPET
+; AutoHotKey.ahk
+; THIS FILE IS MANAGED BY PUPPET
 
 ProcessExist(Name) {
     Process, Exist, %Name%
