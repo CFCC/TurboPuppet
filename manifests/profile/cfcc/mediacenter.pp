@@ -19,7 +19,8 @@ class profile::cfcc::mediacenter {
     file { 'AutoHotKey.ahk':
         path => "${turbosite::camper_homedir}/Documents/AutoHotKey.ahk",
         owner => $turbosite::camper_username,
-        source => 'puppet:///modules/cfcc/mediacenter/AutoHotKey.ahk'
+        source => 'puppet:///modules/cfcc/mediacenter/AutoHotKey.ahk',
+        notify => Exec['ReloadAutoHotkey'],
     }
 
     # SPDIF keepalive. Apparently the new version is virus'd up (1.0 7z)?
