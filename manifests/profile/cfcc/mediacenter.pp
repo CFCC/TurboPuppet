@@ -29,6 +29,6 @@ class profile::cfcc::mediacenter {
     # https://veg.by/en/projects/soundkeeper/
     file { 'SoundKeeper64.exe':
         path => "C:/Users/${turbosite::camper_username}/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/SoundKeeper64.exe",
-        source => 'puppet:///modules/cfcc/mediacenter/SoundKeeper64.exe'
+        source => 'puppet:///campfs/SoundKeeper64.exe',
     }
 }
