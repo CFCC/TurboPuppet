@@ -6,9 +6,9 @@ ProcessExist(Name) {
     return Errorlevel
 }
 
-^+!1::
-        Run "C:\Users\camper\Documents\bluetooth-toggle.vbs"
-Return
+;^+!1::
+;        Run "C:\Users\camper\Documents\bluetooth-toggle.vbs"
+;Return
 
 ^+!2::
         Run "C:\Windows\explorer.exe" "shell:appsFolder\EF712BA7.HDHomeRunDVR_23nna27hyxhag!App"
@@ -44,23 +44,12 @@ Return
     }
 Return
 
-; Why does an ID value change....
 ^+!6::
-    speakerScript =
-    (
-        Get-AudioDevice -List | Where-Object Name -like '*E600i-B3*' | Set-AudioDevice
-    )
-
-    RunWait PowerShell.exe -Command &{%speakerScript%},, hide
+    RunWait PowerShell.exe -Command C:\CampFitch\bin\bluetooth.ps1 -BluetoothStatus Off,, hide
 Return
 
 ^+!7::
-    headphonesScript =
-    (
-        Get-AudioDevice -List | Where-Object Name -like '*Headphones*' | Set-AudioDevice
-    )
-
-    RunWait PowerShell.exe -Command &{%headphonesScript%},, hide
+    RunWait PowerShell.exe -Command C:\CampFitch\bin\bluetooth.ps1 -BluetoothStatus On,, hide
 Return
 
 ^+!r::
