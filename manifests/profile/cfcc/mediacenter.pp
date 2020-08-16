@@ -31,4 +31,9 @@ class profile::cfcc::mediacenter {
         path => "C:/Users/${turbosite::camper_username}/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/SoundKeeper64.exe",
         source => 'puppet:///campfs/SoundKeeper64.exe',
     }
+
+    file { 'wallpaper.jpg':
+        path => "C:/Users/${turbosite::camper_username}/Pictures/wallpaper.jpg",
+        source => 'puppet:///campfs/boston-wallpaper.jpg',
+    }
 }
