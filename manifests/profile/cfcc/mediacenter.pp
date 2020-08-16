@@ -7,6 +7,7 @@ class profile::cfcc::mediacenter {
     package { 'plexmediaplayer': }
     package { 'hdhomerun-view': }
     package { 'setpoint': }
+    package { 'spotify': }
 
     include profile::tool::autohotkey
 
