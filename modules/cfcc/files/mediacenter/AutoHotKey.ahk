@@ -9,7 +9,10 @@ ProcessExist(Name) {
 ; Close the active window. This has an advantage over Alt-F4 because
 ; it won't try to shut down Windows if there is nothing open.
 ^+!1::
+    WinGetTitle, Title, A
+    if (Title != "Program manager") {
         WinKill, A
+    }
 Return
 
 ^+!2::
