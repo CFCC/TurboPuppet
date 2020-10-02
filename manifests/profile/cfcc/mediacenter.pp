@@ -8,9 +8,9 @@ class profile::cfcc::mediacenter {
     package { 'hdhomerun-view': }
     package { 'setpoint': }
     package { 'spotify': }
+    package { 'discord': }
 
     include profile::tool::autohotkey
-
 
     file { 'bluetooth.ps1':
         path => "C:/CampFitch/bin/bluetooth.ps1",
@@ -32,6 +32,7 @@ class profile::cfcc::mediacenter {
         path => "C:/Users/${turbosite::camper_username}/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/SoundKeeper64.exe",
         source => 'puppet:///campfs/SoundKeeper64.exe',
     }
+    # @TODO launch without reboot
 
     file { 'wallpaper.jpg':
         path => "C:/Users/${turbosite::camper_username}/Pictures/wallpaper.jpg",

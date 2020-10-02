@@ -31,7 +31,7 @@ Return
 Return
 
 ^+!4::
-        Run "C:\Program Files (x86)\Kodi\Kodi.exe"
+        Run C:\Users\camper\AppData\Local\Discord\Update.exe --processStart Discord.exe
 Return
 
 ^+!5::
