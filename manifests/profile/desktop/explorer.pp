@@ -113,6 +113,13 @@ class profile::desktop::explorer {
         data   => 0,
     }
 
+    # Disable transparency
+    hkcu { 'MinAnimate':
+        key    => 'Control Panel\Desktop\WindowMetrics',
+        value  => 'MinAnimate',
+        data   => 0,
+    }
+
     # Add an Open with Notepad action to context menu of every file
     registry_key { 'OpenWithNotepadKey':
         path   => 'HKCR\*\shell\Open with Notepad',
