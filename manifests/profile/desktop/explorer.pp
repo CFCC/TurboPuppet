@@ -105,6 +105,14 @@ class profile::desktop::explorer {
         notify => Exec['Reload Explorer']
     }
 
+    # Disable transparency
+    # https://winaero.com/turn-on-or-off-transparency-effects-in-windows-10/
+    hkcu { 'EnableTransparency':
+        key    => 'SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize',
+        value  => 'EnableTransparency',
+        data   => 0,
+    }
+
     # Add an Open with Notepad action to context menu of every file
     registry_key { 'OpenWithNotepadKey':
         path   => 'HKCR\*\shell\Open with Notepad',
