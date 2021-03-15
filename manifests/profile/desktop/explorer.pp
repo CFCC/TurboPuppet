@@ -97,6 +97,14 @@ class profile::desktop::explorer {
         value  => 'OneDrive',
     }
 
+    # Disable MeetNow (#17)
+    registry_value { 'HideSCAMeetNow':
+        path   => 'HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\HideSCAMeetNow',
+        type   => 'dword',
+        data   => 1,
+        notify => Exec['Reload Explorer']
+    }
+
     # Add an Open with Notepad action to context menu of every file
     registry_key { 'OpenWithNotepadKey':
         path   => 'HKCR\*\shell\Open with Notepad',
