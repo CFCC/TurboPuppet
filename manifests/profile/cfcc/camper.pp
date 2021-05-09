@@ -21,7 +21,7 @@ class profile::cfcc::camper {
       include profile::windows::dotnet
 
       # OS-specific System 3rd Party Tools
-      include profile::tool::spacemonger
+      include profile::tool::spacesniffer
       include profile::tool::cpuz
       include profile::tool::procmon
       include profile::tool::gpuz
