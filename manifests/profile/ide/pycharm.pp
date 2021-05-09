@@ -26,24 +26,6 @@ class profile::ide::pycharm {
     }
   }
 
-  # The config dir does not do patch release number
-  $config_version = $pycharm_version[0,6]
-
-  file { 'PycharmConfigRoot':
-    path   => "${turbosite::camper_homedir}/.PyCharmCE${config_version}",
-    ensure => directory,
-    owner  => $::turbosite::camper_username,
-  }
-
-  file { 'PycharmConfig':
-    path    => "${turbosite::camper_homedir}/.PyCharmCE${config_version}/config",
-    ensure  => directory,
-    source  => "puppet:///modules/cfcc/PyCharmCE${config_version}/config",
-    recurse => 'remote',
-    replace => 'no',
-    owner   => $::turbosite::camper_username
-  }
-
   # OS-specific stuff
   # Desktop Shortcut
   case $::operatingsystem {
@@ -57,5 +39,4 @@ class profile::ide::pycharm {
     default: {}
   }
 
-  File['PycharmConfigRoot'] -> File['PycharmConfig']
 }
