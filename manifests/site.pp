@@ -90,7 +90,7 @@ define hkcu (
 
 # AppxPackage Custom Resource
 define appxpackage (
-  String $name,
+  String $package_name = $name,
   Enum['present', 'absent'] $ensure,
 ) {
   case $ensure {
@@ -100,8 +100,8 @@ define appxpackage (
     }
     'absent': {
       exec { "Remove-${name}":
-        command => "Get-AppxPackage \"${name}\" | Remove-AppxPackage",
-        onlyif  => psexpr("(Get-AppxPackage \"${name}\" | Select -ExpandProperty Name) -eq \"${name}\"")
+        command => "Get-AppxPackage \"${package_name}\" | Remove-AppxPackage",
+        onlyif  => psexpr("(Get-AppxPackage \"${package_name}\" | Select -ExpandProperty Name) -eq \"${package_name}\"")
       }
     }
     default: {
