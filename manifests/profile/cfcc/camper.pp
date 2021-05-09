@@ -19,6 +19,7 @@ class profile::cfcc::camper {
       include profile::windows::update
       include profile::windows::wsl
       include profile::windows::dotnet
+      include profile::windows::apps
 
       # OS-specific System 3rd Party Tools
       include profile::tool::spacesniffer

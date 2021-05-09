@@ -86,8 +86,28 @@ define hkcu (
       onlyif  => psexpr("Get-ItemProperty -Path ${formatted_key} -Name ${value}"),
     }
   }
+}
 
-
+# AppxPackage Custom Resource
+define appxpackage (
+  String $name,
+  Enum['present', 'absent'] $ensure,
+) {
+  case $ensure {
+    'present': {
+      # @TODO this.
+      fail("appxpackage present not supported yet")
+    }
+    'absent': {
+      exec { "Remove-${name}":
+        command => "Get-AppxPackage \"${name}\" | Remove-AppxPackage",
+        onlyif  => psexpr("(Get-AppxPackage \"${name}\" | Select -ExpandProperty Name) -eq \"${name}\"")
+      }
+    }
+    default: {
+      fail("Unsupported ensure for appxpackage (got ${ensure})")
+    }
+  }
 }
 
 # This creates a .desktop file for any given app. Pretty simple.
