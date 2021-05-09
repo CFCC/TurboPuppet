@@ -2,7 +2,7 @@
 #
 #
 class profile::windows::wsl {
-  package { 'wsl': } ->
+  package { 'wsl2': } ->
   package { 'wsl-ubuntu-2004': }
 
   # @TODO

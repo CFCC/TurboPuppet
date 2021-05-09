@@ -32,7 +32,6 @@ class profile::cfcc::camper {
 
       # Text editors. We all have opinions on these.
       include profile::editor::notepadplusplus
-      #include profile::editor::atom
 
       # Wumboze Games
       include profile::game::fortnite
