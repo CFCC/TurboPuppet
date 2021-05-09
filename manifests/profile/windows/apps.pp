@@ -23,16 +23,17 @@ class profile::windows::apps {
     'Microsoft.OneConnect',
     'Microsoft.549981C3F5F10', # Cortana. https://www.tomsguide.com/news/how-to-uninstall-cortana
     'Microsoft.WindowsMaps',
+    'Microsoft.windowscommunicationsapps' # Mail and Calendar
 
   ]
   appxpackage { $trash_apps:
     ensure => 'absent'
   }
 
+  # @TODO this didn't take the first time. Might have run too quick? Verify.
   $trash_packages = [
     'Microsoft OneDrive'
   ]
-
   package { $trash_packages:
     ensure => 'absent'
   }
