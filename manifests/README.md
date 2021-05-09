@@ -3,24 +3,35 @@ Manifest Organization
 
 Roles
 -----
+
 ### role::base
+
 Sets up all Puppet resources for a given operating system. Examples:
+
 * Powershell
 * Chocolatey
 
 ### role::camper
+
 Generic camper computer
+
 * Site
 * Master Profile
 * Access
+
 ### role::camper::topic
+
 A specific purpose for a camper machine.
+
 * Topic tools
 
 Profiles
 --------
+
 ### profile::cfcc::camper
+
 Master profile for a particular role.
+
 * OS customizations
 * Software repos
 * System tools
@@ -28,5 +39,7 @@ Master profile for a particular role.
 
 Sites
 ----- 
+
 ### site::cfcc
+
 Settings specifically for the Camp Fitch Tech Focus lab.

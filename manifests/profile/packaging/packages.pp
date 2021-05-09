@@ -11,5 +11,5 @@
 # See also: yumrepos
 #
 class profile::packaging::packages {
-    @package { 'rsync': }
+  @package { 'rsync': }
 }

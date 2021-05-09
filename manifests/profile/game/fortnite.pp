@@ -3,14 +3,14 @@
 # https://github.com/OpenSourceLAN
 #
 class profile::game::fortnite {
-    package { 'epicgameslauncher': }
+  package { 'epicgameslauncher': }
 
-    # See the profile::packages for what the flying saucer here means
-    Package <| name == 'rsync' |>
+  # See the profile::packages for what the flying saucer here means
+  Package <| name == 'rsync' |>
 
-    file { 'fortnite-init':
-        path    => 'C:/CampFitch/bin/fortnite-init.ahk',
-        source  => 'puppet:///modules/cfcc/fortnite/fortnite-init.ahk',
-        require => Class['profile::cfcc::filesystem']
-    }
+  file { 'fortnite-init':
+    path    => 'C:/CampFitch/bin/fortnite-init.ahk',
+    source  => 'puppet:///modules/cfcc/fortnite/fortnite-init.ahk',
+    require => Class['profile::cfcc::filesystem']
+  }
 }

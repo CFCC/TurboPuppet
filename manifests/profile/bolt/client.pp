@@ -2,5 +2,5 @@
 #
 #
 class profile::bolt::client {
-    # @TODO this
+  # @TODO this
 }

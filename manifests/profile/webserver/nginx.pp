@@ -2,5 +2,5 @@
 #
 #
 class profile::webserver::nginx {
-    include ::nginx
+  include ::nginx
 }

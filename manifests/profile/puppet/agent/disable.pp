@@ -3,14 +3,14 @@
 # So we will disable it and deal with it manually.
 #
 class profile::puppet::agent::disable inherits profile::puppet::agent {
-    service { $agent_service:
-        ensure => 'stopped',
-        enable => 'false'
-    }
+  service { $agent_service:
+    ensure => 'stopped',
+    enable => 'false'
+  }
 
-    $run_interval = '100y' # Bogus value to fill the space
-    file { 'PuppetAgentConfig':
-        path    => $agent_config_file,
-        content => template('cfcc/puppet/agent_disabled.conf.erb'),
-    }
+  $run_interval = '100y' # Bogus value to fill the space
+  file { 'PuppetAgentConfig':
+    path    => $agent_config_file,
+    content => template('cfcc/puppet/agent_disabled.conf.erb'),
+  }
 }

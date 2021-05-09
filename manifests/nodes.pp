@@ -27,7 +27,7 @@ node /^cfccmac01/ { include role::camper::generic }
 # Various
 node /^cfcctestvm01/ { include role::camper::generic }
 node /^cfcctestvm02/ { include role::camper::generic }
-node /^cfcctestvm03/ {  include role::camper::test }
+node /^cfcctestvm03/ { include role::camper::test }
 
 ### Server Infrastructure ###
 node /^lancache/ { include role::server::lancache }

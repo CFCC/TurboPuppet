@@ -4,8 +4,8 @@
 # Package resources. This is done for you in role::base.
 #
 class profile::packaging::homebrew {
-    class { 'homebrew':
-        # @TODO turbosite isnt evaluated yet. Gotta refactor role::base and role::camper
-        user => 'camper'
-    }
+  class { 'homebrew':
+    # @TODO turbosite isnt evaluated yet. Gotta refactor role::base and role::camper
+    user => 'camper'
+  }
 }

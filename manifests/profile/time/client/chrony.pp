@@ -2,12 +2,12 @@
 #
 #
 class profile::time::client::chrony {
-    package { 'chrony': }
+  package { 'chrony': }
 
-    service { 'chronyd':
-        enable => true,
-        ensure => running,
-    }
+  service { 'chronyd':
+    enable => true,
+    ensure => running,
+  }
 
-    Package['chrony'] -> Service['chronyd']
+  Package['chrony'] -> Service['chronyd']
 }

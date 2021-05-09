@@ -2,5 +2,5 @@
 # iperf network benchmark
 #
 class profile::tool::iperf {
-    package { 'iperf3': }
+  package { 'iperf3': }
 }

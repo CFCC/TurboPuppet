@@ -2,5 +2,5 @@
 #
 #
 class profile::windows::dotnet {
-    package { 'dotnet3.5': }
+  package { 'dotnet3.5': }
 }

@@ -2,5 +2,5 @@
 # CPU-Z
 #
 class profile::tool::cpuz {
-    package { 'cpu-z': }
+  package { 'cpu-z': }
 }

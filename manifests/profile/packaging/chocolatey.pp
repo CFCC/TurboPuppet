@@ -4,5 +4,5 @@
 # Package resources. This is done for you in role::base.
 #
 class profile::packaging::chocolatey {
-    class { 'chocolatey': }
+  class { 'chocolatey': }
 }
