@@ -30,6 +30,7 @@ class profile::cfcc::camper {
 
       # OS-specific Camper Tools
       include profile::terminal::mobaxterm
+      include profile::browser::edge
 
       # Text editors. We all have opinions on these.
       include profile::editor::notepadplusplus
