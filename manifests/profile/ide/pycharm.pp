@@ -6,9 +6,7 @@ class profile::ide::pycharm {
   # NOTE - version updates with Choco work great. They purge the old one.
   # If you installed Pycharm manually then you can end up with multiple
   # versions.
-
-  # $pycharm_version = '2017.3.4'
-  $pycharm_version = '2019.1.3'
+  $pycharm_version = '2021.1.1'
 
   $package_name = $::operatingsystem ? {
     'windows' => 'PyCharm-community',

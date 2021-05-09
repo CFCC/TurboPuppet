@@ -3,8 +3,7 @@
 #
 class profile::ide::intellij {
   # Lock down the version we actually want.
-  # $intellij_version = '2018.1.1'
-  $intellij_version = '2019.1.3'
+  $intellij_version = '2021.1.1'
 
   $package_name = $::operatingsystem ? {
     'windows' => 'intellijidea-community',
