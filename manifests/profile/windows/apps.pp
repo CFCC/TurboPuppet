@@ -21,9 +21,12 @@ class profile::windows::apps {
     'Microsoft.ZuneVideo',
     'Microsoft.Messaging',
     'Microsoft.OneConnect',
-    'Microsoft.549981C3F5F10', # Cortana. https://www.tomsguide.com/news/how-to-uninstall-cortana
+    # Charlie says removing this causes the start menu search index to stop indexing
+    # and other random issues like that.
+    # 'Microsoft.549981C3F5F10', # Cortana. https://www.tomsguide.com/news/how-to-uninstall-cortana
     'Microsoft.WindowsMaps',
-    'Microsoft.windowscommunicationsapps' # Mail and Calendar
+    'Microsoft.windowscommunicationsapps', # Mail and Calendar
+    'Microsoft.BingWeather'
 
   ]
   appxpackage { $trash_apps:
