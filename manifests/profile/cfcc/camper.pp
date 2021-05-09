@@ -63,6 +63,7 @@ class profile::cfcc::camper {
   include profile::tool::sevenzip
   include profile::tool::virtualbox
   include profile::tool::iperf
+  include profile::tool::vlc
 
   # Games
   include profile::game::quake3
