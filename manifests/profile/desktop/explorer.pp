@@ -144,6 +144,27 @@ class profile::desktop::explorer {
   -> Registry_key['OpenWithNotepadCommandKey']
   -> Registry::Value['OpenWithNotepadCommandValue']
 
+  # Disable web search results in the start menu
+  # https://superuser.com/questions/1196618/how-to-disable-internet-search-results-in-start-menu-post-creators-update/1325836#1325836
+  # Watch out for https://winaero.com/disable-web-search-in-taskbar-in-windows-10-version-2004/
+  hkcu { 'BindSearchEnabled':
+    key   => 'Software\Microsoft\Windows\CurrentVersion\Search',
+    value => 'BingSearchEnabled',
+    data  => 0,
+  }
+
+  hkcu { 'AllowSearchToUseLocation':
+    key   => 'Software\Microsoft\Windows\CurrentVersion\Search',
+    value => 'AllowSearchToUseLocation',
+    data  => 0,
+  }
+
+  hkcu { 'CortanaConsent':
+    key   => 'Software\Microsoft\Windows\CurrentVersion\Search',
+    value => 'CortanaConsent',
+    data  => 0,
+  }
+
   exec { 'Reload Explorer':
     command     => "Stop-Process -ProcessName explorer",
     refreshonly => true,
