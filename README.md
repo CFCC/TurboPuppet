@@ -116,7 +116,7 @@ have to apply any upstream patches to our own repo. Bleh. IMO lets just
 keep it simple and either Forge-ify them or do a simple install or whatever
 in the Profiles.
 
-We do keep one single module here (the cfcc module). It's too small
+We do keep one single module here (the `cfcc` module). It's too small
 to be it's own repo right now so I'll deal with it later.
 
 ### File Serving
@@ -124,4 +124,4 @@ Seeing as referencing files on a NAS is a pain between OS's, a custom Puppet
 HTTP file server is configured in ```fileserver.conf```. This is referenced as
 ```puppet:///campfs/${FILENAME}``` in the code. It's actually a mount on the
 Puppetmaster to an underlying NAS share, but could be anything as long as
-the files are there.
+the files are there. Warning! This is not the same as the `cfcc` module above.

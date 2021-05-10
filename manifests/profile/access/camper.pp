@@ -43,4 +43,5 @@ class profile::access::camper {
   }
 
   include profile::access::autologin::enable
+  include profile::access::usericon
 }
