@@ -2,11 +2,12 @@
 # Tweaks to Explorer.exe
 #
 class profile::desktop::explorer {
+  # Disabling since WIN-X keystroke -> PowerShell works better and it's snowflaky as hell.
   # We want to preserve the "RunAsAdministrator" bit.
   # https://stackoverflow.com/questions/28997799/how-to-create-a-run-as-administrator-shortcut-using-powershell
-  file { 'C:/ProgramData/Microsoft/Windows/Start Menu/Programs/sudo cmd.lnk':
-    source => 'puppet:///modules/cfcc/sudocmd.lnk',
-  }
+  # file { 'C:/ProgramData/Microsoft/Windows/Start Menu/Programs/sudo cmd.lnk':
+  #   source => 'puppet:///modules/cfcc/sudocmd.lnk',
+  # }
 
   # Admin "God Mode" panel. This may be a bad idea.
   # https://www.howtogeek.com/402458/enable-god-mode-in-windows-10/
