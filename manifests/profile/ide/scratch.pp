@@ -13,8 +13,7 @@ class profile::ide::scratch {
         source => 'https://scratch.mit.edu/favicon.ico',
       }
 
-      # Specifying an icon causes this to change every time :(
-      shortcut { 'C:/Users/Public/Desktop/Scratch.lnk':
+      shortcut { 'C:/ProgramData/Microsoft/Windows/Start Menu/Programs/Scratch.lnk':
         icon_location => 'C:\ProgramData\scratch.ico',
         require       => [ Class['profile::browser::chrome'], File['scratch icon'] ],
         target        => 'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe',

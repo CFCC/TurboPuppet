@@ -4,15 +4,15 @@
 class profile::desktop::explorer {
   # We want to preserve the "RunAsAdministrator" bit.
   # https://stackoverflow.com/questions/28997799/how-to-create-a-run-as-administrator-shortcut-using-powershell
-  file { "C:/Users/${turbosite::camper_username}/Desktop/sudo cmd.lnk":
+  file { 'C:/ProgramData/Microsoft/Windows/Start Menu/Programs/sudo cmd.lnk':
     source => 'puppet:///modules/cfcc/sudocmd.lnk',
   }
 
-  # Admin panel. This may be a bad idea.
+  # Admin "God Mode" panel. This may be a bad idea.
   # https://www.howtogeek.com/402458/enable-god-mode-in-windows-10/
-  file { "C:/Users/${turbosite::camper_username}/Desktop/GodMode.{ED7BA470-8E54-465E-825C-99712043E01C}":
-    ensure => directory
-  }
+  # file { "C:/Users/${turbosite::camper_username}/Desktop/GodMode.{ED7BA470-8E54-465E-825C-99712043E01C}":
+  #   ensure => directory
+  # }
 
   # Remove built-in shortcut files that are useless
   $junk_shortcuts = [

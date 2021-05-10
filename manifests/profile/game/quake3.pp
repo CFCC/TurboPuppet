@@ -110,8 +110,7 @@ class profile::game::quake3 {
   # Any last OS-specific stuff
   case $::operatingsystem {
     'windows': {
-      shortcut { 'C:/Users/Public/Desktop/Quake III Arena.lnk':
-        # icon_location => 'C:\ProgramData\scratch.ico',
+      shortcut { 'C:/ProgramData/Microsoft/Windows/Start Menu/Programs/Quake III Arena.lnk':
         target => 'C:\Program Files (x86)\ioquake3\ioquake3.x86.exe'
       }
     }
