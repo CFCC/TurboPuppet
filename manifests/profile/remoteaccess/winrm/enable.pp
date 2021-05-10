@@ -20,8 +20,8 @@ class profile::remoteaccess::winrm::enable {
   windows_firewall::exception { 'Allow-WinRM-SSL':
     ensure       => present,
     direction    => 'in',
-    action       => 'Allow',
-    enabled      => 'yes',
+    action       => 'allow',
+    enabled      =>  true,
     protocol     => 'TCP',
     local_port   => '5986',
     remote_port  => 'any',

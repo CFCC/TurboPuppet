@@ -11,8 +11,8 @@ class profile::firewall::windows {
   windows_firewall::exception { 'Allow-ICMPv4':
     ensure       => present,
     direction    => 'in',
-    action       => 'Allow',
-    enabled      => 'yes',
+    action       => 'allow',
+    enabled      => true,
     protocol     => 'ICMPv4',
     # local_port   => '5985',
     # remote_port  => 'any',

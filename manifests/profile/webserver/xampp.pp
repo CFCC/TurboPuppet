@@ -13,8 +13,8 @@ class profile::webserver::xampp {
   windows_firewall::exception { 'Allow XAMPP HTTP':
     ensure       => present,
     direction    => 'in',
-    action       => 'Allow',
-    enabled      => 'yes',
+    action       => 'allow',
+    enabled      => true,
     protocol     => 'TCP',
     local_port   => '80',
     remote_port  => 'any',
@@ -27,8 +27,8 @@ class profile::webserver::xampp {
   windows_firewall::exception { 'Allow XAMPP HTTPS':
     ensure       => present,
     direction    => 'in',
-    action       => 'Allow',
-    enabled      => 'yes',
+    action       => 'allow',
+    enabled      => true,
     protocol     => 'TCP',
     local_port   => '443',
     remote_port  => 'any',
