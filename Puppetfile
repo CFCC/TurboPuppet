@@ -5,7 +5,9 @@ mod 'puppetlabs-stdlib', '7.0.1'
 mod 'puppetlabs-registry', '4.0.0'
 mod 'puppetlabs-powershell', '5.0.0'
 mod 'puppetlabs-pwshlib', '0.8.0' # https://www.paulreed.ca/?p=284
-mod 'tse-shortcut', '0.1.0'
+mod 'tse-shortcut',
+    :git => 'https://github.com/sseebald/tse-module-shortcut',
+    :branch => 'master'
 mod 'ayohrling-local_security_policy', '0.8.1'
 mod 'cfcc', :local => true
 mod 'puppetlabs-acl', '4.0.0'
