@@ -166,6 +166,13 @@ class profile::desktop::explorer {
     data  => 0,
   }
 
+  # https://www.windowscentral.com/how-disable-recent-files-and-locations-jump-lists-windows-10
+  hkcu { 'Start_TrackDocs':
+    key   => 'Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced',
+    value => 'Start_TrackDocs',
+    data  => 0,
+  }
+
   exec { 'Reload Explorer':
     command     => "Stop-Process -ProcessName explorer",
     refreshonly => true,
