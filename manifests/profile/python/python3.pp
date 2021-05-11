@@ -15,10 +15,10 @@ class profile::python::python3 {
       # work until you reboot. I subbed in a command => 'foobarlolz'
       # and it still ran successfully. What's up with that eh?
       exec { 'InstallPygame':
-        path      => 'C:/Python37/Scripts',
+        path      => 'C:/Python39/Scripts',
         command   => 'pip3.exe install pygame',
         subscribe => Package['python3'],
-        creates   => 'C:/Python37/Lib/site-packages/pygame',
+        creates   => 'C:/Python39/Lib/site-packages/pygame',
         provider  => 'windows'
       }
 
