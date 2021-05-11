@@ -26,6 +26,9 @@ class profile::desktop::explorer {
   Hkcu {
     notify => Exec['Reload Explorer']
   }
+  Registry_key {
+    notify => Exec['Reload Explorer']
+  }
 
   # Show file extensions
   hkcu { 'ShowFileExtensions':
@@ -118,12 +121,10 @@ class profile::desktop::explorer {
   registry_key { 'OpenWithNotepadKey':
     path   => 'HKCR\*\shell\Open with Notepad',
     ensure => present,
-    notify => Exec['Reload Explorer']
   }
   registry_key { 'OpenWithNotepadCommandKey':
     path   => 'HKCR\*\shell\Open with Notepad\command',
     ensure => present,
-    notify => Exec['Reload Explorer']
   }
   registry::value { 'OpenWithNotepadCommandValue':
     key    => 'HKCR\*\shell\Open with Notepad\command',
@@ -171,6 +172,24 @@ class profile::desktop::explorer {
     key   => 'Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced',
     value => 'Start_TrackDocs',
     data  => 0,
+  }
+
+  # https://www.howtogeek.com/331361/how-to-remove-the-3d-objects-folder-from-this-pc-on-windows-10/
+  # https://superuser.com/questions/949218/how-to-customize-windows-10-6-folders-in-my-computer
+  $namespace_uuids = [
+    '0DB7E03F-FC29-4DC6-9020-FF41B59E513A', # 3D Objects
+    '3dfdf296-dbec-4fb4-81d1-6a3438bcf4de', # Music
+    'f86fa3ab-70d2-4fc7-9c99-fcbf05467f3a', # Videos
+  ]
+  $namespace_uuids.each |$namespace_uuid| {
+    registry_key { "Microsoft-${namespace_uuid}":
+      path   => "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{${namespace_uuid}}",
+      ensure => absent,
+    }
+    registry_key { "Wow64-${namespace_uuid}":
+      path   => "HKLM\\SOFTWARE\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{${namespace_uuid}}",
+      ensure => absent,
+    }
   }
 
   exec { 'Reload Explorer':
