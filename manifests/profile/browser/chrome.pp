@@ -10,17 +10,13 @@ class profile::browser::chrome {
     default   => fail('Unsupported OS')
   }
 
-  package { $package_name: }
-
-  # Desktop Shortcut
-  case $::operatingsystem {
-    'Fedora': {
-      file { "${turbosite::camper_homedir}/Desktop/google-chrome.desktop":
-        source => 'file:///usr/share/applications/google-chrome.desktop',
-        mode   => '0755',
-        owner  => $turbosite::camper_username
-      }
-    }
-    default: {}
+  $package_notify = $::kernel ? {
+    'windows' => Exec['CleanupDesktopShortcuts'],
+    default   => undef,
   }
+
+  package { $package_name:
+    notify => $package_notify,
+  }
+
 }

@@ -2,11 +2,9 @@
 # MobaXterm
 #
 class profile::terminal::mobaxterm {
-  $package_name = $::operatingsystem ? {
-    'windows' => 'mobaxterm',
-    default   => fail('Unsupported OS')
+  package { 'mobaxterm':
+    notify => Exec['CleanupDesktopShortcuts']
   }
-  package { $package_name: }
 
   file { 'MobaXtermConfigDir':
     path   => "C:/Users/${turbosite::camper_username}/Documents/MobaXterm/",

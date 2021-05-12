@@ -12,25 +12,18 @@ class profile::ide::intellij {
     default   => fail('Unsupported OS')
   }
 
+  $package_notify = $::kernel ? {
+    'windows' => Exec['CleanupDesktopShortcuts'],
+    default   => undef,
+  }
+
   # Like Pycharm, Brew doesnt support ensure => version.
   package { $package_name:
     ensure => $::operatingsystem ? {
       'Darwin' => present,
       default  => $intellij_version
-    }
-  }
-
-  # OS-specific stuff
-  case $::operatingsystem {
-    'Fedora': {
-      # Desktop Shortcut
-      file { "${turbosite::camper_homedir}/Desktop/intellij-idea-community.desktop":
-        source => 'file:///usr/share/applications/intellij-idea-community.desktop',
-        mode   => '0755',
-        owner  => $turbosite::camper_username
-      }
-    }
-    default: {}
+    },
+    notify => $package_notify
   }
 
   # @TODO maybe figure out a way to auto-detect the installed JDK so that we don't have to set it manually.

@@ -15,7 +15,14 @@ class profile::tool::virtualbox {
     default   => fail('Unsupported OS')
   }
 
-  package { $package_name: }
+  $package_notify = $::kernel ? {
+    'windows' => Exec['CleanupDesktopShortcuts'],
+    default   => undef,
+  }
+
+  package { $package_name:
+    notify => $package_notify
+  }
 
   # Guest Additions
   # Amazing that Windows does this for us.
@@ -23,13 +30,6 @@ class profile::tool::virtualbox {
   case $::operatingsystem {
     'Darwin': {
       package { 'virtualbox-extension-pack': }
-    }
-    'Fedora': {
-      file { "${turbosite::camper_homedir}/Desktop/virtualbox.desktop":
-        source => 'file:///usr/share/applications/virtualbox.desktop',
-        mode   => '0755',
-        owner  => $turbosite::camper_username
-      }
     }
     default: {}
   }

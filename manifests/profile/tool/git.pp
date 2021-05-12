@@ -7,13 +7,21 @@ class profile::tool::git {
   case $::operatingsystem {
     'windows': {
       package { 'github-desktop':
-        notify => Exec['kill github-desktop app']
+        notify => [Exec['kill github-desktop app'], Exec['CleanupGithubDesktopShortcut']]
       }
 
       # Github Desktop assumes that you instantly want to log in
       # when you install. We don't. Go away.
       exec { 'kill github-desktop app':
         command     => 'Sleep 15; Stop-Process -ProcessName GithubDesktop',
+        refreshonly => true
+      }
+
+      # Delete the desktop shortcut that it creates. Can't use my common Exec[CleanupDesktopShortcut]
+      # because this gets created in the user's desktop dir not the public desktop dir. Refreshonly
+      # so that it only applies if the package has changed.
+      exec { 'CleanupGithubDesktopShortcut':
+        command     => "Remove-Item -Path 'C:/Users/${turbosite::camper_username}/Desktop/Github Desktop.lnk'",
         refreshonly => true
       }
     }

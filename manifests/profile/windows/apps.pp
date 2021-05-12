@@ -40,4 +40,10 @@ class profile::windows::apps {
   package { $trash_packages:
     ensure => 'absent'
   }
+
+  # @TODO gonna need this for other platforms.
+  exec { 'CleanupDesktopShortcuts':
+    command     => "Get-ChildItem -Path 'C:\Users\Public\Desktop' -Filter '*.lnk' | Remove-Item",
+    refreshonly => true,
+  }
 }

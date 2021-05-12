@@ -2,5 +2,7 @@
 # VideoLAN Media Player VLC
 #
 class profile::tool::vlc {
-  package { 'vlc': }
+  package { 'vlc':
+    notify => Exec['CleanupDesktopShortcuts']
+  }
 }

@@ -6,23 +6,21 @@ class profile::game::steam {
     default => 'steam'
   }
 
-  package { $package_name: }
+  $package_notify = $::kernel ? {
+    'windows' => Exec['CleanupDesktopShortcuts'],
+    default   => undef,
+  }
+
+  package { $package_name:
+    notify => $package_notify
+  }
 
   case $::operatingsystem {
     'windows': {
-      # Disable autostart
-      hkcu { 'SteamAutostart':
+      hkcu { 'DisableSteamAutostart':
         ensure => absent,
         key    => 'Software\Microsoft\Windows\CurrentVersion\Run',
         value  => 'Steam',
-      }
-    }
-    # Desktop Shortcut
-    'Fedora': {
-      file { "${turbosite::camper_homedir}/Desktop/steam.desktop":
-        source => 'file:///usr/share/applications/steam.desktop',
-        mode   => '0755',
-        owner  => $turbosite::camper_username
       }
     }
     default: {}

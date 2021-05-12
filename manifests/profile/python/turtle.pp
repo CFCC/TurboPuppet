@@ -17,6 +17,7 @@ class profile::python::turtle {
       package { 'PythonTurtle 0.1':
         provider => windows,
         source   => 'C:/CampFitch/usr/share/PyTurtle.msi',
+        notify   => Exec['CleanupDesktopShortcuts']
       }
       # Articles on The Internet(tm) suggest that deleting %LOCALAPPDATA%\IconCache.db
       # and restarting explorer should fix this. And it did on one of the hosts.

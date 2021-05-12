@@ -3,7 +3,9 @@
 # https://github.com/OpenSourceLAN
 #
 class profile::game::fortnite {
-  package { 'epicgameslauncher': }
+  package { 'epicgameslauncher':
+    notify => Exec['CleanupDesktopShortcuts']
+  }
 
   # See the profile::packages for what the flying saucer here means
   Package <| name == 'rsync' |>
