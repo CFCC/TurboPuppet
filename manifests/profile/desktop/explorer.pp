@@ -192,6 +192,14 @@ class profile::desktop::explorer {
     }
   }
 
+  # This is being recorded for documentation purposes.
+  # https://www.virtualbox.org/ticket/19365
+  # hkcu { 'DisableTransparency':
+  #   key   => 'SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize',
+  #   value => 'EnableTransparency',
+  #   data  => 0,
+  # }
+
   exec { 'Reload Explorer':
     command     => "Stop-Process -ProcessName explorer",
     refreshonly => true,
