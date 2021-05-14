@@ -20,26 +20,26 @@ class profile::power::alwayson::windows {
   $guid_setting_displaysleep = '3c0bc021-c8a8-4e07-a973-6b14cbcb2b7e'
   $display_sleep_interval = 0
 
-  $cmd_get_displaysleep_setting = "powercfg /Q ${guid_power_plan} ${guid_subgroup_display} ${guid_setting_displaysleep}
-     | Select-String 'Current AC Power' | select -exp 'line'"
+  # @formatter:off
+  $cmd_get_displaysleep_setting = "powercfg /Q ${guid_power_plan} ${guid_subgroup_display} ${guid_setting_displaysleep} | Select-String 'Current AC Power' | select -exp 'line'"
   exec { 'SetDisplaySleep':
-    command => "powercfg /SETACVALUEINDEX ${guid_power_plan} ${guid_subgroup_display} ${guid_setting_displaysleep} ${display_sleep_interval}
-      ",
+    command => "powercfg /SETACVALUEINDEX ${guid_power_plan} ${guid_subgroup_display} ${guid_setting_displaysleep} ${display_sleep_interval}",
     onlyif  => psexpr("[int](${cmd_get_displaysleep_setting}).split()[-1] -ne ${display_sleep_interval}")
   }
+  # @formatter:on
 
   # Make the system never sleep
   $guid_subgroup_sleep = '238c9fa8-0aad-41ed-83f4-97be242c8f20'
   $guid_setting_sleepafter = '29f6c1db-86da-48c5-9fdb-f2b67b1f44da'
   $system_sleep_interval = 0
 
-  $cmd_get_systemsleep_setting = "powercfg /Q ${guid_power_plan} ${guid_subgroup_sleep} ${guid_setting_sleepafter}
-     | Select-String 'Current AC Power' | select -exp 'line'"
-
+  # @formatter:off
+  $cmd_get_systemsleep_setting = "powercfg /Q ${guid_power_plan} ${guid_subgroup_sleep} ${guid_setting_sleepafter} | Select-String 'Current AC Power' | select -exp 'line'"
   exec { 'SetSystemSleep':
     command => "powercfg /SETACVALUEINDEX ${guid_power_plan} ${guid_subgroup_sleep} ${guid_setting_sleepafter} ${system_sleep_interval}",
     onlyif  => psexpr("[int](${cmd_get_systemsleep_setting}).split()[-1] -ne ${system_sleep_interval}")
   }
+  # @formatter:on
 
   # Also disable hibernation
   # http://www.powertheshell.com/test-path-ignores-hidden-files/
@@ -51,6 +51,24 @@ class profile::power::alwayson::windows {
     onlyif  => psexpr("[System.IO.Directory]::EnumerateFiles('C:\\') -contains ('C:\\hiberfil.sys')")
   }
 
-  Exec['SetPowerPlan'] -> Exec['SetDisplaySleep'] -> Exec['SetSystemSleep'] -> Exec['DisableHibernation']
+  # Don't require a password after wake
+  # Jezus lord I don't want to talk about how long it took to find all of this.
+  # https://www.tenforums.com/tutorials/11129-turn-off-require-sign-wakeup-windows-10-a.html
+  # https://docs.microsoft.com/en-us/windows-hardware/customize/power-settings/no-subgroup-settings-prompt-for-password-on-resume
+  # I'm not sure I can just blindly set the registry value, which is why this is an Exec
+  # instead of a Registry_value resource.
+  # @formatter:off
+  $cmd_get_consolelock_setting = "[int](Get-ItemProperty -Path \"HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Power\\User\\PowerSchemes\\${guid_power_plan}\\0e796bdb-100d-47d6-a2d5-f7d2daa51f51\" -Name 'ACSettingIndex' | Select -ExpandProperty 'ACSettingIndex') -ne 0"
+  exec { 'DisableWakePassword':
+    command => "powercfg /SETACVALUEINDEX ${guid_power_plan} SUB_NONE CONSOLELOCK 0",
+    onlyif  => psexpr("${cmd_get_consolelock_setting}"),
+    require => Exec['SetPowerPlan'],
+  }
+  # @formatter:on
+
+  Exec['SetPowerPlan']
+  -> Exec['SetDisplaySleep']
+  -> Exec['SetSystemSleep']
+  -> Exec['DisableHibernation']
 }
 
