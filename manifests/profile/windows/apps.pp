@@ -43,7 +43,7 @@ class profile::windows::apps {
   # @TODO gonna need this for other platforms.
   # This can take a moment when running single packages.
   exec { 'CleanupDesktopShortcuts':
-    command     => "Sleep 5; Get-ChildItem -Path 'C:\Users\Public\Desktop' -Filter '*.lnk' | Remove-Item",
+    command     => "Sleep 15; Get-ChildItem -Path 'C:\Users\Public\Desktop' -Filter '*.lnk' | Remove-Item",
     refreshonly => true,
   }
 }
