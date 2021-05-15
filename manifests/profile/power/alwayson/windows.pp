@@ -57,11 +57,16 @@ class profile::power::alwayson::windows {
   # https://docs.microsoft.com/en-us/windows-hardware/customize/power-settings/no-subgroup-settings-prompt-for-password-on-resume
   # I'm not sure I can just blindly set the registry value, which is why this is an Exec
   # instead of a Registry_value resource.
+  # The onlyif triggers the command only when all onlyif's return 0 (or in PowerShell, True).
+  # Hence the inverting of Test-Path so that it returns False if it exists thus negating the command.
   # @formatter:off
-  $cmd_get_consolelock_setting = "[int](Get-ItemProperty -Path \"HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Power\\User\\PowerSchemes\\${guid_power_plan}\\0e796bdb-100d-47d6-a2d5-f7d2daa51f51\" -Name 'ACSettingIndex' | Select -ExpandProperty 'ACSettingIndex') -ne 0"
+  $consolelock_registry_path = "HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Power\\User\\PowerSchemes\\${guid_power_plan}\\0e796bdb-100d-47d6-a2d5-f7d2daa51f51"
   exec { 'DisableWakePassword':
     command => "powercfg /SETACVALUEINDEX ${guid_power_plan} SUB_NONE CONSOLELOCK 0",
-    onlyif  => psexpr("${cmd_get_consolelock_setting}"),
+    onlyif => [
+      psexpr("!(Test-Path -Path '${consolelock_registry_path}')"),
+      psexpr("[int](Get-ItemProperty -Path '${consolelock_registry_path}' -Name 'ACSettingIndex' | Select -ExpandProperty 'ACSettingIndex') -eq 0"),
+    ],
     require => Exec['SetPowerPlan'],
   }
   # @formatter:on
