@@ -16,6 +16,12 @@ class profile::desktop::explorer {
   Registry_key {
     notify => Exec['Reload Explorer']
   }
+  Registry::Value {
+    notify => Exec['Reload Explorer']
+  }
+  Registry_value {
+    notify => Exec['Reload Explorer']
+  }
 
   # Show file extensions
   hkcu { 'ShowFileExtensions':
@@ -90,10 +96,9 @@ class profile::desktop::explorer {
 
   # Disable MeetNow (#17)
   registry_value { 'HideSCAMeetNow':
-    path   => 'HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\HideSCAMeetNow',
-    type   => 'dword',
-    data   => 1,
-    notify => Exec['Reload Explorer']
+    path => 'HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer\HideSCAMeetNow',
+    type => 'dword',
+    data => 1,
   }
 
   # Disable transparency
@@ -114,19 +119,17 @@ class profile::desktop::explorer {
     ensure => present,
   }
   registry::value { 'OpenWithNotepadCommandValue':
-    key    => 'HKCR\*\shell\Open with Notepad\command',
-    value  => '(default)',
-    data   => 'notepad.exe %1',
-    notify => Exec['Reload Explorer']
+    key   => 'HKCR\*\shell\Open with Notepad\command',
+    value => '(default)',
+    data  => 'notepad.exe %1',
   }
 
   # Disable re-opening programs after reboot
   # https://superuser.com/questions/1229963/windows-10-disable-reopening-programs-after-restart-startup
   registry_value { 'DisableAutomaticRestartSignOn':
-    path   => 'HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System\DisableAutomaticRestartSignOn',
-    type   => 'dword',
-    data   => 1,
-    notify => Exec['Reload Explorer'],
+    path => 'HKLM\Software\Microsoft\Windows\CurrentVersion\Policies\System\DisableAutomaticRestartSignOn',
+    type => 'dword',
+    data => 1,
   }
 
   Registry_key['OpenWithNotepadKey']
@@ -186,6 +189,26 @@ class profile::desktop::explorer {
   #   value => 'EnableTransparency',
   #   data  => 0,
   # }
+
+  # Disable Cortana Things
+  # https://winaero.com/hide-cortana-button-taskbar-windows-10/
+  hkcu { 'ShowCortanaButton':
+    key   => 'Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced',
+    value => 'ShowCortanaButton',
+    data  => 0,
+  }
+
+  # https://www.laptopmag.com/articles/turn-cortana-windows-10
+  registry_key { 'WindowsSearch':
+    path   => 'HKLM\SOFTWARE\Policies\Microsoft\Windows\Windows Search',
+    ensure => present,
+  }
+  registry_value { 'AllowCortana':
+    path    => 'HKLM\SOFTWARE\Policies\Microsoft\Windows\Windows Search\AllowCortana',
+    type    => 'dword',
+    data    => 0,
+    require => Registry_key['WindowsSearch'],
+  }
 
   exec { 'Reload Explorer':
     command     => "Stop-Process -ProcessName explorer",
