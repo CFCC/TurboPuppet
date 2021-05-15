@@ -11,7 +11,7 @@ class profile::browser::chrome {
   }
 
   $package_notify = $::kernel ? {
-    'windows' => Exec['CleanupChromeDesktopShortcut'],
+    'windows' => [ Exec['CleanupChromeDesktopShortcut'], Exec['CleanupDesktopShortcuts'] ],
     default   => undef,
   }
 
