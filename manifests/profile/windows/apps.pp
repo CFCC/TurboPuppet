@@ -33,7 +33,6 @@ class profile::windows::apps {
     ensure => 'absent'
   }
 
-  # @TODO this didn't take the first time. Might have run too quick? Verify.
   $trash_packages = [
     'Microsoft OneDrive'
   ]
@@ -42,8 +41,9 @@ class profile::windows::apps {
   }
 
   # @TODO gonna need this for other platforms.
+  # This can take a moment when running single packages.
   exec { 'CleanupDesktopShortcuts':
-    command     => "Get-ChildItem -Path 'C:\Users\Public\Desktop' -Filter '*.lnk' | Remove-Item",
+    command     => "Sleep 5; Get-ChildItem -Path 'C:\Users\Public\Desktop' -Filter '*.lnk' | Remove-Item",
     refreshonly => true,
   }
 }
