@@ -5,7 +5,7 @@ someday be used to do automatic camper PC deployment and more!
 
 Supported Platforms
 -------------------
-* Clients: Windows 10, Fedora 28\*, MacOS\*
+* Clients: Windows 10, Fedora 34\*, MacOS\*
 * Servers: CentOS 7
 
 \*=Not fully or even partially baked
