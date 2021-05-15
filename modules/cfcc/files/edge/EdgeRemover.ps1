@@ -1,0 +1,2 @@
+#!/usr/bin/env powershell
+& "$(Get-ChildItem -Path 'C:\Program Files (x86)\Microsoft\Edge\Application' -Recurse -Filter setup.exe | select -ExpandProperty Directory | % { $_.FullName })\Setup.exe" -uninstall -system-level -verbose-logging -force-uninstall
