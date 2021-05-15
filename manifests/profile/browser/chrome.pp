@@ -11,12 +11,17 @@ class profile::browser::chrome {
   }
 
   $package_notify = $::kernel ? {
-    'windows' => Exec['CleanupDesktopShortcuts'],
+    'windows' => Exec['CleanupChromeDesktopShortcut'],
     default   => undef,
   }
 
   package { $package_name:
     notify => $package_notify,
+  }
+
+  exec { 'CleanupChromeDesktopShortcut':
+    command     => "Remove-Item -Path 'C:/Users/${turbosite::camper_username}/Desktop/Google Chrome.lnk'",
+    refreshonly => true
   }
 
 }
