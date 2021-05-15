@@ -39,10 +39,10 @@ class profile::desktop::explorer {
 
   # Remove search bar
   # https://www.askvg.com/how-to-remove-search-and-task-view-icons-from-windows-10-taskbar/
-  hkcu { 'RemoveSearchBox':
+  hkcu { 'SearchboxTaskbarMode':
     key   => 'Software\Microsoft\Windows\CurrentVersion\Search',
     value => 'SearchboxTaskbarMode',
-    data  => 0,
+    data  => 1,
   }
 
   # Remove taskbview button
