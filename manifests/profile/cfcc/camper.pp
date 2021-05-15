@@ -17,7 +17,7 @@ class profile::cfcc::camper {
       include profile::firewall::windows
       include profile::windows::xbox::disable
       include profile::windows::update
-      include profile::windows::wsl
+      # include profile::windows::wsl
       include profile::windows::dotnet
       include profile::windows::apps
 
@@ -67,7 +67,7 @@ class profile::cfcc::camper {
   include profile::tool::vlc
 
   # Games
-  include profile::game::quake3
+  # include profile::game::quake3
   include profile::game::steam
   include profile::game::minecraft
 }
