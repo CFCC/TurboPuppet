@@ -12,7 +12,7 @@ class profile::packaging::chocolatey {
   # some security implications it seems to get the job done.
   exec { 'DisableConfirmation':
     command => 'C:\ProgramData\chocolatey\choco.exe feature enable -n allowGlobalConfirmation',
-    onlyif  => psexpr("(C:\\ProgramData\\chocolatey\\choco.exe feature list | Select-String -Pattern 'allowGlobalConfirmation') -Match \"[ ]\""),
+    onlyif  => psexpr("(C:\\ProgramData\\chocolatey\\choco.exe feature list | Select-String -Pattern 'allowGlobalConfirmation') -Match \"\\[ \\]\""),
     require => Class['chocolatey']
   }
 }
