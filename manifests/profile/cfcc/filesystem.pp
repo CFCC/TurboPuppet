@@ -20,15 +20,18 @@ class profile::cfcc::filesystem {
 
   file { $fs_root: }
 
-  $subdirs = ['bin', 'etc', 'usr', 'usr/share']
+  # A reminder of general UNIX philosophy:
+  # * /bin: Binary programs
+  # * /etc: Configuration
+  # * /usr: Misc
+  # * /usr/share: Docs, installers, support content
+  # * /opt: Custom user programs
+  $subdirs = ['bin', 'etc', 'usr', 'usr/share', 'opt']
   $subdirs.each |String $subdir| {
     file { "${fs_root}/${subdir}":
       require => File[$fs_root]
     }
   }
-  # file { ["${fs_root}/bin", "${fs_root}/etc", "${fs_root}"]:
-  #     require => File[$fs_root]
-  # }
 
   $buildinfo_path = "${fs_root}/etc/buildinfo.txt"
   exec { 'LogInitialBuild':

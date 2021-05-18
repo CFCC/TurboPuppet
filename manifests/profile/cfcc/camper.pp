@@ -68,7 +68,7 @@ class profile::cfcc::camper {
   include profile::tool::vlc
 
   # Games
-  # include profile::game::quake3
+  include profile::game::quake3
   include profile::game::steam
   include profile::game::minecraft
 }
