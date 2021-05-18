@@ -54,6 +54,7 @@ class profile::cfcc::camper {
   include profile::mdns::client
   include profile::cfcc::filesystem
   include profile::power::alwayson
+  include profile::remoteaccess::vnc::enable
 
   # Camper & System Tools
   include profile::browser::chrome
