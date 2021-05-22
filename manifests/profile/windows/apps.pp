@@ -37,7 +37,8 @@ class profile::windows::apps {
     'Microsoft OneDrive'
   ]
   package { $trash_packages:
-    ensure => 'absent'
+    ensure   => 'absent',
+    provider => 'windows'
   }
 
   # @TODO gonna need this for other platforms.
