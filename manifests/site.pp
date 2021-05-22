@@ -74,16 +74,16 @@ define hkcu (
     }
 
     exec { "Set-${name}":
-      command => "Set-ItemProperty -Path ${formatted_key} -Name ${value} ${data}",
-      onlyif  => psexpr("(Get-ItemProperty -Path ${formatted_key} -Name ${value} | Select -ExpandProperty ${value}) -ne ${data}"),
+      command => "Set-ItemProperty -Path ${formatted_key} -Name \"${value}\" ${data}",
+      onlyif  => psexpr("(Get-ItemProperty -Path ${formatted_key} -Name \"${value}\" | Select -ExpandProperty \"${value}\") -ne ${data}"),
     }
 
     Exec["Create-${name}"] -> Exec["Set-${name}"]
   }
   else {
     exec { "Remove-${name}":
-      command => "Remove-ItemProperty -Path ${formatted_key} -Name ${value}",
-      onlyif  => psexpr("Get-ItemProperty -Path ${formatted_key} -Name ${value}"),
+      command => "Remove-ItemProperty -Path ${formatted_key} -Name \"${value}\"",
+      onlyif  => psexpr("Get-ItemProperty -Path ${formatted_key} -Name \"${value}\""),
     }
   }
 }
@@ -169,4 +169,16 @@ define dconf::setting (
     ],
     user        => $user,
   }
+}
+
+# This is a convenience resource for dealing with Explorer Namespaces, which appears
+# to be the term it uses for the major headings either in My Computer or on the Desktop.
+# It's a pair of registry_key's but it can be obnoxious to always have to drop all of
+# them.
+define explorer_namespace_key (
+  Enum['absent'] $ensure,
+  String $uuid,
+  Enum['MyComputer', 'Desktop'] $location,
+) {
+  # @TODO someday
 }

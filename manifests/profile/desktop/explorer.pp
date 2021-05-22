@@ -182,6 +182,28 @@ class profile::desktop::explorer {
     }
   }
 
+  # Hide the Recycle Bin icon from the Desktop
+  # https://www.computerhope.com/issues/ch001276.htm
+  # $desktop_namespace_uuid = '645FF040-5081-101B-9F08-00AA002F954E'
+  # These didn't work! Leaving for documentation just in case.
+  # registry_key { "DesktopRecycleBinNamespaceKey":
+  #   path   => "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Desktop\\NameSpace\\{${desktop_namespace_uuid}}",
+  #   ensure => absent,
+  # }
+  # registry_key { "Wow64-DesktopRecycleBinNamespaceKey":
+  #   path   => "HKLM\\SOFTWARE\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Explorer\\Desktop\\NameSpace\\{${desktop_namespace_uuid}}",
+  #   ensure => absent,
+  # }
+  #
+  # https://answers.microsoft.com/en-us/windows/forum/windows_10-files-winpc/recycle-bin-missing-in-win-10/8b34228e-a7b1-409b-8f31-31eedfc9c125
+  # But this did!
+  hkcu { 'HideRecycleBinDesktopIcon':
+    key   => 'Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel',
+    value => '{645FF040-5081-101B-9F08-00AA002F954E}',
+    data  => 1,
+  }
+
+
   # This is being recorded for documentation purposes.
   # https://www.virtualbox.org/ticket/19365
   # hkcu { 'DisableTransparency':
