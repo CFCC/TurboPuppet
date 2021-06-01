@@ -75,7 +75,7 @@ define hkcu (
 
     exec { "Set-${name}":
       command => "Set-ItemProperty -Path ${formatted_key} -Name \"${value}\" ${data}",
-      onlyif  => psexpr("(Get-ItemProperty -Path ${formatted_key} -Name \"${value}\" | Select -ExpandProperty \"${value}\") -ne ${data}"),
+      onlyif  => psexpr("(Get-ItemProperty -Path ${formatted_key} -Name \"${value}\" | Select -ExpandProperty \"${value}\") -ne \"${data}\""),
     }
 
     Exec["Create-${name}"] -> Exec["Set-${name}"]
