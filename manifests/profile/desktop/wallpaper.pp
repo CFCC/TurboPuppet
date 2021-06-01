@@ -14,19 +14,20 @@ class profile::desktop::wallpaper {
   # Set a default only if one has never been set before.
   case $::kernel {
     'windows': {
-      # https://www.windowscentral.com/how-restrict-users-changing-desktop-background-windows-10
-      hkcu { 'Wallpaper':
-        key    => 'Software\Microsoft\Windows\CurrentVersion\Policies\System',
-        value  => 'Wallpaper',
-        data   => 'C:\CampFitch\usr\share\wallpaper\bliss.jpg',
-        notify => Exec['Reload Explorer']
-      }
-      hkcu { 'WallpaperStyle':
-        key    => 'Software\Microsoft\Windows\CurrentVersion\Policies\System',
-        value  => 'WallpaperStyle',
-        data   => 4, # fill
-        notify => Exec['Reload Explorer']
-      }
+      # @TODO this prevents users from changing the wallpaper. No bueno.
+      # # https://www.windowscentral.com/how-restrict-users-changing-desktop-background-windows-10
+      # hkcu { 'Wallpaper':
+      #   key    => 'Software\Microsoft\Windows\CurrentVersion\Policies\System',
+      #   value  => 'Wallpaper',
+      #   data   => 'C:\CampFitch\usr\share\wallpaper\bliss.jpg',
+      #   notify => Exec['Reload Explorer']
+      # }
+      # hkcu { 'WallpaperStyle':
+      #   key    => 'Software\Microsoft\Windows\CurrentVersion\Policies\System',
+      #   value  => 'WallpaperStyle',
+      #   data   => 4, # fill
+      #   notify => Exec['Reload Explorer']
+      # }
     }
     'Linux': {}
   }
