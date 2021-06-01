@@ -33,6 +33,9 @@ class profile::windows::apps {
     ensure => 'absent'
   }
 
+  # This might need to get broken into multiple lists due to the package provider.
+  # Ignoring the provider seemed to do nothing because I suspect that defaults to
+  # chocolatey and there is no choco package called 'Microsoft OneDrive' installed.
   $trash_packages = [
     'Microsoft OneDrive'
   ]
