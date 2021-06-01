@@ -18,7 +18,7 @@ class profile::desktop::wallpaper {
       hkcu { 'Wallpaper':
         key    => 'Software\Microsoft\Windows\CurrentVersion\Policies\System',
         value  => 'Wallpaper',
-        data   => "C:/CampFitch/usr/share/wallpaper/bliss.jpg",
+        data   => 'C:\CampFitch\usr\share\wallpaper\bliss.jpg',
         notify => Exec['Reload Explorer']
       }
       hkcu { 'WallpaperStyle':
