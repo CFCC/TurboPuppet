@@ -55,6 +55,7 @@ class profile::cfcc::camper {
   include profile::cfcc::filesystem
   include profile::power::alwayson
   include profile::remoteaccess::vnc::enable
+  include profile::desktop::wallpaper
 
   # Camper & System Tools
   include profile::browser::chrome

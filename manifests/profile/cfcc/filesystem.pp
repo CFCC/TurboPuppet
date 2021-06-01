@@ -43,13 +43,4 @@ class profile::cfcc::filesystem {
     require => File["${fs_root}/etc"]
   }
 
-  # Wallpaper
-  file { "${fs_root}/usr/share/wallpaper":
-    ensure  => 'directory',
-    source  => 'puppet:///campfs/Wallpaper',
-    recurse => 'remote',
-    purge   => false,
-    replace => false,
-  }
-
 }
