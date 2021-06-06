@@ -1,0 +1,10 @@
+{
+  "distribution": {
+    "msi": true,
+    "system_level": true,
+    "verbose_logging": true,
+    "msi_product_id": "B6E20433-9CA8-39D7-93CD-7191D79C0A6C",
+    "allow_downgrade": false,
+    "do_not_create_any_shortcuts": true
+  }
+}
