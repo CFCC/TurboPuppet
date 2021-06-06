@@ -13,7 +13,7 @@ class profile::browser::edge {
   file { 'EdgeRemover':
     path   => "C:/CampFitch/bin/EdgeRemover.ps1",
     owner  => $turbosite::camper_username,
-    source => 'puppet:///modules/cfcc/edge/EdgeRemover.ps1'
+    source => 'puppet:///modules/cfcc/windows/EdgeRemover.ps1'
   }
 
   exec { 'UninstallEdge':

@@ -59,7 +59,8 @@ define hkcu (
   $key,
   $value,
   $data   = undef,
-  $ensure = present
+  $ensure = present,
+  $onlyif = undef,
 ) {
   $formatted_key = "HKCU:${key}"
 
@@ -73,9 +74,16 @@ define hkcu (
       unless  => psexpr("Test-Path -Path ${formatted_key}")
     }
 
+    # This allows a custom value setting condition (such as if a particular value is set)
+    # rather than the default of if the value is the intended value.
+    $onlyif_real = $onlyif ? {
+      undef => psexpr("(Get-ItemProperty -Path ${formatted_key} -Name \"${value}\" | Select -ExpandProperty \"${value}\") -ne \"${data}\""),
+      default => $onlyif,
+    }
+
     exec { "Set-${name}":
       command => "Set-ItemProperty -Path ${formatted_key} -Name \"${value}\" ${data}",
-      onlyif  => psexpr("(Get-ItemProperty -Path ${formatted_key} -Name \"${value}\" | Select -ExpandProperty \"${value}\") -ne \"${data}\""),
+      onlyif  => $onlyif_real,
     }
 
     Exec["Create-${name}"] -> Exec["Set-${name}"]
