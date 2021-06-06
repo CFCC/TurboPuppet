@@ -36,7 +36,8 @@ class profile::cfcc::camper {
       include profile::editor::notepadplusplus
 
       # Wumboze Games
-      include profile::game::fortnite
+      include profile::game::epic
+      include profile::game::origin
     }
     'Linux': {
       include profile::desktop::cinnamon
