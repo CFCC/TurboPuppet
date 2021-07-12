@@ -3,7 +3,6 @@
 #
 class profile::cfcc::mediacenter {
 
-  package { 'tightvnc': }
   package { 'plexmediaplayer': }
   package { 'hdhomerun-view': }
   package { 'setpoint': }
