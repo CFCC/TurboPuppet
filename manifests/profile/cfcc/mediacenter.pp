@@ -8,6 +8,7 @@ class profile::cfcc::mediacenter {
   package { 'setpoint': }
   package { 'spotify': }
   package { 'discord': }
+  package { 'zoom': }
 
   include profile::tool::autohotkey
 
