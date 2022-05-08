@@ -57,6 +57,7 @@ class profile::cfcc::camper {
   include profile::power::alwayson
   include profile::remoteaccess::vnc::enable
   include profile::desktop::wallpaper
+  include profile::tls::certificates
 
   # Camper & System Tools
   include profile::browser::chrome
