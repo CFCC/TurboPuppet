@@ -29,7 +29,7 @@ class profile::cfcc::camper {
       include profile::tool::produkey
 
       # OS-specific Camper Tools
-      include profile::terminal::mobaxterm
+      include profile::terminal::windows
       include profile::browser::edge
 
       # Text editors. We all have opinions on these.
