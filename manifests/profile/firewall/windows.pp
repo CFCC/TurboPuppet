@@ -29,5 +29,13 @@ class profile::firewall::windows {
     onlyif  => psexpr("(Get-NetConnectionProfile | select -ExpandProperty NetworkCategory) -ne 'Private'"),
   }
 
+  # Enable File Sharing
+  # https://www.c-sharpcorner.com/article/how-to-enable-or-disable-file-and-printer-sharing-in-windows-102/
+  # https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/select-object?view=powershell-7.2
+  exec { 'EnableFileSharing':
+    command => 'Set-NetFirewallRule -DisplayGroup "File And Printer Sharing" -Enabled True -Profile Private',
+    onlyif  => psexpr("(Get-NetFirewallRule -DisplayGroup \"File And Printer Sharing\" | Select-Object -Property Profile -First 1 -ExpandProperty Enabled) -ne 'True'")
+  }
+
   Exec['SetConnectionPolicy'] -> Windows_firewall::Exception['Allow-ICMPv4']
 }
