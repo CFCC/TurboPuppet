@@ -5,7 +5,9 @@ class profile::desktop::explorer {
   # Remove built-in shortcut files that are useless
   $junk_shortcuts = [
     "C:/Users/${turbosite::camper_username}/Desktop/Windows 10 Update Assistant.lnk",
-    "C:/Users/Public/Desktop/3D Vision Photo Viewer.lnk"
+    "C:/Users/Public/Desktop/3D Vision Photo Viewer.lnk",
+    "C:/Users/Public/Desktop/Microsoft Edge.lnk",
+    "C:/Users/${turbosite::camper_username}/Desktop/Github Desktop.lnk"
   ]
   file { $junk_shortcuts: ensure => absent }
 
