@@ -232,6 +232,26 @@ class profile::desktop::explorer {
     require => Registry_key['WindowsSearch'],
   }
 
+  # Disable News and Interests
+  # https://www.prajwaldesai.com/disable-news-and-interests-in-windows-10/
+  # I'm not sure this actually works
+  hkcu { 'ShellFeedsTaskbarViewMode':
+    key   => 'SOFTWARE\Microsoft\Windows\CurrentVersion\Feeds',
+    value => 'ShellFeedsTaskbarViewMode',
+    data  => 2
+  }
+
+  # https://winaero.com/add-or-remove-news-and-interests-button-from-taskbar-in-windows-10/
+  registry_key { 'WindowsFeeds':
+    path   => 'HKLM\SOFTWARE\Policies\Microsoft\Windows\Windows Feeds',
+    ensure => present,
+  } ->
+  registry_value { 'EnableFeeds':
+    path => 'HKLM\SOFTWARE\Policies\Microsoft\Windows\Windows Feeds\EnableFeeds',
+    type => 'dword',
+    data => 0
+  }
+
   exec { 'Reload Explorer':
     command     => "Stop-Process -ProcessName explorer",
     refreshonly => true,
