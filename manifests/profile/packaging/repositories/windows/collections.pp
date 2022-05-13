@@ -10,16 +10,19 @@ class profile::packaging::repositories::windows::collections {
     allow_self_service => 'false',
     bypass_proxy       => 'false',
     provider           => 'windows',
+    purge              => true,
   }
 
   # 3rd Party Collections "Supported"
-  @chocolateysource { 'camp-chocolatey-community':
-    location => 'https://nexus.apps.campcomputer.com/repository/chocolatey-community/',
-    priority => '0',
-  }
+  # Local caching doesn't actually get us anything because the installers are all
+  # scattered across the entire internet. Just the metadata comes from the community
+  # repo. Big sad.
+  # @chocolateysource { 'camp-chocolatey-community':
+  #   location => 'https://nexus.apps.campcomputer.com/repository/chocolatey-community/',
+  #   priority => '0',
+  # }
 
   @chocolateysource { 'chocolatey':
-    ensure   => 'disabled',
     location => 'https://chocolatey.org/api/v2/',
     priority => '0',
   }
