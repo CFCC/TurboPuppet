@@ -10,7 +10,6 @@ class profile::packaging::repositories::windows::collections {
     allow_self_service => 'false',
     bypass_proxy       => 'false',
     provider           => 'windows',
-    purge              => true,
   }
 
   # 3rd Party Collections "Supported"
