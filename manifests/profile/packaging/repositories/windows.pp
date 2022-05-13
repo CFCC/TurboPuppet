@@ -17,7 +17,7 @@ class profile::packaging::repositories::windows {
   #Chocolateysource <| tag == 'chocolateysource-thirdparty' |>
 
   # Remove any resources that we don't manage.
-  resource { 'chocolateysource':
+  resources { 'chocolateysource':
     purge => true,
   }
 }
