@@ -15,4 +15,6 @@ class profile::packaging::chocolatey {
     onlyif  => psexpr("(C:\\ProgramData\\chocolatey\\choco.exe feature list | Select-String -Pattern 'allowGlobalConfirmation') -Match \"\\[ \\]\""),
     require => Class['chocolatey']
   }
+
+  include profile::packaging::repositories::windows
 }
