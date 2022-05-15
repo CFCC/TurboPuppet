@@ -15,5 +15,7 @@ class profile::windows::update {
     data   => 20 # 8PM
   }
 
-  package { 'PSWindowsUpdate': }
+  package { 'PSWindowsUpdate': 
+    provider => 'windowspowershell'
+  }
 }
