@@ -37,7 +37,8 @@ class profile::windows::apps {
   # Ignoring the provider seemed to do nothing because I suspect that defaults to
   # chocolatey and there is no choco package called 'Microsoft OneDrive' installed.
   $trash_packages = [
-    'Microsoft OneDrive'
+    'Microsoft OneDrive',
+    'Windows PC Health Check'
   ]
   package { $trash_packages:
     ensure   => 'absent',
