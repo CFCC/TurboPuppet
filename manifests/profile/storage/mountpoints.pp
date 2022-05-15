@@ -5,8 +5,9 @@ class profile::storage::mountpoints {
   Mount {
     ensure => 'mounted'
   }
-  case $::kernel {
-    'windows': {
+# Disabling this because nothing works as we hope.
+#  case $::kernel {
+#    'windows': {
       # If the module let use define the persistent parameter (and other things like that) then we wouldn't
       # need this bonus Exec here. Unfortunately it does not support these things which makes life difficult.
       # The exec would be fine on its own but I'd rather have a true Mount resource available to reference
@@ -26,7 +27,7 @@ class profile::storage::mountpoints {
 #        device  => "//${turbosite::nas}/Deploy",
 #        require => Exec['MountDeployShare']
 #      }
-    }
-    'Linux': {}
-  }
+#    }
+#    'Linux': {}
+#  }
 }
