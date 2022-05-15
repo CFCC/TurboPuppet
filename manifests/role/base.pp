@@ -1,5 +1,7 @@
 #
 # Base role that sets defaults across ALL nodes.
+# You CANNOT include anything that depends on a turbosite variable since
+# those get evaluated later on.
 #
 class role::base {
   # Platform base
