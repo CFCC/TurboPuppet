@@ -22,7 +22,7 @@ class profile::packaging::repositories::windows::collections {
   # }
 
   @chocolateysource { 'chocolatey':
-    location => 'https://chocolatey.org/api/v2/',
+    location => 'https://community.chocolatey.org/api/v2/',
     priority => '0',
   }
 }

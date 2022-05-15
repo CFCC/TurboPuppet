@@ -15,5 +15,5 @@ class profile::windows::update {
     data   => 20 # 8PM
   }
 
-  package { 'pspackageprovider': }
+  package { 'PSWindowsUpdate': }
 }
