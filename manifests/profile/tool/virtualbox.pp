@@ -20,8 +20,14 @@ class profile::tool::virtualbox {
     default   => undef,
   }
 
+  # Something happened in 6.1.34 that broke their automatic driver install.
+  # Seems to be a bad code signing certificate somewhere in the chain.
+  # Since we don't use this too much and I don't want to go digging the old
+  # version is suffient for the time being. The net effect of the issues is that
+  # the install hangs waiting for you to trust installing the drivers.
   package { $package_name:
-    notify => $package_notify
+    notify => $package_notify,
+    ensure => '6.1.32'
   }
 
   # Guest Additions
