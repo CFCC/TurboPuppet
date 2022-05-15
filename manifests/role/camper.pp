@@ -16,6 +16,7 @@ class role::camper inherits role::base {
     time_zone       => $site::cfcc::time_zone,
     upstream_dns    => $site::cfcc::upstream_dns,
     camper_uid      => $site::cfcc::camper_uid,
+    nas             => $site::cfcc::nas,
   }
 
   # Tools need to make the system work. DNS, time, etc. While those

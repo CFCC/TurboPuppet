@@ -18,4 +18,5 @@ class site::cfcc {
     '8.8.8.8',
     '8.8.4.4'
   ]
+  $nas = 'tars.lab.campcomputer.com'
 }
