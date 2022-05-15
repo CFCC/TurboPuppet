@@ -19,8 +19,6 @@ class role::base {
       # the defaults should probably have a profile setting them up.
       include profile::packaging::chocolatey
       include profile::powershell::executionpolicy::unrestricted
-
-      Class['profile::storage::mountpoints'] -> Class['profile::packaging::chocolatey']
     }
     'Fedora': {
       # Nothing yet since Linux is sane!
@@ -52,7 +50,6 @@ class role::base {
 
   # Very common Puppet stuff
   include profile::packaging::packages
-  include profile::storage::mountpoints
 
   # Drivers
   # https://puppet.com/docs/puppet/5.3/lang_data_regexp.html

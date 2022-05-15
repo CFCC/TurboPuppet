@@ -23,6 +23,7 @@ class role::camper inherits role::base {
   # examples will be applied to all nodes, they require values from the
   # site class (such as the DNS server, time zone, etc).
   include profile::time::client
+  include profile::storage::mountpoints
 
   # The basic blocks of a camper PC. These make a generic functioning computer
   # into something that we can actually use.
