@@ -1,7 +1,10 @@
 #
 # Windows Update settings.
 # The tag 'windowsupdate' allows us to run a minimal puppet run with only the things
-# needed to manage Windows Updates right after kickstart. `puppet agent -t --tags windowsupdate`
+# needed to manage Windows Updates right after kickstart.
+#
+# puppet agent -t --tags windowsupdate
+# install-windowsupdate -acceptall -autoreboot
 #
 class profile::windows::update {
   tag 'windowsupdate'
