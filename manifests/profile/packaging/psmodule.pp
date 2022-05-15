@@ -8,4 +8,5 @@ class profile::packaging::psmodule {
   }
 
   include profile::packaging::repositories::windows
+  Pspackageprovider['Nuget'] -> Class['profile::packaging::repositories::windows']
 }

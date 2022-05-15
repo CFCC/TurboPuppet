@@ -51,7 +51,9 @@ class role::base {
     }
   }
 
-  # Very common Puppet stuff
+  # Very common Puppet stuff.
+  # Note: Site has not been evaluated yet so you cannot include anything
+  # that requires site such as mountpoints.
   include profile::packaging::packages
 
   # Drivers
