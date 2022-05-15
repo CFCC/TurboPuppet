@@ -16,5 +16,11 @@ class profile::packaging::chocolatey {
     require => Class['chocolatey']
   }
 
+  # This is used in tandem with the mount defined in profile::storage::mountpoints.
+  chocolateyconfig { 'cachelocation':
+    value   => "F:\\windows\\Chocolatey",
+    require => Mount['F:']
+  }
+
   include profile::packaging::repositories::windows
 }
