@@ -32,7 +32,7 @@ class profile::desktop::wallpaper {
       }
       exec { 'SetWallpaper':
         # @formatter:off
-        command => 'C:\CampFitch\bin\SetWallpaper.ps1 C:\CampFitch\usr\share\wallpaper\win95.jpg',
+        command => 'C:\CampFitch\bin\SetWallpaper.ps1 C:\CampFitch\usr\share\wallpaper\Bungalow.jpg',
         onlyif => psexpr('(Get-ItemProperty -Path "HKCU:Control Panel\Desktop" -Name "Wallpaper" |Select -ExpandProperty Wallpaper) -like "*img0.jpg"'),
         # @formatter:on
         require => File['SetWallpaper']
