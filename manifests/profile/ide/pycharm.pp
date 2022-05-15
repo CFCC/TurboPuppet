@@ -15,13 +15,19 @@ class profile::ide::pycharm {
     default   => fail('Unsupported OS')
   }
 
+  $package_notify = $::kernel ? {
+    'windows' => Exec['CleanupDesktopShortcuts'],
+    default   => undef,
+  }
+
   package { $package_name:
     # Brew doesnt support ensuring specific versions. This
     # isn't ideal but we can at least deal with it.
     ensure => $::operatingsystem ? {
       'Darwin' => 'present',
       default  => $pycharm_version
-    }
+    },
+    notify => $package_notify
   }
 
   # OS-specific stuff

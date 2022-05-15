@@ -11,6 +11,7 @@ class profile::tool::wireshark {
   # Some platforms require extra things to make it work
   case $::operatingsystem {
     'windows': {
+      # Note - autohotkey doesn't behave well in VMs. Works fine for hardware.
       package { 'winpcap':
         before => [ Package[$package_name] ]
       }
