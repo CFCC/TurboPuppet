@@ -16,16 +16,16 @@ class profile::storage::mountpoints {
       # A side effect of any Windows mounts here is that they are mounted as the administrative user
       # and thus don't show up in Explorer for the camper user. You can see them if you do manual shell
       # commands like dir/ls.
-      exec { 'MountDeployShare':
-        command => "net use F: \\\\${turbosite::nas}\\Deploy /persistent:yes /user:${::turbosite::camper_username} ${::turbosite::camper_username}",
-        unless  => "net use F:"
-      }
-
-      mount { 'F:':
-        ensure  => 'mounted',
-        device  => "//${turbosite::nas}/Deploy",
-        require => Exec['MountDeployShare']
-      }
+#      exec { 'MountDeployShare':
+#        command => "net use F: \\\\${turbosite::nas}\\Deploy /persistent:yes /user:${::turbosite::camper_username} ${::turbosite::camper_username}",
+#        unless  => "net use F:"
+#      }
+#
+#      mount { 'F:':
+#        ensure  => 'mounted',
+#        device  => "//${turbosite::nas}/Deploy",
+#        require => Exec['MountDeployShare']
+#      }
     }
     'Linux': {}
   }
