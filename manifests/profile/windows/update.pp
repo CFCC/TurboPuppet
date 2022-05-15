@@ -14,4 +14,6 @@ class profile::windows::update {
     type   => dword,
     data   => 20 # 8PM
   }
+
+  package { 'pspackageprovider': }
 }
