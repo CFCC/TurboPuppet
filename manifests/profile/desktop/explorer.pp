@@ -254,6 +254,14 @@ class profile::desktop::explorer {
     data => 0
   }
 
+  # https://www.thewindowsclub.com/how-to-disable-windows-backup-notification-in-windows-7
+  # Not technically part of the shell but it's close enough.
+  registry_value { 'RemindBackups':
+    path => 'HKLM\Software\Microsoft\Windows\CurrentVersion\WindowsBackup\DisableMonitoring',
+    type => 'dword',
+    data => 1,
+  }
+
   exec { 'Reload Explorer':
     command     => "Stop-Process -ProcessName explorer",
     refreshonly => true,
