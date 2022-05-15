@@ -69,4 +69,10 @@ class profile::packaging::repositories::fedora::thirdparty {
     baseurl => 'https://packagecloud.io/slacktechnologies/slack/fedora/21/$basearch',
     gpgkey  => 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-slack',
   }
+
+  @yumrepo { 'corretto':
+    descr   => 'Amazon Corretto',
+    baseurl => 'https://yum.corretto.aws/$basearch',
+    gpgkey  => 'file:///etc/pki/rpm-gpg/RPM-GPG-KEY-corretto',
+  }
 }

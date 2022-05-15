@@ -61,6 +61,11 @@ class profile::packaging::keys::fedora {
     path   => "/etc/pki/rpm-gpg/RPM-GPG-KEY-sublime-text"
   }
 
+  file { "RPM-GPG-KEY-corretto":
+    source => "puppet:///campfs/rpm-gpg/RPM-GPG-KEY-corretto",
+    path   => "/etc/pki/rpm-gpg/RPM-GPG-KEY-corretto"
+  }
+
   # This is an unfixed bug in Puppet where you cannot HEAD against an S3 repo, thus making
   # requests to packagecloud.io resources doesn't work with the File{} resource.
   # See https://tickets.puppetlabs.com/browse/PUP-8300 for details.
