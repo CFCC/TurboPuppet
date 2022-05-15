@@ -33,6 +33,6 @@ class profile::packaging::repositories::windows::collections {
   }
 
   @psrepository { 'PSGallery':
-    source_location => 'https://www.powershellgallery.com/api/v2/'
+    source_location => 'https://www.powershellgallery.com/api/v2'
   }
 }
