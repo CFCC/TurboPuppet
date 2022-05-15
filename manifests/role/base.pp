@@ -20,6 +20,7 @@ class role::base {
       # Any custom providers or whatnot that we just specified as
       # the defaults should probably have a profile setting them up.
       include profile::packaging::chocolatey
+      include profile::packaging::psmodule
       include profile::powershell::executionpolicy::unrestricted
     }
     'Fedora': {

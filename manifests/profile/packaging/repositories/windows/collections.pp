@@ -12,6 +12,12 @@ class profile::packaging::repositories::windows::collections {
     provider           => 'windows',
   }
 
+  Psrepository {
+    ensure              => present,
+    installation_policy => 'trusted',
+    tag                 => ['psrepository-collections'],
+  }
+
   # 3rd Party Collections "Supported"
   # Local caching doesn't actually get us anything because the installers are all
   # scattered across the entire internet. Just the metadata comes from the community
@@ -24,5 +30,9 @@ class profile::packaging::repositories::windows::collections {
   @chocolateysource { 'chocolatey':
     location => 'https://community.chocolatey.org/api/v2/',
     priority => '0',
+  }
+
+  @psrepository { 'PSGallery':
+    source_location => 'https://www.powershellgallery.com/api/v2/'
   }
 }

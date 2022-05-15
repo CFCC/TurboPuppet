@@ -12,12 +12,16 @@ class profile::packaging::repositories::windows {
   # specific profiles. However, since we don't require that level of separation yet, they
   # will all be here and it can be assumed that any needed yum repo by any profile
   # will have that repo available.
-  #Chocolateysource <| tag == 'chocolateysource-system' |>
+  Chocolateysource <| tag == 'chocolateysource-system' |>
   Chocolateysource <| tag == 'chocolateysource-collections' |>
-  #Chocolateysource <| tag == 'chocolateysource-thirdparty' |>
+  Chocolateysource <| tag == 'chocolateysource-thirdparty' |>
+
+  Psrepository <| tag == 'psrepository-system' |>
+  Psrepository <| tag == 'psrepository-collections' |>
+  Psrepository <| tag == 'psrepository-thirdparty' |>
 
   # Remove any resources that we don't manage.
-  resources { 'chocolateysource':
+  resources { ['chocolateysource', 'psrepository']:
     purge => true,
   }
 }
