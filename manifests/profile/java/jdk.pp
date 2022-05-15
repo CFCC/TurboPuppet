@@ -1,11 +1,12 @@
 #
 # JDK
+# AdoptOpenJDK is dead.
 #
 class profile::java::jdk {
   $runtime_package_name = $::operatingsystem ? {
-    'windows' => 'adoptopenjdk11',
+    'windows' => 'openjdk17',
     # 'Darwin'  => 'oracle-jdk',
-    'Fedora'  => 'java-11-openjdk',
+    'Fedora'  => 'java-17-openjdk',
     default   => fail('Unsupported OS')
   }
 
