@@ -4,6 +4,8 @@
 # those get evaluated later on.
 #
 class role::base {
+  tag 'windowsupdate'
+
   # Platform base
   case $::operatingsystem {
     'windows': {

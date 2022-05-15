@@ -20,13 +20,17 @@ node /^cfcczotac07/ { include role::camper::generic }
 node /^cfcczotac08/ { include role::camper::generic }
 node /^cfcczotac09/ { include role::camper::generic }
 node /^cfcczotac10/ { include role::camper::generic }
+node /^cfcchp01/ { include role::camper::generic }
+node /^cfcchp02/ { include role::camper::generic }
+node /^cfcchp03/ { include role::camper::generic }
 
 # Mac
 node /^cfccmac01/ { include role::camper::generic }
 
-# Various
+# Test VMs
 node /^cfcctestvm01/ { include role::camper::generic }
 node /^cfcctestvm02/ { include role::camper::generic }
+node /^cfcctestvm03/ { include role::camper::generic }
 
 ### Personal ###
 node /^mediacenter/ { include role::camper::mediacenter }

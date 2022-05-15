@@ -1,7 +1,11 @@
 #
 # Windows Update settings.
+# The tag 'windowsupdate' allows us to run a minimal puppet run with only the things
+# needed to manage Windows Updates right after kickstart. `puppet agent -t --tags windowsupdate`
 #
 class profile::windows::update {
+  tag 'windowsupdate'
+
   # Set active hours
   registry_value { 'HKLM\SOFTWARE\Microsoft\WindowsUpdate\UX\Settings\ActiveHoursStart':
     ensure => present,
@@ -15,7 +19,7 @@ class profile::windows::update {
     data   => 20 # 8PM
   }
 
-  package { 'PSWindowsUpdate': 
+  package { 'PSWindowsUpdate':
     provider => 'windowspowershell'
   }
 }
