@@ -3,7 +3,9 @@
 #
 class profile::ide::intellij {
   # Lock down the version we actually want.
-  $intellij_version = '2022.1.1'
+  # Starting with 2022.1[.1] the Choco package dropped the last version number.
+  # This may toast Linux and require some shenanigans.
+  $intellij_version = '2022.1'
 
   $package_name = $::operatingsystem ? {
     'windows' => 'intellijidea-community',
