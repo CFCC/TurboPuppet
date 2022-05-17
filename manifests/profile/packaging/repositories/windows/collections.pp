@@ -16,6 +16,7 @@ class profile::packaging::repositories::windows::collections {
     ensure              => present,
     installation_policy => 'trusted',
     tag                 => ['psrepository-collections'],
+    require             => Pspackageprovider['Nuget']
   }
 
   # 3rd Party Collections "Supported"
