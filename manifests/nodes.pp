@@ -27,6 +27,9 @@ node /^cfcchp03/ { include role::camper::generic }
 # Mac
 node /^cfccmac01/ { include role::camper::generic }
 
+# Zaktops
+node /^cfcczaktop/ { include role::camper::generic }
+
 # Test VMs
 node /^cfcctestvm01/ { include role::camper::generic }
 node /^cfcctestvm02/ { include role::camper::generic }

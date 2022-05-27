@@ -2,5 +2,5 @@
 #
 #
 class profile::driver::zaktop {
-  include profile::driver::gpu::nvidia
+  #include profile::driver::gpu::nvidia
 }
