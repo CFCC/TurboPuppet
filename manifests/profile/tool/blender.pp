@@ -2,5 +2,7 @@
 # Blender
 #
 class profile::tool::blender {
-  package { 'blender': }
+  package { 'blender': 
+    notify => Exec['CleanupDesktopShortcuts']
+  }
 }
