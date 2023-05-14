@@ -20,7 +20,7 @@ class profile::game::quake3::windows {
   shortcut { 'Quake3Shortcut':
     path              => 'C:/ProgramData/Microsoft/Windows/Start Menu/Programs/Quake 3 Arena.lnk',
     working_directory => $quake3_root,
-    target            => "${quake3_root}/ioquake3.x64_64.exe",
+    target            => "${quake3_root}/ioquake3.x86_64.exe",
     require           => File['Quake3Content']
   }
 
