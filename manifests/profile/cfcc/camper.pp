@@ -70,6 +70,7 @@ class profile::cfcc::camper {
   include profile::tool::virtualbox
   include profile::tool::iperf
   include profile::tool::vlc
+  include profile::tool::blender
 
   # Games
   include profile::game::quake3
