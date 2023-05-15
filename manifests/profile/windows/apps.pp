@@ -46,9 +46,8 @@ class profile::windows::apps {
   }
 
   # @TODO gonna need this for other platforms.
-  # @TODO unstatic camper username
   exec { 'CleanupDesktopShortcuts':
-    command     => "Get-ChildItem -Path 'C:\\Users\\Public\\Desktop','C:\\Users\\Camper\\Desktop' -Filter '*.lnk' | Remove-Item",
+    command     => "Get-ChildItem -Path 'C:\\Users\\Public\\Desktop' -Filter '*.lnk' | Remove-Item",
     refreshonly => true,
   }
 }
