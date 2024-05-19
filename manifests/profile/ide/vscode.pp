@@ -1,6 +1,11 @@
 #
 #
 #
-class profile::ide::xcode {
-  include xcode_cli_tools
+class profile::ide::vscode {
+  package { 'vscode': 
+    install_options: [
+      '/NoDesktopIcon',
+      '/NoQuicklaunchIcon'
+    ]
+  }
 }

@@ -17,6 +17,7 @@ class role::camper::generic inherits role::camper {
   include profile::python::python3
   include profile::python::turtle
   include profile::ide::pycharm
+  include profile::ide::vscode
   Class['profile::python::python3'] -> Class['profile::ide::pycharm']
 
   # Webz
