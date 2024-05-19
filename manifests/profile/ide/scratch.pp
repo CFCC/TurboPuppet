@@ -7,18 +7,22 @@ class profile::ide::scratch {
 
   case $::operatingsystem {
     'windows': {
-      file { 'scratch icon':
-        path   => 'C:\ProgramData\scratch.ico',
-        ensure => file,
-        source => 'https://scratch.mit.edu/favicon.ico',
-      }
+      # file { 'scratch icon':
+      #   path   => 'C:\ProgramData\scratch.ico',
+      #   ensure => file,
+      #   source => 'https://scratch.mit.edu/favicon.ico',
+      # }
 
-      shortcut { 'C:/ProgramData/Microsoft/Windows/Start Menu/Programs/Scratch.lnk':
-        icon_location => 'C:\ProgramData\scratch.ico',
-        require       => [ Class['profile::browser::chrome'], File['scratch icon'] ],
-        target        => 'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe',
-        arguments     => 'https://scratch.mit.edu'
-      }
+      # shortcut { 'C:/ProgramData/Microsoft/Windows/Start Menu/Programs/Scratch.lnk':
+      #   icon_location => 'C:\ProgramData\scratch.ico',
+      #   require       => [ Class['profile::browser::chrome'], File['scratch icon'] ],
+      #   target        => 'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe',
+      #   arguments     => 'https://scratch.mit.edu'
+      # }
+      #
+      # Switching to the package
+      # https://github.com/CFCC/TurboPuppet/issues/51
+      package { 'scratch': }
     }
     'Darwin': {
       # the package is broken with a bad checksum on Adobe-AIR
