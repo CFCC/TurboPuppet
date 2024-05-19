@@ -7,4 +7,8 @@ class profile::ide::vscode {
       '--params "/NoDesktopIcon /NoQuicklaunchIcon"'
     ]
   }
+
+  package { ['vscode-python', 'vscode-java']: 
+    require => Package['vscode']
+  }
 }
