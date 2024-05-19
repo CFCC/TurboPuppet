@@ -29,6 +29,7 @@ class profile::ide::scratch {
       exec { 'CleanupScratchIcon':
         command     => "Remove-Item 'C:/Users/${turbosite::camper_username}/Desktop/Scratch 3.lnk'",
         refreshonly => true,
+        notify      => Exec['Reload Explorer']
       }
     }
     'Darwin': {
