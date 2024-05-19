@@ -22,7 +22,14 @@ class profile::ide::scratch {
       #
       # Switching to the package
       # https://github.com/CFCC/TurboPuppet/issues/51
-      package { 'scratch': }
+      package { 'scratch': 
+        notify => Exec['CleanupScratchIcon']
+      }
+
+      exec { 'CleanupScratchIcon':
+        command     => "Remove-Item 'C:/Users/${turbosite::camper_username}/Desktop/Scratch 3.lnk'",
+        refreshonly => true,
+      }
     }
     'Darwin': {
       # the package is broken with a bad checksum on Adobe-AIR
