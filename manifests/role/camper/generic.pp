@@ -20,6 +20,9 @@ class role::camper::generic inherits role::camper {
   include profile::ide::vscode
   Class['profile::python::python3'] -> Class['profile::ide::pycharm']
 
+  # Game Engine
+  include profile::engine::godot
+
   # Webz
   case $::operatingsystem {
     'windows': {
