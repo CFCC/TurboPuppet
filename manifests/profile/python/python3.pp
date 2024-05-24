@@ -10,17 +10,17 @@ class profile::python::python3 {
   case $::operatingsystem {
     'windows': {
       package { 'python3':
-        ensure => '3.10.4'
+        ensure => '3.12.3'
       }
       # pip3 works on Windows but isn't in the path until you restart
       # your shell. Also for some reason Powershell doesn't really
       # work until you reboot. I subbed in a command => 'foobarlolz'
       # and it still ran successfully. What's up with that eh?
       exec { 'InstallPygame':
-        path      => 'C:/Python310/Scripts',
+        path      => 'C:/Python312/Scripts',
         command   => 'pip3.exe install pygame',
         subscribe => Package['python3'],
-        creates   => 'C:/Python310/Lib/site-packages/pygame',
+        creates   => 'C:/Python312/Lib/site-packages/pygame',
         provider  => 'windows'
       }
 
