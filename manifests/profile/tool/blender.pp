@@ -4,7 +4,7 @@
 class profile::tool::blender {
   package { 'blender': 
     notify => $::kernel ? {
-      'windows' => Notify['CleanupBlenderShortcut'],
+      'windows' => Exec['CleanupBlenderShortcut'],
       default   => undef,
     }
   }
