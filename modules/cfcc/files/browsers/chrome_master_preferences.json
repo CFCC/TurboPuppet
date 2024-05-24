@@ -3,7 +3,7 @@
     "msi": true,
     "system_level": true,
     "verbose_logging": true,
-    "msi_product_id": "B6E20433-9CA8-39D7-93CD-7191D79C0A6C",
+    "msi_product_id": "906F89D8-00DA-3583-8057-A7425FB9FDD4",
     "allow_downgrade": false,
     "do_not_create_any_shortcuts": true
   }
