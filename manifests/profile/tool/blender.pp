@@ -10,7 +10,7 @@ class profile::tool::blender {
   }
 
   exec { 'CleanupBlenderShortcut':
-    command     => "Remove-Item -Path 'C:\\Users\\${turbosite::camper_username}\\Desktop\\Blender\*.lnk'"
-    refreshonly => true
+    command     => "Remove-Item -Path 'C:\\Users\\${turbosite::camper_username}\\Desktop\\Blender\*.lnk'",
+    refreshonly => true,
   }
 }
