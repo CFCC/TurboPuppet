@@ -44,7 +44,10 @@ class profile::browser::chrome {
     notify  => $package_notify,
   }
 
-    file { 'ChromeInitialPreferences':
+  # FOOLS!
+  # I'm glad I'm not the only one out there.
+  # https://github.com/PatchMyPCTeam/Community-Scripts/blob/main/Install/Post-Install/Google%20Chrome%20Desktop%20Shortcut/Remove-ChromeShortcut.ps1
+  file { 'ChromeInitialPreferences':
     ensure  => present,
     path    => 'C:\Program Files\Google\Chrome\Application\initial_preferences',
     source  => 'puppet:///modules/cfcc/browsers/chrome_initial_preferences.json',
