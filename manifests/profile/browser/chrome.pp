@@ -15,8 +15,16 @@ class profile::browser::chrome {
     default   => undef,
   }
 
+  $install_options = $::kernel ? {
+    # Chrome updates so fscking frequently the package maintainers can't keep up leading to
+    # occasional failures. Yes this has security implications.
+    'windows' => '--ignore-checksums',
+    default   => undef,
+  }
+
   package { $package_name:
-    notify => $package_notify,
+    notify          => $package_notify,
+    install_options => $install_options,
   }
 
   # This works the first time, but a reboot puts the fraking thing back!
