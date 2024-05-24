@@ -44,4 +44,12 @@ class profile::browser::chrome {
     notify  => $package_notify,
   }
 
+    file { 'ChromeInitialPreferences':
+    ensure  => present,
+    path    => 'C:\Program Files\Google\Chrome\Application\initial_preferences',
+    source  => 'puppet:///modules/cfcc/browsers/chrome_initial_preferences.json',
+    require => Package[$package_name],
+    notify  => $package_notify,
+  }
+
 }
