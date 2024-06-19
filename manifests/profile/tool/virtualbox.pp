@@ -16,7 +16,10 @@ class profile::tool::virtualbox {
   }
 
   $package_notify = $::kernel ? {
-    'windows' => Exec['CleanupDesktopShortcuts'],
+    'windows' => [
+      Exec['CleanupDesktopShortcuts'],
+      Exec['DisableVboxHostAdapter'],
+    ],
     default   => undef,
   }
 
@@ -36,6 +39,24 @@ class profile::tool::virtualbox {
   case $::operatingsystem {
     'Darwin': {
       package { 'virtualbox-extension-pack': }
+    }
+    'windows': {
+      # The VirtualBox Host-Only Network adapter makes certain LAN discovery operations
+      # from "old" games such as TF2 and Quake 3 not work. Since we barely use VBox,
+      # we just disable the adapter.
+      file { 'DisableVboxHostAdapter':
+        ensure => present,
+        path   => "C:/CampFitch/bin/DisableVboxHostAdapter.ps1",
+        owner  => $turbosite::camper_username,
+        source => 'puppet:///modules/cfcc/windows/DisableVboxHostAdapter.ps1'
+      }
+
+      exec { 'DisableVboxHostAdapter':
+        command     => 'C:\CampFitch\bin\DisableVboxHostAdapter.ps1',
+        require     => File['DisableVboxHostAdapter'],
+        refreshonly => true,
+        require     => File['DisableVboxHostAdapter'],
+      }
     }
     default: {}
   }
