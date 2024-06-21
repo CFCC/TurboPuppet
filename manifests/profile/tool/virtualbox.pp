@@ -55,7 +55,6 @@ class profile::tool::virtualbox {
         command     => 'C:\CampFitch\bin\DisableVboxHostAdapter.ps1',
         require     => File['DisableVboxHostAdapter'],
         refreshonly => true,
-        require     => File['DisableVboxHostAdapter'],
       }
     }
     default: {}
