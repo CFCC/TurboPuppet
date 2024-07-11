@@ -57,6 +57,14 @@ Return
     RunWait PowerShell.exe -Command C:\CampFitch\bin\bluetooth.ps1 -BluetoothStatus On,, hide
 Return
 
+^+!8::
+	if WinExist("Spotify") {
+        WinActivate, Spotify
+    } else {
+		Run "C:\Users\camper\AppData\Roaming\Spotify\Spotify.exe"
+	}
+Return
+
 ^+!r::
     Reload
 Return
