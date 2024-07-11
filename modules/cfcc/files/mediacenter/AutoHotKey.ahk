@@ -58,10 +58,18 @@ Return
 Return
 
 ^+!8::
-	if WinExist("Spotify") {
-        WinActivate, Spotify
+	if WinExist("Spotify Premium") {
+        WinActivate, Spotify Premium
     } else {
 		Run "C:\Users\camper\AppData\Roaming\Spotify\Spotify.exe"
+	}
+Return
+
+^+!9::
+	if WinExist("live-aac-96 - VLC media player") {
+        WinActivate, live-aac-96 - VLC media player
+    } else {
+		Run "C:\Program Files\VideoLAN\VLC\vlc.exe" "https://streaming.witr.rit.edu/live-aac-96"
 	}
 Return
 
