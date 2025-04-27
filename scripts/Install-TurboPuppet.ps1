@@ -152,6 +152,21 @@ function Install-PuppetAgent {
     }
 }
 
+function Install-TurboPuppet {
+    param(
+        [Parameter(Mandatory=$false)]
+        [string]$branch = "turbopuppet",
+        
+    )
+    # Install TurboPuppet.ps1
+    $turbopuppetUrl = "https://raw.githubusercontent.com/CFCC/TurboPuppet/refs/heads/$branch/scripts/TurboPuppet.ps1"
+    Invoke-WebRequest -Uri $turbopuppetUrl -OutFile "$BIN_DIR\TurboPuppet.ps1" -Force
+
+    # Install Install-TurboPuppet.ps1
+    $installerUrl = "https://raw.githubusercontent.com/CFCC/TurboPuppet/refs/heads/$branch/scripts/Install-TurboPuppet.ps1"
+    Invoke-WebRequest -Uri $installerUrl -OutFile "$BIN_DIR\Install-TurboPuppet.ps1" -Force
+}
+
 # Create necessary directories.
 New-DirectorySafe -Path "$ROOT_DIR\etc\TurboPuppet"
 New-DirectorySafe -Path $BIN_DIR
@@ -166,4 +181,5 @@ $null = Install-PuppetAgent
 # Reload environment variables.
 Update-EnvironmentVariables
 
-#@TODO install the TurboPuppet script
+# Install the TurboPuppet script
+$null = Install-TurboPuppet
