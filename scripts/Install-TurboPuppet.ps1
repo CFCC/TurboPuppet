@@ -159,11 +159,11 @@ function Install-TurboPuppet {
     )
     # Install TurboPuppet.ps1
     $turbopuppetUrl = "https://raw.githubusercontent.com/CFCC/TurboPuppet/refs/heads/$branch/scripts/TurboPuppet.ps1"
-    Invoke-WebRequest -Uri $turbopuppetUrl -OutFile "$BIN_DIR\TurboPuppet.ps1" -Force
+    Invoke-WebRequest -Uri $turbopuppetUrl -OutFile "$BIN_DIR\TurboPuppet.ps1"
 
     # Install Install-TurboPuppet.ps1
     $installerUrl = "https://raw.githubusercontent.com/CFCC/TurboPuppet/refs/heads/$branch/scripts/Install-TurboPuppet.ps1"
-    Invoke-WebRequest -Uri $installerUrl -OutFile "$BIN_DIR\Install-TurboPuppet.ps1" -Force
+    Invoke-WebRequest -Uri $installerUrl -OutFile "$BIN_DIR\Install-TurboPuppet.ps1"
 }
 
 # Create necessary directories.
