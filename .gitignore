@@ -1,4 +1,2 @@
-modules/*
-!modules/cfcc*
 .r10k-deploy.json
 .idea
