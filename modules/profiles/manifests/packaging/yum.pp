@@ -1,7 +1,7 @@
 #
 # Setup Yum
 #
-class profile::packaging::yum {
+class profiles::packaging::yum {
   # So.... lets talk about https://forge.puppet.com/puppet/yum
   # It doesn't support Fedora.
   # Good talk.

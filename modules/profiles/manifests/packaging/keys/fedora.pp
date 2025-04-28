@@ -1,7 +1,7 @@
 #
 #
 #
-class profile::packaging::keys::fedora {
+class profiles::packaging::keys::fedora {
   # System
   # Fedora ships the base keys with the OS, so we will trust those for now and not enforce
   # them here.
@@ -20,14 +20,14 @@ class profile::packaging::keys::fedora {
   # They do some funky user-agent-specific crap to prevent that. It's stupid, so we
   # must deal with it.
   package { "rpmfusion-free-${::operatingsystemmajrelease}":
+    ensure => present,
     name   => 'rpmfusion-free-release',
     source => "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-${::operatingsystemmajrelease}.noarch.rpm",
-    ensure => present
   }
   package { "rpmfusion-nonfree-${::operatingsystemmajrelease}":
+    ensure => present,
     name   => 'rpmfusion-nonfree-release',
     source => "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-${::operatingsystemmajrelease}.noarch.rpm",
-    ensure => present
   }
 
   # ThirdParty
@@ -88,8 +88,8 @@ class profile::packaging::keys::fedora {
   # https://tickets.puppetlabs.com/browse/PUP-1072
   # Regardless, I'm gonna have to be a good person and jam them into the Puppet
   # filesystem.
-  file { "RPM-GPG-KEY-slack":
-    source => "puppet:///campfs/rpm-gpg/RPM-GPG-KEY-slack",
-    path   => "/etc/pki/rpm-gpg/RPM-GPG-KEY-slack",
+  file { 'RPM-GPG-KEY-slack':
+    source => 'puppet:///campfs/rpm-gpg/RPM-GPG-KEY-slack',
+    path   => '/etc/pki/rpm-gpg/RPM-GPG-KEY-slack',
   }
 }

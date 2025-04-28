@@ -2,7 +2,7 @@
 
 param(
     [string]$branch = "production",
-    [string]$role = "roles::camper::generic_v2",
+    [string]$role = "roles::camper::generic",
     [switch]$debug,
     [switch]$noop,
     [switch]$cached

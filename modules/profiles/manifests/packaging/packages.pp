@@ -8,8 +8,8 @@
 #   duplicate declaraction error from Puppet.
 # With the voodoo of Virtual Resource we can "realize" the same
 # definition multiple times and only declare the package once!
-# See also: yumrepos
+# See also: yumrepos.pp
 #
-class profile::packaging::packages {
+class profiles::packaging::packages {
   @package { 'rsync': }
 }

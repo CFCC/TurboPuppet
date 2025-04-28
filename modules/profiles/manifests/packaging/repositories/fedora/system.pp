@@ -1,8 +1,7 @@
 #
 #
 #
-class profile::packaging::repositories::fedora::system {
-
+class profiles::packaging::repositories::fedora::system {
   Yumrepo {
     tag                 => ['yumrepo-system'],
     skip_if_unavailable => false,

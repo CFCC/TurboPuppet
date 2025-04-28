@@ -1,8 +1,7 @@
 #
 #
 #
-class profile::packaging::repositories::fedora::thirdparty {
-
+class profiles::packaging::repositories::fedora::thirdparty {
   Yumrepo {
     tag                 => ['yumrepo-thirdparty'],
     skip_if_unavailable => true,

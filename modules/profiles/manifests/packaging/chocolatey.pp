@@ -1,9 +1,9 @@
 #
 # Setup Chocolatey package system.
 # NOTE - to install packages you need to set provider => chocolatey on your
-# Package resources. This is done for you in role::base.
+# Package resources. This is done for you in roles::base.
 #
-class profile::packaging::chocolatey {
+class profiles::packaging::chocolatey {
   class { 'chocolatey': }
 
   # Sometime since the 2019 camp season Choco started needing this in order
@@ -11,9 +11,9 @@ class profile::packaging::chocolatey {
   # first exploded in a red fireball of death logs. While this likely has
   # some security implications it seems to get the job done.
   exec { 'DisableConfirmation':
-    command => 'C:\ProgramData\chocolatey\choco.exe feature enable -n allowGlobalConfirmation',
+    command => 'C:\\ProgramData\\chocolatey\\choco.exe feature enable -n allowGlobalConfirmation',
     onlyif  => psexpr("(C:\\ProgramData\\chocolatey\\choco.exe feature list | Select-String -Pattern 'allowGlobalConfirmation') -Match \"\\[ \\]\""),
-    require => Class['chocolatey']
+    require => Class['chocolatey'],
   }
 
   # Had a bright idea to use a shared network mount as the Chocolatey package cache location.
@@ -25,8 +25,8 @@ class profile::packaging::chocolatey {
   chocolateyconfig { 'cachelocation':
     #value   => "F:\\windows\\Chocolatey",
     #require => Mount['F:']
-    ensure => absent
+    ensure => absent,
   }
 
-  include profile::packaging::repositories::windows
+  include profiles::packaging::repositories::windows
 }

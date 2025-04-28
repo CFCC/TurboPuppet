@@ -1,8 +1,7 @@
 #
 # Fedora package repositories
 #
-class profile::packaging::repositories::fedora {
-
+class profiles::packaging::repositories::fedora {
   # Repositories are broken down into three (ok four) categories:
   # * system: Operating system vendor provided. Packages such as glibc, bash, low-level stuff like that.
   # * collections: Often 3rd party, giant repos of random stuff. RPMFusion, EPEL, etc.
@@ -17,9 +16,9 @@ class profile::packaging::repositories::fedora {
   # This will gather up all virtual resources with that specific tag and force them into existence.
   # WARNING: the flying saucer picks up from everything that matches the search!
 
-  include profile::packaging::repositories::fedora::system
-  include profile::packaging::repositories::fedora::thirdparty
-  include profile::packaging::repositories::fedora::collections
+  include profiles::packaging::repositories::fedora::system
+  include profiles::packaging::repositories::fedora::thirdparty
+  include profiles::packaging::repositories::fedora::collections
 
   # Normally I'd say realize only the system category here and leave the rest to their
   # specific profiles. However, since we don't require that level of separation yet, they

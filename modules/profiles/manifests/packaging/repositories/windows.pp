@@ -1,12 +1,11 @@
 #
 # Windows package repositories
 #
-class profile::packaging::repositories::windows {
-
+class profiles::packaging::repositories::windows {
   # Some day...
-  #include profile::packaging::repositories::windows::system
-  #include profile::packaging::repositories::windows::thirdparty
-  include profile::packaging::repositories::windows::collections
+  #include profiles::packaging::repositories::windows::system
+  #include profiles::packaging::repositories::windows::thirdparty
+  include profiles::packaging::repositories::windows::collections
 
   # Normally I'd say realize only the system category here and leave the rest to their
   # specific profiles. However, since we don't require that level of separation yet, they

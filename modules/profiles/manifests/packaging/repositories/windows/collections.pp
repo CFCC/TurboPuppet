@@ -1,8 +1,7 @@
 #
 #
 #
-class profile::packaging::repositories::windows::collections {
-
+class profiles::packaging::repositories::windows::collections {
   Chocolateysource {
     ensure             => present,
     tag                => ['chocolateysource-collections'],
@@ -16,7 +15,7 @@ class profile::packaging::repositories::windows::collections {
     ensure              => present,
     installation_policy => 'trusted',
     tag                 => ['psrepository-collections'],
-    require             => Pspackageprovider['Nuget']
+    require             => Pspackageprovider['Nuget'],
   }
 
   # 3rd Party Collections "Supported"
