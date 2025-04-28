@@ -7,7 +7,7 @@ class roles::base {
   tag 'windowsupdate'
 
   # Platform base
-  case $::operatingsystem {
+  case $facts['os']['family'] {
     'windows': {
       # This is where we specify defaults that automatically apply to ALL
       # resources in child classes. These can be overridden as needed.
@@ -49,7 +49,7 @@ class roles::base {
     #   include profile::ide::xcode
     # }
     default: {
-      fail("platform ${::operatingsystem} is unsupported")
+      fail("platform ${facts['os']['family']} is unsupported")
     }
   }
 
@@ -60,7 +60,7 @@ class roles::base {
 
   # Drivers
   # https://puppet.com/docs/puppet/5.3/lang_data_regexp.html
-  # if $::hostname =~ /(?i:zotac)/  { include profile::driver::zotac }
-  # if $::hostname =~ /(?i:zaktop)/ { include profile::driver::zaktop }
-  if $::hostname =~ /(?i:hp)/     { include profile::driver::hp }
+  # if $facts['hostname'] =~ /(?i:zotac)/  { include profile::driver::zotac }
+  # if $facts['hostname'] =~ /(?i:zaktop)/ { include profile::driver::zaktop }
+  # if $facts['hostname'] =~ /(?i:hp)/     { include profile::driver::hp }
 }

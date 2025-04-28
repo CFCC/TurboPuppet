@@ -19,15 +19,15 @@ class profiles::packaging::keys::fedora {
   # }
   # They do some funky user-agent-specific crap to prevent that. It's stupid, so we
   # must deal with it.
-  package { "rpmfusion-free-${::operatingsystemmajrelease}":
+  package { "rpmfusion-free-${facts['os']['release']['major']}":
     ensure => present,
     name   => 'rpmfusion-free-release',
-    source => "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-${::operatingsystemmajrelease}.noarch.rpm",
+    source => "https://download1.rpmfusion.org/free/fedora/rpmfusion-free-release-${facts['os']['release']['major']}.noarch.rpm",
   }
-  package { "rpmfusion-nonfree-${::operatingsystemmajrelease}":
+  package { "rpmfusion-nonfree-${facts['os']['release']['major']}":
     ensure => present,
     name   => 'rpmfusion-nonfree-release',
-    source => "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-${::operatingsystemmajrelease}.noarch.rpm",
+    source => "https://download1.rpmfusion.org/nonfree/fedora/rpmfusion-nonfree-release-${facts['os']['release']['major']}.noarch.rpm",
   }
 
   # ThirdParty

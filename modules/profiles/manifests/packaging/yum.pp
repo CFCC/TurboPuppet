@@ -6,11 +6,11 @@ class profiles::packaging::yum {
   # It doesn't support Fedora.
   # Good talk.
 
-  case $::operatingsystem {
+  case $facts['os']['family'] {
     'Fedora': {
-      include profile::packaging::keys::fedora
-      include profile::packaging::repositories::fedora
-      Class['profile::packaging::keys::fedora'] -> Class['profile::packaging::repositories::fedora']
+      include profiles::packaging::keys::fedora
+      include profiles::packaging::repositories::fedora
+      Class['profiles::packaging::keys::fedora'] -> Class['profiles::packaging::repositories::fedora']
 
       # I hate this tool. Gets in the way of everything.
       # @TODO if we do automated installs this can probably be removed there
