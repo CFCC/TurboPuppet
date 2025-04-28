@@ -152,6 +152,60 @@ function Install-PuppetAgent {
     }
 }
 
+function Install-Git {
+    param(
+        [Parameter(Mandatory=$false)]
+        [string]$LogFile = "C:\Windows\Logs\git-install.log"
+    )
+
+    $gitInstaller = "Git-2.49.0-64-bit.exe"
+    $gitDownloadUrl = "https://github.com/git-for-windows/git/releases/download/v2.49.0.windows.1/$gitInstaller"
+    $installerPath = Join-Path -Path $INSTALLER_DIR -ChildPath $gitInstaller
+    
+    # Create installer directory if it doesn't exist
+    New-DirectorySafe -Path $INSTALLER_DIR
+    
+    # Download the installer if it doesn't exist
+    if (-not (Test-Path $installerPath)) {
+        Write-Log "Downloading Git installer..."
+        try {
+            Invoke-WebRequest -Uri $gitDownloadUrl -OutFile $installerPath
+            Write-Log "Download completed successfully"
+        }
+        catch {
+            Write-Log "Failed to download Git installer: $_" -Level Error
+            return $false
+        }
+    }
+    
+    try {
+        $arguments = @(
+            "/VERYSILENT",
+            "/SUPPRESSMSGBOXES",
+            "/NORESTART",
+            "/NOCANCEL",
+            "/SP-",
+            "/LOG=$LogFile",
+            "/COMPONENTS=icons,ext\reg\shellhere,assoc,assoc_sh",
+            "/DIR=C:\Program Files\Git"
+        )
+        
+        $process = Start-Process -FilePath $installerPath -ArgumentList $arguments -Wait -PassThru
+        
+        if ($process.ExitCode -eq 0) {
+            Write-Log "Git installed successfully"
+            return $true
+        } else {
+            Write-Log "Git installation failed with exit code: $($process.ExitCode)" -Level Error
+            return $false
+        }
+    }
+    catch {
+        Write-Log "Error installing Git: $_" -Level Error
+        return $false
+    }
+}
+
 function Install-TurboPuppet {
     param(
         [Parameter(Mandatory=$false)]
@@ -176,6 +230,7 @@ $null = Add-ToSystemPath -PathToAdd $BIN_DIR
 
 # Install Puppet agent.
 $null = Install-PuppetAgent
+$null = Install-Git
 
 # Reload environment variables.
 Update-EnvironmentVariables

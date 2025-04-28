@@ -8,10 +8,11 @@ param(
     [switch]$cached
 )
 
-$PUPPET_ROOT_DIR = "C:\ProgramData\PuppetLabs"
+$PUPPET_DATA_DIR = "C:\ProgramData\PuppetLabs"
+$PUPPET_ROOT_DIR = "C:\Program Files\Puppet Labs\Puppet"
 $PUPPET_BIN_DIR = "$PUPPET_ROOT_DIR\puppet\bin"
 $PUPPET_SSL_DIR = "$PUPPET_ROOT_DIR\puppet\ssl"
-$PUPPET_CODE_DIR = "$PUPPET_ROOT_DIR\code"
+$PUPPET_CODE_DIR = "$PUPPET_DATA_DIR\code"
 $PUPPET_ENVIRONMENTS_DIR = "$PUPPET_CODE_DIR\environments"
 $CODE_REPO_URL = "https://github.com/CFCC/TurboPuppet"
 $ENVIRONMENT_DIR = Join-Path $PUPPET_ENVIRONMENTS_DIR $branch
@@ -104,7 +105,7 @@ function Install-PuppetModules {
     Prepare-Certificates
     
     Write-Host "Installing modules from Puppetfile..."
-    "$PUPPET_BIN_DIR\r10k.bat" puppetfile install --puppetfile $puppetfilePath --moduledir "$ENVIRONMENT_DIR\modules"
+    & "$PUPPET_BIN_DIR\r10k.bat" puppetfile install --puppetfile $puppetfilePath --moduledir "$ENVIRONMENT_DIR\modules"
     
     if ($LASTEXITCODE -ne 0) {
         Write-Error "Failed to install modules from Puppetfile"
