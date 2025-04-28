@@ -1,0 +1,3 @@
+---
+# Test key-value pair
+profiles::test::test_key: "This is a test value from common.yaml" 
