@@ -4,18 +4,24 @@ param(
     [string]$branch = "production",
     [string]$role = "roles::camper::generic_v2",
     [switch]$debug,
-    [switch]$noop
+    [switch]$noop,
+    [switch]$cached
 )
 
 $PUPPET_ROOT_DIR = "C:\ProgramData\PuppetLabs"
+$PUPPET_BIN_DIR = "$PUPPET_ROOT_DIR\puppet\bin"
+$PUPPET_SSL_DIR = "$PUPPET_ROOT_DIR\puppet\ssl"
 $PUPPET_CODE_DIR = "$PUPPET_ROOT_DIR\code"
 $PUPPET_ENVIRONMENTS_DIR = "$PUPPET_CODE_DIR\environments"
-$PUPPET_BASEMODULES_DIR = "$PUPPET_CODE_DIR\modules"
 $CODE_REPO_URL = "https://github.com/CFCC/TurboPuppet"
-$GEM_BINARY = "C:\Program Files\Puppet Labs\Puppet\puppet\bin\gem.bat"
 $ENVIRONMENT_DIR = Join-Path $PUPPET_ENVIRONMENTS_DIR $branch
 
 function Get-GitBranchArchive {
+    if ($cached) {
+        Write-Host "Using cached branch $branch"
+        return
+    }
+
     $zipPath = Join-Path $env:TEMP "TurboPuppet-$branch.zip"
     
     # Remove existing directory if it exists
@@ -72,17 +78,33 @@ function Run-Puppet {
     puppet apply @applyArgs
 }
 
+<#
+This is some bullshit.
+https://github.com/puppetlabs/r10k/issues/1238
+https://github.com/puppetlabs/puppet-agent/blob/main/resources/files/windows/environment.bat#L24
+#>
+function Prepare-Certificates {
+    $caCertBundlePath = Join-Path $PUPPET_SSL_DIR "turbopuppet-cacerts.pem"
+    if (-not (Test-Path $caCertBundlePath)) {
+        Write-Host "Downloading CA certificates bundle..."
+        Invoke-WebRequest -Uri "https://curl.se/ca/cacert.pem" -OutFile $caCertBundlePath
+    }
+    $env:SSL_CERT_FILE = $caCertBundlePath
+    Write-Host "CA certificates bundle (SSL_CERT_FILE) set to $caCertBundlePath"
+}
+
 function Install-PuppetModules {
     $puppetfilePath = Join-Path $ENVIRONMENT_DIR "Puppetfile"
     
     if (-not (Test-Path $puppetfilePath)) {
-        Write-Host "Puppetfile not found at $puppetfilePath"
-        return
+        Write-Error "Puppetfile not found at $puppetfilePath"
+        exit 1
     }
+
+    Prepare-Certificates
     
     Write-Host "Installing modules from Puppetfile..."
-    # @TODO NO
-    r10k puppetfile install --puppetfile $puppetfilePath --moduledir "$ENVIRONMENT_DIR\modules"
+    "$PUPPET_BIN_DIR\r10k.bat" puppetfile install --puppetfile $puppetfilePath --moduledir "$ENVIRONMENT_DIR\modules"
     
     if ($LASTEXITCODE -ne 0) {
         Write-Error "Failed to install modules from Puppetfile"
@@ -92,32 +114,22 @@ function Install-PuppetModules {
     Write-Host "Successfully installed modules from Puppetfile"
 }
 
+<#
+Installing with the Gemfile caused some weird errors. Since all I need is r10k 
+I'm going to do it manually here for now.
+#>
 function Install-Gems {
-    $gemfilePath = Join-Path $ENVIRONMENT_DIR "Gemfile"
-    
-    if (-not (Test-Path $gemfilePath)) {
-        Write-Host "Gemfile not found at $gemfilePath"
-        return
-    }
-    
-    if (-not (Test-Path $GEM_BINARY)) {
-        Write-Error "Gem binary not found at $GEM_BINARY"
-        exit 1
-    }
-    
-    Write-Host "Installing gems from Gemfile..."
-    & $GEM_BINARY install --local --file $gemfilePath
-    
-    if ($LASTEXITCODE -ne 0) {
-        Write-Error "Failed to install gems from Gemfile"
-        exit 1
-    }
-    
-    Write-Host "Successfully installed gems from Gemfile"
+    Write-Host "Installing r10k..."
+    & "$PUPPET_BIN_DIR\gem.bat" install r10k --version '~> 3.15.4'
+    Write-Host "Successfully installed all gems"
 }
 
 $null = Get-GitBranchArchive
 Set-PuppetEnvironment
 Install-Gems
-# Install-PuppetModules
+Install-PuppetModules
 Run-Puppet
+
+# installer needs to install git (winget install git) figure out how to do this non-interactively.
+# refresh environment to pick up the Git path, may not be necessary if the installer does it.
+# ssl issues
