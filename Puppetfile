@@ -9,7 +9,6 @@ mod 'tse-shortcut',
     :git => 'https://github.com/sseebald/tse-module-shortcut',
     :branch => 'master'
 mod 'ayohrling-local_security_policy', '1.1.1'
-mod 'cfcc', :local => true
 mod 'puppetlabs-acl', '5.0.3'
 mod 'puppet-windows_firewall', '5.0.0'
 mod 'puppetlabs-docker', '10.3.0'
@@ -32,3 +31,8 @@ mod 'puppetlabs-vcsrepo', '7.0.0'
 mod 'puppetlabs-sslcertificate', '5.0.0'
 mod 'geoffwilliams-mount_windows_smb', '0.1.1'
 mod 'hbuckle-powershellmodule', '2.0.1'
+
+# Local modules
+mod 'cfcc', :local => true
+mod 'roles', :local => true
+mod 'profiles', :local => true
