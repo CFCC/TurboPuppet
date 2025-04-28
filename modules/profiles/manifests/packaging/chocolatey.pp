@@ -21,7 +21,7 @@ class profiles::packaging::chocolatey {
   # manifested themselves. Like packages refused to install. It caches about 1.6GB of content
   # so that's not nothing but it's worthless if it isn't reliable. Disabling until some
   # other day.
-  # This is used in tandem with the mount defined in profile::storage::mountpoints.
+  # This is used in tandem with the mount defined in profiles::storage::mountpoints.
   chocolateyconfig { 'cachelocation':
     #value   => "F:\\windows\\Chocolatey",
     #require => Mount['F:']

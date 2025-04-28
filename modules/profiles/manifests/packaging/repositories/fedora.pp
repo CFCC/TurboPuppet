@@ -31,7 +31,7 @@ class profiles::packaging::repositories::fedora {
   # In the model of profiles that would not rely on thirtparty repos being automatically
   # available, they would look something like the following:
   #
-  # class profile::tool::slack {
+  # class profiles::tool::slack {
   #     Yumrepo <| name == 'slack' |>
   #
   #     package { 'slack':
