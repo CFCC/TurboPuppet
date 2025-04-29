@@ -56,7 +56,7 @@ class profiles::cfcc::camper {
   # # #47 disabling since the Zotac driver issues seem to no longer be relevant.
   include profiles::power::alwayson
   include profiles::remoteaccess::vnc::enable
-  # include profiles::desktop::wallpaper
+  include profiles::desktop::wallpaper
   # include profiles::tls::certificates
 
   # # Camper & System Tools
