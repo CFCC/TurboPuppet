@@ -6,48 +6,48 @@
 #
 class profiles::cfcc::camper {
   # OS-specific
-  case $facts['os']['family'] {
-    'windows': {
-      # # Platform things
-      # include profile::desktop::explorer
-      # include profile::remoteaccess::rdp::enable
-      # include profile::remoteaccess::winrm::enable
+  # case $facts['os']['family'] {
+  #   'windows': {
+  #     # # Platform things
+  #     # include profile::desktop::explorer
+  #     # include profile::remoteaccess::rdp::enable
+  #     # include profile::remoteaccess::winrm::enable
 
-      # include profile::firewall::windows
-      # include profile::windows::xbox::disable
-      # include profile::windows::update
-      # # include profile::windows::wsl
-      # include profile::windows::dotnet
-      # include profile::windows::apps
+  #     # include profile::firewall::windows
+  #     # include profile::windows::xbox::disable
+  #     # include profile::windows::update
+  #     # # include profile::windows::wsl
+  #     # include profile::windows::dotnet
+  #     # include profile::windows::apps
 
-      # # OS-specific System 3rd Party Tools
-      # include profile::tool::spacesniffer
-      # include profile::tool::cpuz
-      # include profile::tool::procmon
-      # include profile::tool::gpuz
-      # include profile::tool::produkey
+  #     # # OS-specific System 3rd Party Tools
+  #     # include profile::tool::spacesniffer
+  #     # include profile::tool::cpuz
+  #     # include profile::tool::procmon
+  #     # include profile::tool::gpuz
+  #     # include profile::tool::produkey
 
-      # # OS-specific Camper Tools
-      # include profile::terminal::windows
-      # include profile::browser::edge
+  #     # # OS-specific Camper Tools
+  #     # include profile::terminal::windows
+  #     # include profile::browser::edge
 
-      # # Text editors. We all have opinions on these.
-      # include profile::editor::notepadplusplus
+  #     # # Text editors. We all have opinions on these.
+  #     # include profile::editor::notepadplusplus
 
-      # # Wumboze Games
-      # include profile::game::epic
-      # include profile::game::origin
-    }
-    'Linux': {
-      # include profile::desktop::cinnamon
-      # include profile::remoteaccess::ssh::enable
-      # # @TODO include profile::firewall::linux
-      # include profile::editor::vim
-      # include profile::editor::sublime
-      # include profile::terminal::gnome
-    }
-    default: {}
-  }
+  #     # # Wumboze Games
+  #     # include profile::game::epic
+  #     # include profile::game::origin
+  #   }
+  #   'Linux': {
+  #     # include profile::desktop::cinnamon
+  #     # include profile::remoteaccess::ssh::enable
+  #     # # @TODO include profile::firewall::linux
+  #     # include profile::editor::vim
+  #     # include profile::editor::sublime
+  #     # include profile::terminal::gnome
+  #   }
+  #   default: {}
+  # }
 
   # System-level stuff
   # include profile::puppet::agent::disable
