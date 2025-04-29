@@ -1,8 +1,8 @@
 #
+# Enable SSH access.
 #
-#
-class profile::remoteaccess::ssh::enable {
-  case $::kernel {
+class profiles::remoteaccess::ssh::enable {
+  case $facts['kernel'] {
     'Linux': {
       class { 'ssh': }
     }

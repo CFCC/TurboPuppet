@@ -1,10 +1,10 @@
 #
+# Always on power settings for Linux.
 #
-#
-class profile::power::alwayson::linux {
+class profiles::power::alwayson::linux {
   Dconf::Setting {
-    user => $::turbosite::camper_username,
-    uid  => $::turbosite::camper_uid
+    user => lookup('camper_username'),
+    uid  => lookup('camper_uid'),
   }
 
   dconf::setting { 'lock-enabled':
@@ -31,5 +31,4 @@ class profile::power::alwayson::linux {
     key   => '/org/cinnamon/settings-daemon/plugins/power/lock-on-suspend',
     value => false,
   }
-
 }

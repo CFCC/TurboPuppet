@@ -1,8 +1,7 @@
 #
 #
 #
-class profile::cfcc::mediacenter {
-
+class profiles::cfcc::mediacenter {
   package { 'plexmediaplayer': }
   package { 'hdhomerun-view': }
   package { 'setpoint': }
@@ -10,12 +9,12 @@ class profile::cfcc::mediacenter {
   package { 'discord': }
   package { 'zoom': }
 
-  include profile::tool::autohotkey
+  include profiles::tool::autohotkey
 
   file { 'bluetooth.ps1':
-    path   => "C:/CampFitch/bin/bluetooth.ps1",
+    path   => 'C:/CampFitch/bin/bluetooth.ps1',
     owner  => $turbosite::camper_username,
-    source => 'puppet:///modules/cfcc/mediacenter/bluetooth.ps1'
+    source => 'puppet:///modules/cfcc/mediacenter/bluetooth.ps1',
   }
   file { 'AutoHotKey.ahk':
     path   => "${turbosite::camper_homedir}/Documents/AutoHotKey.ahk",
