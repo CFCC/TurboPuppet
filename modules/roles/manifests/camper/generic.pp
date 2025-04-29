@@ -3,40 +3,40 @@
 #
 class roles::camper::generic inherits roles::camper {
   # # Intro
-  # include profile::ide::scratch
+  # include profiles::ide::scratch
 
   # # Java
-  # include profile::java::jdk
-  # include profile::ide::intellij
-  # Class['profile::java::jdk'] -> Class['profile::ide::intellij']
+  # include profiles::java::jdk
+  # include profiles::ide::intellij
+  # Class['profiles::java::jdk'] -> Class['profiles::ide::intellij']
 
   # # Photostuffs
-  # include profile::editor::gimp
+  # include profiles::editor::gimp
 
   # # Pyle
-  # include profile::python::python3
-  # include profile::python::turtle
-  # include profile::ide::pycharm
-  # include profile::ide::vscode
-  # Class['profile::python::python3'] -> Class['profile::ide::pycharm']
+  # include profiles::python::python3
+  # include profiles::python::turtle
+  # include profiles::ide::pycharm
+  # include profiles::ide::vscode
+  # Class['profiles::python::python3'] -> Class['profiles::ide::pycharm']
 
   # # Game Engine
-  # include profile::engine::godot
+  # include profiles::engine::godot
 
   # # Webz
   # case $::operatingsystem {
   #   'windows': {
-  #     include profile::webserver::xampp
+  #     include profiles::webserver::xampp
   #   }
   #   'Darwin': {
   #     # Web sharing is already a thing
   #   }
   #   'Fedora': {
-  #     # @TODO include profile::webserver::apache
+  #     # @TODO include profiles::webserver::apache
   #   }
   #   default: {
   #     fail('Unsupported OS')
   #   }
   # }
-  # include profile::nodejs::runtime
+  # include profiles::nodejs::runtime
 }

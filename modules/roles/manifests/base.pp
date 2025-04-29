@@ -31,7 +31,7 @@ class roles::base {
     #     ensure => present,
     #   }
 
-    #   include profile::packaging::yum
+    #   include profiles::packaging::yum
     # }
     # 'FreeBSD': {
     #   Package {
@@ -45,8 +45,8 @@ class roles::base {
     #   }
 
     #   # See notes in Windows above for more details on this stuff
-    #   include profile::packaging::homebrew
-    #   include profile::ide::xcode
+    #   include profiles::packaging::homebrew
+    #   include profiles::ide::xcode
     # }
     default: {
       fail("platform ${facts['os']['family']} is unsupported")
@@ -60,7 +60,7 @@ class roles::base {
 
   # Drivers
   # https://puppet.com/docs/puppet/5.3/lang_data_regexp.html
-  # if $facts['hostname'] =~ /(?i:zotac)/  { include profile::driver::zotac }
-  # if $facts['hostname'] =~ /(?i:zaktop)/ { include profile::driver::zaktop }
-  # if $facts['hostname'] =~ /(?i:hp)/     { include profile::driver::hp }
+  # if $facts['hostname'] =~ /(?i:zotac)/  { include profiles::driver::zotac }
+  # if $facts['hostname'] =~ /(?i:zaktop)/ { include profiles::driver::zaktop }
+  # if $facts['hostname'] =~ /(?i:hp)/     { include profiles::driver::hp }
 }
