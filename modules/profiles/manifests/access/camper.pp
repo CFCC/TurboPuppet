@@ -2,13 +2,13 @@
 # Camper user access profile.
 # @TODO sudo class. It overrides /etc/sudoers for at least Mac.
 #
-class profile::access::camper {
-
+class profiles::access::camper {
+  $username = lookup('camper_username')
   # In other places we key off of the $::kernel fact. That doesn't
   # work for us here since different distros have different groups.
-  case $::operatingsystem {
+  case $facts['os']['family'] {
     'windows': {
-      include profile::access::uac::disable
+      include profiles::access::uac::disable
       # $user_groups = ['BUILTIN\Administrators', "BUILTIN\Remote Management Users"]
       $user_groups = ['BUILTIN\Administrators']
     }
@@ -18,8 +18,8 @@ class profile::access::camper {
 
       sudo::conf { 'camper':
         priority => 10,
-        content  => "${turbosite::camper_username}
-           ALL=(ALL) NOPASSWD: ALL\nDefaults    secure_path = /usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/opt/puppetlabs/bin"
+        content  => "${username}
+           ALL=(ALL) NOPASSWD: ALL\nDefaults    secure_path = /usr/local/bin:/sbin:/bin:/usr/sbin:/usr/bin:/opt/puppetlabs/bin",
       }
     }
     'Darwin': {
@@ -27,21 +27,21 @@ class profile::access::camper {
       $user_groups = ['admin']
       sudo::conf { 'camper':
         priority => 10,
-        content  => "${turbosite::camper_username} ALL=(ALL) NOPASSWD: ALL"
+        content  => "${username} ALL=(ALL) NOPASSWD: ALL",
       }
     }
     default: {
-      fail("platform is unsupported")
+      fail('platform is unsupported')
     }
   }
 
-  user { "${turbosite::camper_username}":
+  user { 'camper':
     ensure => present,
+    name   => $username,
     groups => $user_groups,
-    # password => "${turbosite::camper_username}",
-    before => Class['profile::access::autologin::enable']
+    before => Class['profiles::access::autologin::enable'],
   }
 
-  include profile::access::autologin::enable
-  include profile::access::usericon
+  include profiles::access::autologin::enable
+  include profiles::access::usericon
 }

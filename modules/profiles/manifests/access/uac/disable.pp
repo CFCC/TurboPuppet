@@ -1,13 +1,12 @@
 #
 # User Account Control - Disable
 #
-class profile::access::uac::disable {
+class profiles::access::uac::disable {
   # Disable the UAC warnings
   local_security_policy {
     'User Account Control: Behavior of the elevation prompt for administrators in Admin Approval Mode':
       ensure         => 'present',
-      policy_setting =>
-        'MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System\ConsentPromptBehaviorAdmin',
+      policy_setting => 'MACHINE\Software\Microsoft\Windows\CurrentVersion\Policies\System\ConsentPromptBehaviorAdmin',
       policy_type    => 'Registry Values',
       policy_value   => '4,0',
   }

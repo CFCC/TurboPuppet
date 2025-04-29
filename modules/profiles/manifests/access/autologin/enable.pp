@@ -1,9 +1,9 @@
 #
+# Automatically log into the camper account on boot.
 #
-#
-class profile::access::autologin::enable {
-
-  case $::operatingsystem {
+class profiles::access::autologin::enable {
+  $username = lookup('camper_username')
+  case $facts['os']['family'] {
     'windows': {
       # https://gallery.technet.microsoft.com/scriptcenter/Set-AutoLogon-and-execute-19ec3879
       # https://support.microsoft.com/en-us/help/324737/how-to-turn-on-automatic-logon-in-windows
@@ -11,13 +11,13 @@ class profile::access::autologin::enable {
       $reg_path = 'HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Winlogon'
 
       registry_key { 'WinLogon':
-        path   => $reg_path,
         ensure => present,
+        path   => $reg_path,
       }
 
       # Default for resources
       Registry_value {
-        ensure => present
+        ensure => present,
       }
 
       registry_value { 'AutoAdminLogon':
@@ -29,13 +29,13 @@ class profile::access::autologin::enable {
       registry_value { 'DefaultUsername':
         path => "${reg_path}\\DefaultUserName",
         type => string,
-        data => $turbosite::camper_username,
+        data => $username,
       }
 
       registry_value { 'DefaultPassword':
         path => "${reg_path}\\DefaultPassword",
         type => string,
-        data => $turbosite::camper_username,
+        data => $username,
       }
 
       # registry_value { 'AutoLogonCount':
@@ -44,10 +44,11 @@ class profile::access::autologin::enable {
       #     data => 1
       # }
 
-      Registry_key['WinLogon'] -> Registry_value['AutoAdminLogon'] ->
-      Registry_value['DefaultUsername'] -> Registry_value['DefaultPassword']
+      Registry_key['WinLogon']
+      -> Registry_value['AutoAdminLogon']
+      -> Registry_value['DefaultUsername']
+      -> Registry_value['DefaultPassword']
     }
     default: {}
   }
-
 }

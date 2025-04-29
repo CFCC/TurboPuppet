@@ -1,14 +1,14 @@
 #
 #
 #
-class profile::access::usericon {
-  case $::operatingsystem {
+class profiles::access::usericon {
+  case $facts['os']['family'] {
     'windows': {
       $file_list = ['user.png', 'user-192.png', 'user-48.png', 'user-40.png', 'user-32.png']
       $file_list.each |$icon_file| {
         file { "C:/ProgramData/Microsoft/User Account Pictures/${icon_file}":
           source => "puppet:///campfs/UserIcons/${icon_file}",
-          before => Registry_value['UseDefaultTile']
+          before => Registry_value['UseDefaultTile'],
         }
       }
 
@@ -24,7 +24,7 @@ class profile::access::usericon {
     'Darwin': {
     }
     default: {
-      fail("platform is unsupported")
+      fail('platform is unsupported')
     }
   }
 }
