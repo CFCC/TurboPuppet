@@ -8,7 +8,8 @@ class profiles::access::usericon {
       $file_list.each |$icon_file| {
         notice("${lookup('campfs_url')}/UserIcons/${icon_file}")
         file { "C:/ProgramData/Microsoft/User Account Pictures/${icon_file}":
-          source => "${lookup('campfs_url')}/UserIcons/${icon_file}",
+          # source => "${lookup('campfs_url')}/UserIcons/${icon_file}",
+          source => "\\\\homie.lab.campcomputer.com\\PuppetFS\\UserIcons\\${icon_file}",
           before => Registry_value['UseDefaultTile'],
         }
       }
