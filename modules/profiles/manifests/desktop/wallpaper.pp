@@ -29,10 +29,11 @@ class profiles::desktop::wallpaper {
         owner  => lookup('camper_username'),
         source => 'puppet:///modules/cfcc/windows/SetWallpaper.ps1',
       }
+      # Used to do -like "*img0.jpg" but by default in our Windows 11 it's empty.
       exec { 'SetWallpaper':
         # @formatter:off
-        command => 'C:\CampFitch\bin\SetWallpaper.ps1 C:\CampFitch\usr\share\wallpaper\AbelsRd.jpg',
-        onlyif  => cfcc::psexpr('(Get-ItemProperty -Path "HKCU:Control Panel\Desktop" -Name "Wallpaper" |Select -ExpandProperty Wallpaper) -like "*img0.jpg"'),
+        command => 'C:\CampFitch\bin\SetWallpaper.ps1 C:\CampFitch\usr\share\wallpaper\Bungalow.jpg',
+        onlyif  => cfcc::psexpr('(Get-ItemProperty -Path "HKCU:Control Panel\Desktop" -Name "Wallpaper" |Select -ExpandProperty Wallpaper) -eq ""'),
         # @formatter:on
         require => File['SetWallpaper'],
       }
