@@ -1,7 +1,7 @@
 #
 #
 #
-class profile::time::client::w32time {
+class profiles::time::client::w32time {
   # https://www.top-password.com/blog/enable-or-disable-set-time-zone-automatically-in-windows-10/
 
   registry_value { 'AutoSetTime':
