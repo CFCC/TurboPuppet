@@ -3,13 +3,13 @@
 # Some references:
 # https://facility9.com/2015/07/controlling-the-windows-power-plan-with-powershell/
 #
-class profile::power::alwayson::windows {
+class profiles::power::alwayson::windows {
   # This maps to the "High Performance" power plan
   $guid_power_plan = '8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c'
 
   exec { 'SetPowerPlan':
     command => "powercfg -setactive ${guid_power_plan}",
-    onlyif  => psexpr("(powercfg -getactivescheme).split()[3] -ne '${guid_power_plan}'")
+    onlyif  => cfcc::psexpr("(powercfg -getactivescheme).split()[3] -ne '${guid_power_plan}'"),
   }
 
   # Make the display never sleep
@@ -24,7 +24,7 @@ class profile::power::alwayson::windows {
   $cmd_get_displaysleep_setting = "powercfg /Q ${guid_power_plan} ${guid_subgroup_display} ${guid_setting_displaysleep} | Select-String 'Current AC Power' | select -exp 'line'"
   exec { 'SetDisplaySleep':
     command => "powercfg /SETACVALUEINDEX ${guid_power_plan} ${guid_subgroup_display} ${guid_setting_displaysleep} ${display_sleep_interval}",
-    onlyif  => psexpr("[int](${cmd_get_displaysleep_setting}).split()[-1] -ne ${display_sleep_interval}")
+    onlyif  => cfcc::psexpr("[int](${cmd_get_displaysleep_setting}).split()[-1] -ne ${display_sleep_interval}"),
   }
   # @formatter:on
 
@@ -37,7 +37,7 @@ class profile::power::alwayson::windows {
   $cmd_get_systemsleep_setting = "powercfg /Q ${guid_power_plan} ${guid_subgroup_sleep} ${guid_setting_sleepafter} | Select-String 'Current AC Power' | select -exp 'line'"
   exec { 'SetSystemSleep':
     command => "powercfg /SETACVALUEINDEX ${guid_power_plan} ${guid_subgroup_sleep} ${guid_setting_sleepafter} ${system_sleep_interval}",
-    onlyif  => psexpr("[int](${cmd_get_systemsleep_setting}).split()[-1] -ne ${system_sleep_interval}")
+    onlyif  => cfcc::psexpr("[int](${cmd_get_systemsleep_setting}).split()[-1] -ne ${system_sleep_interval}"),
   }
   # @formatter:on
 
@@ -47,8 +47,8 @@ class profile::power::alwayson::windows {
   # never have to this disable there since Hibernation should never be able to
   # get enabled. Hopefully....
   exec { 'DisableHibernation':
-    command => "powercfg -h off",
-    onlyif  => psexpr("[System.IO.Directory]::EnumerateFiles('C:\\') -contains ('C:\\hiberfil.sys')")
+    command => 'powercfg -h off',
+    onlyif  => cfcc::psexpr("[System.IO.Directory]::EnumerateFiles('C:\\') -contains ('C:\\hiberfil.sys')"),
   }
 
   # Don't require a password after wake
@@ -63,9 +63,9 @@ class profile::power::alwayson::windows {
   $consolelock_registry_path = "HKLM:\\SYSTEM\\CurrentControlSet\\Control\\Power\\User\\PowerSchemes\\${guid_power_plan}\\0e796bdb-100d-47d6-a2d5-f7d2daa51f51"
   exec { 'DisableWakePassword':
     command => "powercfg /SETACVALUEINDEX ${guid_power_plan} SUB_NONE CONSOLELOCK 0",
-    onlyif => [
-      psexpr("!(Test-Path -Path '${consolelock_registry_path}')"),
-      psexpr("[int](Get-ItemProperty -Path '${consolelock_registry_path}' -Name 'ACSettingIndex' | Select -ExpandProperty 'ACSettingIndex') -eq 0"),
+    onlyif  => [
+      cfcc::psexpr("!(Test-Path -Path '${consolelock_registry_path}')"),
+      cfcc::psexpr("[int](Get-ItemProperty -Path '${consolelock_registry_path}' -Name 'ACSettingIndex' | Select -ExpandProperty 'ACSettingIndex') -eq 0"),
     ],
     require => Exec['SetPowerPlan'],
   }
@@ -76,4 +76,3 @@ class profile::power::alwayson::windows {
   -> Exec['SetSystemSleep']
   -> Exec['DisableHibernation']
 }
-
