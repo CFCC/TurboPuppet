@@ -52,7 +52,7 @@ class profiles::cfcc::camper {
   # System-level stuff
   # include profiles::puppet::agent::disable
   # include profiles::mdns::client
-  # include profiles::cfcc::filesystem
+  include profiles::cfcc::filesystem
   # # #47 disabling since the Zotac driver issues seem to no longer be relevant.
   include profiles::power::alwayson
   include profiles::remoteaccess::vnc::enable
@@ -75,4 +75,6 @@ class profiles::cfcc::camper {
   # include profiles::game::quake3
   # include profiles::game::steam
   # include profiles::game::minecraft
+
+  Class['profiles::cfcc::filesystem'] -> Class['profiles::desktop::wallpaper']
 }
