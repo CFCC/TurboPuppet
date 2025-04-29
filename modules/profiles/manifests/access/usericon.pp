@@ -7,7 +7,7 @@ class profiles::access::usericon {
       $file_list = ['user.png', 'user-192.png', 'user-48.png', 'user-40.png', 'user-32.png']
       $file_list.each |$icon_file| {
         file { "C:/ProgramData/Microsoft/User Account Pictures/${icon_file}":
-          source => "puppet:///campfs/UserIcons/${icon_file}",
+          source => "${lookup('campfs_url')}/UserIcons/${icon_file}",
           before => Registry_value['UseDefaultTile'],
         }
       }
