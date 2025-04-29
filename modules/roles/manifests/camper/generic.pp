@@ -1,7 +1,7 @@
 #
 # Generic camper PC. All the things.
 #
-class role::camper::generic inherits role::camper {
+class roles::camper::generic inherits roles::camper {
   # # Intro
   # include profile::ide::scratch
 

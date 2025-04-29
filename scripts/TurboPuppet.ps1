@@ -5,7 +5,10 @@ param(
     [string]$role = "roles::camper::generic",
     [switch]$debug,
     [switch]$noop,
-    [switch]$cached
+    [switch]$cached,
+    [switch]$skip_gems,
+    [switch]$skip_modules,
+    [switch]$quick
 )
 
 $PUPPET_DATA_DIR = "C:\ProgramData\PuppetLabs"
@@ -18,7 +21,7 @@ $CODE_REPO_URL = "https://github.com/CFCC/TurboPuppet"
 $ENVIRONMENT_DIR = Join-Path $PUPPET_ENVIRONMENTS_DIR $branch
 
 function Get-GitBranchArchive {
-    if ($cached) {
+    if ($cached -or $quick) {
         Write-Host "Using cached branch $branch"
         return
     }
@@ -127,10 +130,10 @@ function Install-Gems {
 
 $null = Get-GitBranchArchive
 Set-PuppetEnvironment
-Install-Gems
-Install-PuppetModules
+if (-not ($skip_gems -or $quick) {
+    Install-Gems
+}
+if (-not ($skip_modules -or $quick)) {
+    Install-PuppetModules
+}
 Run-Puppet
-
-# installer needs to install git (winget install git) figure out how to do this non-interactively.
-# refresh environment to pick up the Git path, may not be necessary if the installer does it.
-# ssl issues
