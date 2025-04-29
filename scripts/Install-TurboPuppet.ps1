@@ -187,7 +187,7 @@ function Install-Git {
             "/SP-",
             "/LOG=$LogFile",
             "/COMPONENTS=icons,ext\reg\shellhere,assoc,assoc_sh",
-            "/DIR=C:\Program Files\Git"
+            "/DIR=`"C:\Program Files\Git`""
         )
         
         $process = Start-Process -FilePath $installerPath -ArgumentList $arguments -Wait -PassThru
