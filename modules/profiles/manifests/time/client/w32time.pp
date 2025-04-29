@@ -9,7 +9,7 @@ class profile::time::client::w32time {
     path   => 'HKLM\SYSTEM\CurrentControlSet\Services\W32Time\Parameters\Type',
     type   => string,
     data   => 'NTP', # or NoSync
-    notify => Service['W32Time']
+    notify => Service['W32Time'],
   }
 
   registry_value { 'AutoSetTimezone':
@@ -17,7 +17,7 @@ class profile::time::client::w32time {
     path   => 'HKLM\SYSTEM\CurrentControlSet\Services\tzautoupdate\Start',
     type   => dword,
     data   => 4, # 3 is enable
-    notify => Service['W32Time']
+    notify => Service['W32Time'],
   }
 
   # @TODO this doesn't change the active session, and stoping explorer.exe doesnt fix it.
@@ -25,8 +25,8 @@ class profile::time::client::w32time {
     ensure => present,
     path   => 'HKLM\SYSTEM\CurrentControlSet\Control\TimeZoneInformation\TimeZoneKeyName',
     type   => string,
-    data   => $::turbosite::time_zone,
-    notify => Service['W32Time']
+    data   => $profiles::time::client::time_zone,
+    notify => Service['W32Time'],
   }
 
   # https://blogs.msdn.microsoft.com/w32time/2008/02/26/configuring-the-time-service-ntpserver-and-specialpollinterval/
@@ -34,14 +34,14 @@ class profile::time::client::w32time {
     ensure => present,
     path   => 'HKLM\SYSTEM\CurrentControlSet\Services\W32Time\Parameters\NtpServer',
     type   => string,
-    data   => join(suffix($::turbosite::time_servers, ',0x9'), ' '),
-    notify => Service['W32Time']
+    data   => join(suffix($profiles::time::client::time_servers, ',0x9'), ' '),
+    notify => Service['W32Time'],
   }
 
   # 20190504 I dont understand why this isn't running by default. Seems that Wumboze
   # had no idea it was ahead and didn't trigger the manual start.
   service { 'W32Time':
     ensure => running,
-    enable => true
+    enable => true,
   }
 }

@@ -1,11 +1,11 @@
 ---
 camper_username: "camper"
 camper_uid: 1002
-time_servers:
+profiles::time::client::time_servers:
   - "pool.ntp.org"
   - "time.windows.com"
   - "time.apple.com"
-time_zone: "America/New_York"
+profiles::time::client::time_zone: "America/New_York"
 upstream_dns:
   - "8.8.8.8"
   - "8.8.4.4"

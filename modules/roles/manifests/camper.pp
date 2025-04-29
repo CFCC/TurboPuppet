@@ -5,7 +5,7 @@ class roles::camper inherits roles::base {
   # Tools need to make the system work. DNS, time, etc. While those
   # examples will be applied to all nodes, they require values from the
   # site class (such as the DNS server, time zone, etc).
-  # include profiles::time::client
+  include profiles::time::client
   # include profiles::storage::mountpoints
 
   # # The basic blocks of a camper PC. These make a generic functioning computer

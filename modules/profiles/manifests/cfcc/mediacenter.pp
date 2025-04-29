@@ -13,12 +13,12 @@ class profiles::cfcc::mediacenter {
 
   file { 'bluetooth.ps1':
     path   => 'C:/CampFitch/bin/bluetooth.ps1',
-    owner  => $turbosite::camper_username,
+    owner  => lookup('camper_username'),
     source => 'puppet:///modules/cfcc/mediacenter/bluetooth.ps1',
   }
   file { 'AutoHotKey.ahk':
-    path   => "${turbosite::camper_homedir}/Documents/AutoHotKey.ahk",
-    owner  => $turbosite::camper_username,
+    path   => "${lookup('camper_homedir')}/Documents/AutoHotKey.ahk",
+    owner  => lookup('camper_username'),
     source => 'puppet:///modules/cfcc/mediacenter/AutoHotKey.ahk',
     notify => Exec['ReloadAutoHotkey'],
   }
@@ -28,13 +28,13 @@ class profiles::cfcc::mediacenter {
   # Known issue. Read the comments. I used the old version and it seems to be working fine.
   # https://veg.by/en/projects/soundkeeper/
   file { 'SoundKeeper64.exe':
-    path   => "C:/Users/${turbosite::camper_username}/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/SoundKeeper64.exe",
+    path   => "C:/Users/${lookup('camper_username')}/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/SoundKeeper64.exe",
     source => 'puppet:///campfs/SoundKeeper64.exe',
   }
   # @TODO launch without reboot
 
   file { 'wallpaper.jpg':
-    path   => "C:/Users/${turbosite::camper_username}/Pictures/wallpaper.jpg",
+    path   => "C:/Users/${lookup('camper_username')}/Pictures/wallpaper.jpg",
     source => 'puppet:///campfs/boston-wallpaper.jpg',
   }
 }

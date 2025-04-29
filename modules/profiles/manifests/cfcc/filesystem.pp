@@ -15,7 +15,7 @@ class profiles::cfcc::filesystem {
 
   File {
     ensure => directory,
-    owner  => $turbosite::camper_username,
+    owner  => lookup('camper_username'),
     group  => $group,
   }
 
