@@ -130,7 +130,7 @@ function Install-Gems {
 
 $null = Get-GitBranchArchive
 Set-PuppetEnvironment
-if (-not ($skip_gems -or $quick) {
+if (-not ($skip_gems -or $quick)) {
     Install-Gems
 }
 if (-not ($skip_modules -or $quick)) {
