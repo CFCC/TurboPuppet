@@ -11,7 +11,7 @@ class profiles::desktop::explorer {
   file { $junk_shortcuts: ensure => absent }
 
   # All edits need explorer.exe to reload before they take effect
-  Hkcu {
+  Cfcc::Hkcu {
     notify => Exec['Reload Explorer'],
   }
   Registry_key {
@@ -25,14 +25,14 @@ class profiles::desktop::explorer {
   }
 
   # Show file extensions
-  hkcu { 'ShowFileExtensions':
+  cfcc::hkcu { 'ShowFileExtensions':
     key   => 'Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced',
     value => 'HideFileExt',
     data  => 0,
   }
 
   # Show Hidden Files
-  hkcu { 'ShowHiddenFiles':
+  cfcc::hkcu { 'ShowHiddenFiles':
     key   => 'Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced',
     value => 'Hidden',
     data  => 1,
@@ -40,56 +40,56 @@ class profiles::desktop::explorer {
 
   # Remove search bar from the taskbar
   # https://www.askvg.com/how-to-remove-search-and-task-view-icons-from-windows-10-taskbar/
-  hkcu { 'SearchboxTaskbarMode':
+  cfcc::hkcu { 'SearchboxTaskbarMode':
     key   => 'Software\Microsoft\Windows\CurrentVersion\Search',
     value => 'SearchboxTaskbarMode',
     data  => 0,
   }
 
   # Remove taskbview button
-  hkcu { 'RemoveTaskviewButton':
+  cfcc::hkcu { 'RemoveTaskviewButton':
     key   => 'Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced',
     value => 'ShowTaskViewButton',
     data  => 0,
   }
 
   # Remove People button
-  hkcu { 'RemovePeopleButton':
+  cfcc::hkcu { 'RemovePeopleButton':
     key   => 'Software\Policies\Microsoft\Windows\Explorer',
     value => 'HidePeopleBar',
     data  => 1,
   }
 
   # Remove the mail icon from the taskbar. This is surprisingly harder than it should be.
-  hkcu { 'RemoveTaskbandFavorites':
+  cfcc::hkcu { 'RemoveTaskbandFavorites':
     key   => 'Software\Microsoft\Windows\CurrentVersion\Explorer\Taskband',
     value => 'Favorites',
     data  => 255,
   }
 
   # Show full path to files in the title and address bar
-  hkcu { 'DisplayFullPath':
+  cfcc::hkcu { 'DisplayFullPath':
     key   => 'Software\Microsoft\Windows\CurrentVersion\Explorer\CabinetState',
     value => 'FullPath',
     data  => 1,
   }
 
   # Expand to current folder in nav tree
-  hkcu { 'ExpandCurrentNavTree':
+  cfcc::hkcu { 'ExpandCurrentNavTree':
     key   => 'Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced',
     value => 'NavPaneExpandToCurrentFolder',
     data  => 1,
   }
 
   # Combine buttons on taskbar when full
-  hkcu { 'TaskbarGlomLevel':
+  cfcc::hkcu { 'TaskbarGlomLevel':
     key   => 'Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced',
     value => 'TaskbarGlomLevel',
     data  => 1,
   }
 
   # Shoot onedrive in the face
-  hkcu { 'OnedriveAutostart':
+  cfcc::hkcu { 'OnedriveAutostart':
     ensure => absent,
     key    => 'Software\Microsoft\Windows\CurrentVersion\Run',
     value  => 'OneDrive',
@@ -104,7 +104,7 @@ class profiles::desktop::explorer {
 
   # Disable transparency
   # https://winaero.com/turn-on-or-off-transparency-effects-in-windows-10/
-  hkcu { 'EnableTransparency':
+  cfcc::hkcu { 'EnableTransparency':
     key   => 'SOFTWARE\Microsoft\Windows\CurrentVersion\Themes\Personalize',
     value => 'EnableTransparency',
     data  => 0,
@@ -140,26 +140,26 @@ class profiles::desktop::explorer {
   # Disable web search results in the start menu
   # https://superuser.com/questions/1196618/how-to-disable-internet-search-results-in-start-menu-post-creators-update/1325836#1325836
   # Watch out for https://winaero.com/disable-web-search-in-taskbar-in-windows-10-version-2004/
-  hkcu { 'BindSearchEnabled':
+  cfcc::hkcu { 'BindSearchEnabled':
     key   => 'Software\Microsoft\Windows\CurrentVersion\Search',
     value => 'BingSearchEnabled',
     data  => 0,
   }
 
-  hkcu { 'AllowSearchToUseLocation':
+  cfcc::hkcu { 'AllowSearchToUseLocation':
     key   => 'Software\Microsoft\Windows\CurrentVersion\Search',
     value => 'AllowSearchToUseLocation',
     data  => 0,
   }
 
-  hkcu { 'CortanaConsent':
+  cfcc::hkcu { 'CortanaConsent':
     key   => 'Software\Microsoft\Windows\CurrentVersion\Search',
     value => 'CortanaConsent',
     data  => 0,
   }
 
   # https://www.windowscentral.com/how-disable-recent-files-and-locations-jump-lists-windows-10
-  hkcu { 'Start_TrackDocs':
+  cfcc::hkcu { 'Start_TrackDocs':
     key   => 'Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced',
     value => 'Start_TrackDocs',
     data  => 0,
@@ -198,7 +198,7 @@ class profiles::desktop::explorer {
   #
   # https://answers.microsoft.com/en-us/windows/forum/windows_10-files-winpc/recycle-bin-missing-in-win-10/8b34228e-a7b1-409b-8f31-31eedfc9c125
   # But this did!
-  hkcu { 'HideRecycleBinDesktopIcon':
+  cfcc::hkcu { 'HideRecycleBinDesktopIcon':
     key   => 'Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel',
     value => '{645FF040-5081-101B-9F08-00AA002F954E}',
     data  => 1,
@@ -214,7 +214,7 @@ class profiles::desktop::explorer {
 
   # Disable Cortana Things
   # https://winaero.com/hide-cortana-button-taskbar-windows-10/
-  hkcu { 'ShowCortanaButton':
+  cfcc::hkcu { 'ShowCortanaButton':
     key   => 'Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced',
     value => 'ShowCortanaButton',
     data  => 0,
