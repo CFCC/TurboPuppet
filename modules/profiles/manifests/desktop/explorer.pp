@@ -1,28 +1,27 @@
 #
 # Tweaks to Explorer.exe
 #
-class profile::desktop::explorer {
+class profiles::desktop::explorer {
   # Remove built-in shortcut files that are useless
   $junk_shortcuts = [
-    "C:/Users/${turbosite::camper_username}/Desktop/Windows 10 Update Assistant.lnk",
-    "C:/Users/Public/Desktop/3D Vision Photo Viewer.lnk",
-    "C:/Users/Public/Desktop/Microsoft Edge.lnk",
-    "C:/Users/${turbosite::camper_username}/Desktop/Github Desktop.lnk"
+    'C:/Users/Public/Desktop/3D Vision Photo Viewer.lnk',
+    'C:/Users/Public/Desktop/Microsoft Edge.lnk',
+    "C:/Users/${lookup('camper_username')}/Desktop/Github Desktop.lnk",
   ]
   file { $junk_shortcuts: ensure => absent }
 
   # All edits need explorer.exe to reload before they take effect
   Hkcu {
-    notify => Exec['Reload Explorer']
+    notify => Exec['Reload Explorer'],
   }
   Registry_key {
-    notify => Exec['Reload Explorer']
+    notify => Exec['Reload Explorer'],
   }
   Registry::Value {
-    notify => Exec['Reload Explorer']
+    notify => Exec['Reload Explorer'],
   }
   Registry_value {
-    notify => Exec['Reload Explorer']
+    notify => Exec['Reload Explorer'],
   }
 
   # Show file extensions
@@ -72,7 +71,7 @@ class profile::desktop::explorer {
   hkcu { 'DisplayFullPath':
     key   => 'Software\Microsoft\Windows\CurrentVersion\Explorer\CabinetState',
     value => 'FullPath',
-    data  => 1
+    data  => 1,
   }
 
   # Expand to current folder in nav tree
@@ -113,12 +112,12 @@ class profile::desktop::explorer {
 
   # Add an Open with Notepad action to context menu of every file
   registry_key { 'OpenWithNotepadKey':
-    path   => 'HKCR\*\shell\Open with Notepad',
     ensure => present,
+    path   => 'HKCR\*\shell\Open with Notepad',
   }
   registry_key { 'OpenWithNotepadCommandKey':
-    path   => 'HKCR\*\shell\Open with Notepad\command',
     ensure => present,
+    path   => 'HKCR\*\shell\Open with Notepad\command',
   }
   registry::value { 'OpenWithNotepadCommandValue':
     key   => 'HKCR\*\shell\Open with Notepad\command',
@@ -175,12 +174,12 @@ class profile::desktop::explorer {
   ]
   $namespace_uuids.each |$namespace_uuid| {
     registry_key { "Microsoft-${namespace_uuid}":
-      path   => "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{${namespace_uuid}}",
       ensure => absent,
+      path   => "HKLM\\SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{${namespace_uuid}}",
     }
     registry_key { "Wow64-${namespace_uuid}":
-      path   => "HKLM\\SOFTWARE\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{${namespace_uuid}}",
       ensure => absent,
+      path   => "HKLM\\SOFTWARE\\Wow6432Node\\Microsoft\\Windows\\CurrentVersion\\Explorer\\MyComputer\\NameSpace\\{${namespace_uuid}}",
     }
   }
 
@@ -205,7 +204,6 @@ class profile::desktop::explorer {
     data  => 1,
   }
 
-
   # This is being recorded for documentation purposes.
   # https://www.virtualbox.org/ticket/19365
   # hkcu { 'DisableTransparency':
@@ -224,8 +222,8 @@ class profile::desktop::explorer {
 
   # https://www.laptopmag.com/articles/turn-cortana-windows-10
   registry_key { 'WindowsSearch':
-    path   => 'HKLM\SOFTWARE\Policies\Microsoft\Windows\Windows Search',
     ensure => present,
+    path   => 'HKLM\SOFTWARE\Policies\Microsoft\Windows\Windows Search',
   }
   registry_value { 'AllowCortana':
     path    => 'HKLM\SOFTWARE\Policies\Microsoft\Windows\Windows Search\AllowCortana',
@@ -245,14 +243,16 @@ class profile::desktop::explorer {
 
   # https://winaero.com/add-or-remove-news-and-interests-button-from-taskbar-in-windows-10/
   registry_key { 'WindowsFeeds':
-    path   => 'HKLM\SOFTWARE\Policies\Microsoft\Windows\Windows Feeds',
     ensure => present,
-  } ->
+    path   => 'HKLM\SOFTWARE\Policies\Microsoft\Windows\Windows Feeds',
+  }
   registry_value { 'EnableFeeds':
     path => 'HKLM\SOFTWARE\Policies\Microsoft\Windows\Windows Feeds\EnableFeeds',
     type => 'dword',
-    data => 0
+    data => 0,
   }
+
+  Registry_key['WindowsFeeds'] -> Registry_value['EnableFeeds']
 
   # https://www.thewindowsclub.com/how-to-disable-windows-backup-notification-in-windows-7
   # Not technically part of the shell but it's close enough.
@@ -263,7 +263,7 @@ class profile::desktop::explorer {
   }
 
   exec { 'Reload Explorer':
-    command     => "Stop-Process -ProcessName explorer",
+    command     => 'Stop-Process -ProcessName explorer',
     refreshonly => true,
   }
 }

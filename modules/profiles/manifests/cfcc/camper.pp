@@ -6,10 +6,10 @@
 #
 class profiles::cfcc::camper {
   # OS-specific
-  # case $facts['os']['family'] {
-  #   'windows': {
-  #     # # Platform things
-  #     # include profiles::desktop::explorer
+  case $facts['os']['family'] {
+    'windows': {
+      # Platform things
+      include profiles::desktop::explorer
   #     # include profiles::remoteaccess::rdp::enable
   #     # include profiles::remoteaccess::winrm::enable
 
@@ -37,7 +37,7 @@ class profiles::cfcc::camper {
   #     # # Wumboze Games
   #     # include profiles::game::epic
   #     # include profiles::game::origin
-  #   }
+    }
   #   'Linux': {
   #     # include profiles::desktop::cinnamon
   #     # include profiles::remoteaccess::ssh::enable
@@ -46,8 +46,8 @@ class profiles::cfcc::camper {
   #     # include profiles::editor::sublime
   #     # include profiles::terminal::gnome
   #   }
-  #   default: {}
-  # }
+    default: {}
+  }
 
   # System-level stuff
   include profiles::cfcc::filesystem
