@@ -50,18 +50,15 @@ class profiles::cfcc::camper {
   # }
 
   # System-level stuff
-  # include profiles::puppet::agent::disable
-  # include profiles::mdns::client
   include profiles::cfcc::filesystem
-  # # #47 disabling since the Zotac driver issues seem to no longer be relevant.
   include profiles::power::alwayson
   include profiles::remoteaccess::vnc::enable
   include profiles::desktop::wallpaper
-  # include profiles::tls::certificates
+  include profiles::tls::certificates
 
-  # # Camper & System Tools
-  # include profiles::browser::chrome
-  # include profiles::browser::firefox
+  # Camper & System Tools
+  include profiles::browser::chrome
+  include profiles::browser::firefox
   # include profiles::tool::git
   # include profiles::tool::wireshark
   # include profiles::tool::netbench

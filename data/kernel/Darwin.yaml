@@ -1,2 +1,4 @@
 ---
 camper_homedir: "/Users/camper"
+profiles::browser::chrome::package_name: "google-chrome"
+profiles::browser::firefox::package_name: "firefox"

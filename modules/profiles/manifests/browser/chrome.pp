@@ -1,21 +1,18 @@
 #
 # Google Chrome web browser
 #
-class profile::browser::chrome {
-
-  $package_name = $::kernel ? {
-    'windows' => 'GoogleChrome',
-    'Linux'   => 'google-chrome-stable',
-    'Darwin'  => 'google-chrome',
-    default   => fail('Unsupported OS')
-  }
-
-  $package_notify = $::kernel ? {
-    'windows' => [ Exec['CleanupChromeDesktopShortcut'], Exec['CleanupDesktopShortcuts'] ],
+class profiles::browser::chrome (
+  $package_name,
+) {
+  $package_notify = $facts['os']['family'] ? {
+    'windows' => [
+      Exec['CleanupChromeDesktopShortcut'],
+      Exec['CleanupDesktopShortcuts']
+    ],
     default   => undef,
   }
 
-  $install_options = $::kernel ? {
+  $install_options = $facts['os']['family'] ? {
     # Chrome updates so fscking frequently the package maintainers can't keep up leading to
     # occasional failures. Yes this has security implications.
     'windows' => '--ignore-checksums',
@@ -29,15 +26,14 @@ class profile::browser::chrome {
 
   # This works the first time, but a reboot puts the fraking thing back!
   exec { 'CleanupChromeDesktopShortcut':
-    command     => "Remove-Item -Path 'C:\\Users\\${turbosite::camper_username}\\Desktop\\Google Chrome.lnk'",
-    refreshonly => true
+    command     => "Remove-Item -Path 'C:\\Users\\${lookup('camper_username')}\\Desktop\\Google Chrome.lnk'",
+    refreshonly => true,
   }
 
   # Un. Believable.
   # https://techcommunity.microsoft.com/t5/enterprise/users-get-an-icon-placed-on-their-desktop-at-initial-logon/m-p/818249
   # https://www.itninja.com/question/google-chrome-enterprise-shortcuts-not-disappearing
   file { 'ChromeMasterPreferences':
-    ensure  => present,
     path    => 'C:\Program Files\Google\Chrome\Application\master_preferences',
     source  => 'puppet:///modules/cfcc/browsers/chrome_master_preferences.json',
     require => Package[$package_name],
@@ -48,11 +44,9 @@ class profile::browser::chrome {
   # I'm glad I'm not the only one out there.
   # https://github.com/PatchMyPCTeam/Community-Scripts/blob/main/Install/Post-Install/Google%20Chrome%20Desktop%20Shortcut/Remove-ChromeShortcut.ps1
   file { 'ChromeInitialPreferences':
-    ensure  => present,
     path    => 'C:\Program Files\Google\Chrome\Application\initial_preferences',
     source  => 'puppet:///modules/cfcc/browsers/chrome_initial_preferences.json',
     require => Package[$package_name],
     notify  => $package_notify,
   }
-
 }

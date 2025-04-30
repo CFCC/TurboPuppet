@@ -4,7 +4,7 @@
 # This will reply when someone asks for you.local, but you need
 # to mess with /etc/nsswitch.conf in order to resolve other hosts.
 #
-class profile::mdns::client::avahi {
+class profiles::mdns::client::avahi {
   $package_name = $::operatingsystem ? {
     'Fedora' => 'avahi',
     default  => fail('Unsupported OS')
@@ -24,7 +24,7 @@ class profile::mdns::client::avahi {
   file_line { 'nss-hosts':
     path  => '/etc/nsswitch.conf',
     line  => 'hosts:      files mdns4_minimal [NOTFOUND=return] dns myhostname',
-    match => '^hosts:'
+    match => '^hosts:',
   }
 
   Package[$package_name] -> Service['avahi-daemon']

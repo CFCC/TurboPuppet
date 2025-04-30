@@ -1,3 +1,5 @@
 ---
 camper_homedir: 'C:\Users\camper'
 profiles::time::client::time_zone: "Eastern Standard Time"
+profiles::browser::chrome::package_name: "GoogleChrome"
+profiles::browser::firefox::package_name: "Firefox"
