@@ -209,7 +209,7 @@ function Install-Git {
 function Install-TurboPuppet {
     param(
         [Parameter(Mandatory=$false)]
-        [string]$branch = "turbopuppet"
+        [string]$branch = "production"
     )
     # Install TurboPuppet.ps1
     $turbopuppetUrl = "https://raw.githubusercontent.com/CFCC/TurboPuppet/refs/heads/$branch/scripts/TurboPuppet.ps1"
