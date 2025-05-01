@@ -21,7 +21,7 @@ class profiles::game::steam {
 
   case $facts['os']['family'] {
     'windows': {
-      hkcu { 'DisableSteamAutostart':
+      cfcc::hkcu { 'DisableSteamAutostart':
         ensure => absent,
         key    => 'Software\Microsoft\Windows\CurrentVersion\Run',
         value  => 'Steam',
