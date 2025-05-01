@@ -33,7 +33,7 @@ class profiles::browser::chromium (
   # Un. Believable.
   # https://techcommunity.microsoft.com/t5/enterprise/users-get-an-icon-placed-on-their-desktop-at-initial-logon/m-p/818249
   # https://www.itninja.com/question/google-chrome-enterprise-shortcuts-not-disappearing
-  file { 'ChromeMasterPreferences':
+  file { 'ChromiumMasterPreferences':
     path    => 'C:\Program Files\Chromium\Application\master_preferences',
     source  => 'puppet:///modules/cfcc/browsers/chrome_master_preferences.json',
     require => Package[$package_name],
@@ -43,7 +43,7 @@ class profiles::browser::chromium (
   # FOOLS!
   # I'm glad I'm not the only one out there.
   # https://github.com/PatchMyPCTeam/Community-Scripts/blob/main/Install/Post-Install/Google%20Chrome%20Desktop%20Shortcut/Remove-ChromeShortcut.ps1
-  file { 'ChromeInitialPreferences':
+  file { 'ChromiumInitialPreferences':
     path    => 'C:\Program Files\Chromium\Application\initial_preferences',
     source  => 'puppet:///modules/cfcc/browsers/chrome_initial_preferences.json',
     require => Package[$package_name],
