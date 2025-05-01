@@ -1,13 +1,12 @@
 #
 #
 #
-class profile::tool::spacesniffer {
-
+class profiles::tool::spacesniffer {
   package { 'spacesniffer': }
 
   shortcut { 'spacesniffer':
     path    => 'C:/ProgramData/Microsoft/Windows/Start Menu/Programs/SpaceSniffer.lnk',
     target  => 'C:/ProgramData/chocolatey/bin/SpaceSniffer.exe',
-    require => Package['spacesniffer']
+    require => Package['spacesniffer'],
   }
 }

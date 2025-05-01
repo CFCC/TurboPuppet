@@ -2,3 +2,6 @@
 camper_homedir: "/home/camper"
 profiles::browser::chrome::package_name: "google-chrome-stable"
 profiles::browser::firefox::package_name: "firefox"
+profiles::tool::sevenzip::package_name: "p7zip"
+profiles::tool::virtualbox::package_name: "Virtualbox"
+profiles::editor::sublime::package_name: "sublime-text"

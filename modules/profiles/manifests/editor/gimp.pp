@@ -1,6 +1,6 @@
 #
 # GNU Image Manipulation Program
 #
-class profile::editor::gimp {
+class profiles::editor::gimp {
   package { 'gimp': }
 }

@@ -1,7 +1,7 @@
 #
 # AutoHotKey
 #
-class profile::tool::autohotkey {
+class profiles::tool::autohotkey {
   package { 'autohotkey': }
 
   # https://autohotkey.com/board/topic/119664-reloading-script-from-command-prompt/

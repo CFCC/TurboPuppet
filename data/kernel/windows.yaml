@@ -3,3 +3,6 @@ camper_homedir: 'C:\Users\camper'
 profiles::time::client::time_zone: "Eastern Standard Time"
 profiles::browser::chrome::package_name: "GoogleChrome"
 profiles::browser::firefox::package_name: "Firefox"
+profiles::tool::sevenzip::package_name: "7zip"
+profiles::tool::virtualbox::package_name: "virtualBox"
+profiles::editor::sublime::package_name: "sublimetext4"

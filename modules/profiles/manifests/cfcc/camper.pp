@@ -15,23 +15,24 @@ class profiles::cfcc::camper {
       include profiles::firewall::windows
       include profiles::windows::xbox::disable
       include profiles::windows::update
-  #     # # include profiles::windows::wsl
+      # include profiles::windows::wsl
       include profiles::windows::dotnet
       include profiles::windows::apps
 
-  #     # # OS-specific System 3rd Party Tools
-  #     # include profiles::tool::spacesniffer
-  #     # include profiles::tool::cpuz
-  #     # include profiles::tool::procmon
-  #     # include profiles::tool::gpuz
-  #     # include profiles::tool::produkey
+      # OS-specific System 3rd Party Tools
+      include profiles::tool::spacesniffer
+      include profiles::tool::cpuz
+      include profiles::tool::procmon
+      include profiles::tool::gpuz
+      include profiles::tool::produkey
 
-  #     # # OS-specific Camper Tools
-  #     # include profiles::terminal::windows
-  #     # include profiles::browser::edge
+      # OS-specific Camper Tools
+      include profiles::terminal::windows
+      include profiles::browser::edge
 
-  #     # # Text editors. We all have opinions on these.
-  #     # include profiles::editor::notepadplusplus
+      # Text editors. We all have opinions on these.
+      include profiles::editor::notepadplusplus
+      include profiles::editor::sublime
 
   #     # # Wumboze Games
   #     # include profiles::game::epic
@@ -42,7 +43,6 @@ class profiles::cfcc::camper {
   #     # include profiles::remoteaccess::ssh::enable
   #     # # @TODO include profiles::firewall::linux
   #     # include profiles::editor::vim
-  #     # include profiles::editor::sublime
   #     # include profiles::terminal::gnome
   #   }
     default: {}

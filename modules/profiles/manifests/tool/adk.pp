@@ -1,6 +1,6 @@
 #
 # Windows Assissment and Deployment Kit
 #
-class profile::tool::adk {
+class profiles::tool::adk {
   package { ['windows-adk', 'windows-adk-winpe']: }
 }

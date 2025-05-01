@@ -1,6 +1,6 @@
 #
 # CPU-Z
 #
-class profile::tool::cpuz {
+class profiles::tool::cpuz {
   package { 'cpu-z': }
 }

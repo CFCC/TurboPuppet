@@ -2,3 +2,5 @@
 camper_homedir: "/Users/camper"
 profiles::browser::chrome::package_name: "google-chrome"
 profiles::browser::firefox::package_name: "firefox"
+profiles::tool::sevenzip::package_name: "p7zip"
+profiles::tool::virtualbox::package_name: "virtualbox"

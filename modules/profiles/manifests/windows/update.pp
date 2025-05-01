@@ -27,8 +27,9 @@ class profiles::windows::update {
   }
 
   file { 'TurboUpdate.ps1':
-    ensure => file,
-    path   => 'C:\CampFitch\bin\TurboUpdate.ps1',
-    source => 'puppet:///modules/cfcc/windows/TurboUpdate.ps1',
+    ensure  => file,
+    path    => 'C:\CampFitch\bin\TurboUpdate.ps1',
+    source  => 'puppet:///modules/cfcc/windows/TurboUpdate.ps1',
+    require => Package['PSWindowsUpdate'],
   }
 }

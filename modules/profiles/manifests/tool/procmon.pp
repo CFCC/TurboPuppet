@@ -1,6 +1,6 @@
 #
 # Process Monitor, aka ProcMon
 #
-class profile::tool::procmon {
+class profiles::tool::procmon {
   package { 'procmon': }
 }

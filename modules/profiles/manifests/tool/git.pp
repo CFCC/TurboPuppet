@@ -1,28 +1,28 @@
 #
 # Git
 #
-class profile::tool::git {
+class profiles::tool::git {
   package { 'git': }
 
-  case $::operatingsystem {
+  case $facts['os']['family'] {
     'windows': {
       package { 'github-desktop':
-        notify => [Exec['kill github-desktop app'], Exec['CleanupGithubDesktopShortcut']]
+        notify => [Exec['kill github-desktop app'], Exec['CleanupGithubDesktopShortcut']],
       }
 
       # Github Desktop assumes that you instantly want to log in
       # when you install. We don't. Go away.
       exec { 'kill github-desktop app':
         command     => 'Sleep 15; Stop-Process -ProcessName GithubDesktop',
-        refreshonly => true
+        refreshonly => true,
       }
 
       # Delete the desktop shortcut that it creates. Can't use my common Exec[CleanupDesktopShortcut]
       # because this gets created in the user's desktop dir not the public desktop dir. Refreshonly
       # so that it only applies if the package has changed.
       exec { 'CleanupGithubDesktopShortcut':
-        command     => "Remove-Item -Path 'C:/Users/${turbosite::camper_username}/Desktop/Github Desktop.lnk'",
-        refreshonly => true
+        command     => "Remove-Item -Path 'C:/Users/${lookup('camper_username')}/Desktop/Github Desktop.lnk'",
+        refreshonly => true,
       }
     }
     'Fedora': {
@@ -37,14 +37,14 @@ class profile::tool::git {
       file { '/usr/lib64/libcurl-gnutls.so.4':
         ensure  => link,
         target  => '/usr/lib64/libcurl.so.4',
-        require => Package['gitkraken']
+        require => Package['gitkraken'],
       }
 
-      file { "${turbosite::camper_homedir}/Desktop/gitkraken.desktop":
-        source => 'file:///usr/share/applications/gitkraken.desktop',
-        mode   => '0755',
-        owner  => $turbosite::camper_username
-      }
+      # file { "${lookup('camper_homedir')}/Desktop/gitkraken.desktop":
+      #   source => 'file:///usr/share/applications/gitkraken.desktop',
+      #   mode   => '0755',
+      #   owner  => $lookup('camper_username'),
+      # }
     }
     'Darwin': {
       # git itself is provided in profile::ide::xcode and
