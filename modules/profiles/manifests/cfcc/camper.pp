@@ -33,6 +33,7 @@ class profiles::cfcc::camper {
       # Text editors. We all have opinions on these.
       include profiles::editor::notepadplusplus
       include profiles::editor::sublime
+      include profiles::editor::notepad3
 
       # Wumboze Games
       include profiles::game::epic
