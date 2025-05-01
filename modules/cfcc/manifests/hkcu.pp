@@ -20,13 +20,13 @@ define cfcc::hkcu (
     # Test-Path returns False if nonexistant, True if existant
     exec { "Create-${name}":
       command => "New-Item -Path ${formatted_key}",
-      unless  => psexpr("Test-Path -Path ${formatted_key}")
+      unless  => cfcc::psexpr("Test-Path -Path ${formatted_key}")
     }
 
     # This allows a custom value setting condition (such as if a particular value is set)
     # rather than the default of if the value is the intended value.
     $onlyif_real = $onlyif ? {
-      undef => psexpr("(Get-ItemProperty -Path ${formatted_key} -Name \"${value}\" | Select -ExpandProperty \"${value}\") -ne \"${data}\""),
+      undef => cfcc::psexpr("(Get-ItemProperty -Path ${formatted_key} -Name \"${value}\" | Select -ExpandProperty \"${value}\") -ne \"${data}\""),
       default => $onlyif,
     }
 
@@ -40,7 +40,7 @@ define cfcc::hkcu (
   else {
     exec { "Remove-${name}":
       command => "Remove-ItemProperty -Path ${formatted_key} -Name \"${value}\"",
-      onlyif  => psexpr("Get-ItemProperty -Path ${formatted_key} -Name \"${value}\""),
+      onlyif  => cfcc::psexpr("Get-ItemProperty -Path ${formatted_key} -Name \"${value}\""),
     }
   }
 }
