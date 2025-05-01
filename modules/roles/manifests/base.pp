@@ -57,6 +57,7 @@ class roles::base {
   # Note: Site has not been evaluated yet so you cannot include anything
   # that requires site such as mountpoints.
   include profiles::packaging::packages
+  include profiles::puppet::turbopuppet
 
   # Drivers
   # https://puppet.com/docs/puppet/5.3/lang_data_regexp.html
