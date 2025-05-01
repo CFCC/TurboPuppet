@@ -9,7 +9,7 @@ class profiles::cfcc::camper {
   case $facts['os']['family'] {
     'windows': {
       # Platform things
-      include profiles::windows
+      include profiles::windows::common
       include profiles::desktop::explorer
   #     # include profiles::remoteaccess::rdp::enable
   #     # include profiles::remoteaccess::winrm::enable
