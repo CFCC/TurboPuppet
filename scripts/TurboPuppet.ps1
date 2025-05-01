@@ -8,7 +8,8 @@ param(
     [switch]$cached,
     [switch]$skip_gems,
     [switch]$skip_modules,
-    [switch]$quick
+    [switch]$quick,
+    [string]$tags
 )
 
 $PUPPET_DATA_DIR = "C:\ProgramData\PuppetLabs"
@@ -91,6 +92,11 @@ function Run-Puppet {
     
     if ($noop) {
         $applyArgs += "--noop"
+    }
+
+    if ($tags) {
+        $applyArgs += "--tags"
+        $applyArgs += $tags
     }
     
     Write-Log "Executing puppet apply with arguments: puppet apply $($applyArgs -join ' ')"
