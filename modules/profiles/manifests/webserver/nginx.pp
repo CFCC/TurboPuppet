@@ -1,6 +1,6 @@
 #
 #
 #
-class profile::webserver::nginx {
+class profiles::webserver::nginx {
   include ::nginx
 }

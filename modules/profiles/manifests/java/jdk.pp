@@ -4,7 +4,7 @@
 #
 # @param package_name The name of the package to install.
 #
-class profile::java::jdk (
+class profiles::java::jdk (
   String $package_name,
 ) {
   package { $package_name: }

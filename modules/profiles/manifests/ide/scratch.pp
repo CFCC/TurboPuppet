@@ -15,7 +15,7 @@ class profiles::ide::scratch {
 
       # shortcut { 'C:/ProgramData/Microsoft/Windows/Start Menu/Programs/Scratch.lnk':
       #   icon_location => 'C:\ProgramData\scratch.ico',
-      #   require       => [ Class['profile::browser::chrome'], File['scratch icon'] ],
+      #   require       => [ Class['profiles::browser::chrome'], File['scratch icon'] ],
       #   target        => 'C:\Program Files (x86)\Google\Chrome\Application\chrome.exe',
       #   arguments     => 'https://scratch.mit.edu'
       # }

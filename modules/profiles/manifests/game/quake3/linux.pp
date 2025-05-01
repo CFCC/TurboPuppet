@@ -1,6 +1,6 @@
 #
 #
 #
-class profile::game::quake3::linux {
+class profiles::game::quake3::linux {
 
 }
