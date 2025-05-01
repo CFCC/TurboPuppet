@@ -107,7 +107,7 @@ class profiles::game::quake3 {
     path    => $config_file_path,
     replace => no,
     source  => 'puppet:///modules/cfcc/q3config.cfg',
-    owner   => $turbosite::camper_username,
+    owner   => $camper_username,
   }
   File[$user_config_directories] -> File['q3config']
 
