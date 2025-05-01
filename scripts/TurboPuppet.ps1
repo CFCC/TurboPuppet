@@ -58,8 +58,12 @@ function Get-GitBranchArchive {
     Write-Host "Successfully downloaded and extracted branch $branch"
 }
 
+<#
+This needs to be the main section rather than agent or user because we need
+the fact later on.
+#>
 function Set-PuppetEnvironment {
-    $currentEnvironment = puppet config print --section user environment
+    $currentEnvironment = puppet config print environment
     if ($currentEnvironment -ne $branch) {
         Write-Host "Changing Puppet environment from $currentEnvironment to $branch"
         puppet config set environment $branch
@@ -79,6 +83,7 @@ function Run-Puppet {
         $applyArgs += "--noop"
     }
     
+    Write-Host "Executing puppet apply with arguments: puppet apply $($applyArgs -join ' ')"
     puppet apply @applyArgs
 }
 
