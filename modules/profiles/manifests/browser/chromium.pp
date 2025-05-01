@@ -6,7 +6,7 @@ class profiles::browser::chromium (
 ) {
   $package_notify = $facts['os']['family'] ? {
     'windows' => [
-      Exec['CleanupChromeDesktopShortcut'],
+      Exec['CleanupChromiumDesktopShortcut'],
       Exec['CleanupDesktopShortcuts']
     ],
     default   => undef,
@@ -25,7 +25,7 @@ class profiles::browser::chromium (
   }
 
   # This works the first time, but a reboot puts the fraking thing back!
-  exec { 'CleanupChromeDesktopShortcut':
+  exec { 'CleanupChromiumDesktopShortcut':
     command     => "Remove-Item -Path 'C:\\Users\\${lookup('camper_username')}\\Desktop\\Chromium.lnk'",
     refreshonly => true,
   }
