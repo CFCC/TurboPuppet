@@ -6,7 +6,7 @@
 # puppet agent -t --tags windowsupdate
 # install-windowsupdate -acceptall -autoreboot
 #
-class profile::windows::update {
+class profiles::windows::update {
   tag 'windowsupdate'
 
   # Set active hours
@@ -23,6 +23,12 @@ class profile::windows::update {
   }
 
   package { 'PSWindowsUpdate':
-    provider => 'windowspowershell'
+    provider => 'windowspowershell',
+  }
+
+  file { 'TurboUpdate.ps1':
+    ensure => file,
+    path   => 'C:\CampFitch\bin\TurboUpdate.ps1',
+    source => 'puppet:///modules/cfcc/windows/TurboUpdate.ps1',
   }
 }

@@ -11,14 +11,12 @@ class profiles::cfcc::camper {
       # Platform things
       include profiles::windows::common
       include profiles::desktop::explorer
-  #     # include profiles::remoteaccess::rdp::enable
-  #     # include profiles::remoteaccess::winrm::enable
-
-  #     # include profiles::firewall::windows
-  #     # include profiles::windows::xbox::disable
-  #     # include profiles::windows::update
+      include profiles::remoteaccess::rdp::enable
+      include profiles::firewall::windows
+      include profiles::windows::xbox::disable
+      include profiles::windows::update
   #     # # include profiles::windows::wsl
-  #     # include profiles::windows::dotnet
+      include profiles::windows::dotnet
       include profiles::windows::apps
 
   #     # # OS-specific System 3rd Party Tools

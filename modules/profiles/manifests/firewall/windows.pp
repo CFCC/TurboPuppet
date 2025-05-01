@@ -2,7 +2,7 @@
 # Base Firewall class for Windows. Only generic things should be specified
 # here.
 #
-class profile::firewall::windows {
+class profiles::firewall::windows {
   # There is a bug that prevents state checking.
   # https://github.com/voxpupuli/puppet-windows_firewall/issues/23
   # It is most unfortunate. If the rule gets disabled there is nothing
@@ -26,7 +26,7 @@ class profile::firewall::windows {
   # networks to appear in the results of the Get- which doesn't match.
   exec { 'SetConnectionPolicy':
     command => 'Set-NetConnectionProfile -NetworkCategory Private',
-    onlyif  => psexpr("(Get-NetConnectionProfile | select -ExpandProperty NetworkCategory) -ne 'Private'"),
+    onlyif  => cfcc::psexpr("(Get-NetConnectionProfile | select -ExpandProperty NetworkCategory) -ne 'Private'"),
   }
 
   # Enable File Sharing
@@ -34,7 +34,7 @@ class profile::firewall::windows {
   # https://docs.microsoft.com/en-us/powershell/module/microsoft.powershell.utility/select-object?view=powershell-7.2
   exec { 'EnableFileSharing':
     command => 'Set-NetFirewallRule -DisplayGroup "File And Printer Sharing" -Enabled True -Profile Private',
-    onlyif  => psexpr("(Get-NetFirewallRule -DisplayGroup \"File And Printer Sharing\" | Select-Object -Property Profile -First 1 -ExpandProperty Enabled) -ne 'True'")
+    onlyif  => cfcc::psexpr("(Get-NetFirewallRule -DisplayGroup \"File And Printer Sharing\" | Select-Object -Property Profile -First 1 -ExpandProperty Enabled) -ne 'True'")
   }
 
   Exec['SetConnectionPolicy'] -> Windows_firewall::Exception['Allow-ICMPv4']
