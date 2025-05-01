@@ -1,5 +1,5 @@
 #
-#
+# Anything that might be needed for Windows nonsense.
 #
 class profiles::windows::common {
   # @TODO gonna need this for other platforms.

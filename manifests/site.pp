@@ -1,25 +1,3 @@
-# AppxPackage Custom Resource
-define appxpackage (
-  String $package_name = $name,
-  Enum['present', 'absent'] $ensure,
-) {
-  case $ensure {
-    'present': {
-      # @TODO this.
-      fail("appxpackage present not supported yet")
-    }
-    'absent': {
-      exec { "Remove-${name}":
-        command => "Get-AppxPackage \"${package_name}\" | Remove-AppxPackage",
-        onlyif  => psexpr("(Get-AppxPackage \"${package_name}\" | Select -ExpandProperty Name) -eq \"${package_name}\"")
-      }
-    }
-    default: {
-      fail("Unsupported ensure for appxpackage (got ${ensure})")
-    }
-  }
-}
-
 # This creates a .desktop file for any given app. Pretty simple.
 define freedesktop::shortcut (
   $path        = "/usr/local/share/applications/${name}.desktop",

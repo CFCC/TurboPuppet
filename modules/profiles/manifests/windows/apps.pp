@@ -28,7 +28,7 @@ class profiles::windows::apps {
     'Microsoft.windowscommunicationsapps', # Mail and Calendar
     'Microsoft.BingWeather',
   ]
-  appxpackage { $trash_apps:
+  cfcc::appxpackage { $trash_apps:
     ensure => 'absent',
   }
 
