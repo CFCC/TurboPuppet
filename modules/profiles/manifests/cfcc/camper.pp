@@ -34,17 +34,17 @@ class profiles::cfcc::camper {
       include profiles::editor::notepadplusplus
       include profiles::editor::sublime
 
-  #     # # Wumboze Games
-  #     # include profiles::game::epic
-  #     # include profiles::game::origin
+      # Wumboze Games
+      include profiles::game::epic
+      include profiles::game::origin
     }
-  #   'Linux': {
-  #     # include profiles::desktop::cinnamon
-  #     # include profiles::remoteaccess::ssh::enable
-  #     # # @TODO include profiles::firewall::linux
-  #     # include profiles::editor::vim
-  #     # include profiles::terminal::gnome
-  #   }
+    'Linux': {
+      include profiles::desktop::cinnamon
+      include profiles::remoteaccess::ssh::enable
+      # @TODO include profiles::firewall::linux
+      include profiles::editor::vim
+      include profiles::terminal::gnome
+    }
     default: {}
   }
 
@@ -58,19 +58,19 @@ class profiles::cfcc::camper {
   # Camper & System Tools
   include profiles::browser::chrome
   include profiles::browser::firefox
-  # include profiles::tool::git
-  # include profiles::tool::wireshark
-  # include profiles::tool::netbench
-  # include profiles::tool::sevenzip
-  # include profiles::tool::virtualbox
-  # include profiles::tool::iperf
-  # include profiles::tool::vlc
-  # include profiles::tool::blender
+  include profiles::tool::git
+  include profiles::tool::wireshark
+  include profiles::tool::netbench
+  include profiles::tool::sevenzip
+  include profiles::tool::virtualbox
+  include profiles::tool::iperf
+  include profiles::tool::vlc
+  include profiles::tool::blender
 
-  # # Games
-  # include profiles::game::quake3
-  # include profiles::game::steam
-  # include profiles::game::minecraft
+  # Games
+  include profiles::game::quake3
+  include profiles::game::steam
+  include profiles::game::minecraft
 
   Class['profiles::cfcc::filesystem'] -> Class['profiles::desktop::wallpaper']
 }

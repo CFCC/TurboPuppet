@@ -47,7 +47,7 @@ class profiles::tool::git {
       # }
     }
     'Darwin': {
-      # git itself is provided in profile::ide::xcode and
+      # git itself is provided in profiles::ide::xcode and
       # is required for brew to function.
       package { 'github': }
     }

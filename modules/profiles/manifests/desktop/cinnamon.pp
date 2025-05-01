@@ -1,7 +1,7 @@
 #
 #
 #
-class profile::desktop::cinnamon {
+class profiles::desktop::cinnamon {
 
   Dconf::Setting {
     user => $::turbosite::camper_username,

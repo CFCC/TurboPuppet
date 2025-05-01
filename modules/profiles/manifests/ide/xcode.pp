@@ -1,6 +1,6 @@
 #
 #
 #
-class profile::ide::xcode {
+class profiles::ide::xcode {
   include xcode_cli_tools
 }

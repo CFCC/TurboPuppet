@@ -1,6 +1,6 @@
 #
 # Vim Text Editor
 #
-class profile::editor::vim {
+class profiles::editor::vim {
   package { 'vim': }
 }

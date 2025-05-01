@@ -1,6 +1,6 @@
 #
 # Godot game engine
 #
-class profile::engine::godot {
+class profiles::engine::godot {
   package { 'godot': }
 }

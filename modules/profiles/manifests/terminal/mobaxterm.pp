@@ -1,7 +1,7 @@
 #
 # MobaXterm
 #
-class profile::terminal::mobaxterm {
+class profiles::terminal::mobaxterm {
   package { 'mobaxterm':
     notify => Exec['CleanupDesktopShortcuts']
   }

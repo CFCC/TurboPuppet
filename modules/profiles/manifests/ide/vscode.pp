@@ -1,7 +1,7 @@
 #
 # Visual Studio Code
 #
-class profile::ide::vscode {
+class profiles::ide::vscode {
   package { 'vscode':
     # install_options gets passed as a single string option to the command, which means it tries to
     # install a package called "--params \"/NoDesktopIcon /NoQuicklaunchIcon\"" which is effin stoopid.
@@ -11,7 +11,7 @@ class profile::ide::vscode {
     notify => Exec['CleanupDesktopShortcuts'],
   }
 
-  package { ['vscode-python', 'vscode-java']: 
-    require => Package['vscode']
+  package { ['vscode-python', 'vscode-java']:
+    require => Package['vscode'],
   }
 }

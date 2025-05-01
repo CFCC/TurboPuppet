@@ -1,13 +1,15 @@
 #
 # Quake III Arena
 #
-class profile::game::quake3 {
-  case $::kernel {
-    'windows': { include profile::game::quake3::windows }
-    'Linux': { include profile::game::quake3::linux }
-    'darwin': { include profile::game::quake3::darwin }
-    default: { fail("Unsuported OS") }
+class profiles::game::quake3 {
+  case $facts['os']['family'] {
+    'windows': { include profiles::game::quake3::windows }
+    'Linux': { include profiles::game::quake3::linux }
+    'darwin': { include profiles::game::quake3::darwin }
+    default: { fail('Unsuported OS') }
   }
+
+  $camper_username = lookup('camper_username')
 
   # I'm use the open-sauce ioquake3 engine and copying our pk3's into the right
   # places. This may or may not work in a real setting. Yolo.
@@ -34,20 +36,20 @@ class profile::game::quake3 {
   # }
 
   # Per-user configuration
-  $user_config_directories = $::operatingsystem ? {
+  $user_config_directories = $facts['os']['family'] ? {
     'windows' => [
-      "C:/Users/${turbosite::camper_username}/AppData/Roaming/Quake3/",
-      "C:/Users/${turbosite::camper_username}/AppData/Roaming/Quake3/baseq3"
+      "C:/Users/${camper_username}/AppData/Roaming/Quake3/",
+      "C:/Users/${camper_username}/AppData/Roaming/Quake3/baseq3",
     ],
     'Fedora'  => [
-      "/home/${turbosite::camper_username}/.q3a",
-      "/home/${turbosite::camper_username}/.q3a/baseq3"
+      "/home/${camper_username}/.q3a",
+      "/home/${camper_username}/.q3a/baseq3",
     ],
     'Darwin'  => [
-      "/Users/${turbosite::camper_username}/Library/Application Support/Quake3/",
-      "/Users/${turbosite::camper_username}/Library/Application Support/Quake3/baseq3",
+      "/Users/${camper_username}/Library/Application Support/Quake3/",
+      "/Users/${camper_username}/Library/Application Support/Quake3/baseq3",
     ],
-    default   => fail("platform is unsupported")
+    default   => fail('platform is unsupported')
   }
   file { $user_config_directories:
     ensure  => directory,
@@ -58,7 +60,7 @@ class profile::game::quake3 {
     ensure  => file,
     #require => File['system-baseq3']
   }
-  $source_repo = 'puppet:///campfs/Quake3Arena'
+  # $source_repo = "${lookup('campfs_uri')}\\Quake3Arena"
 
   # Base game content
   # file { "${baseq3}/pak0.pk3": source => "${source_repo}/baseq3/pak0.pk3" }
@@ -95,11 +97,11 @@ class profile::game::quake3 {
   # and any other changes will be on the user. If we need to do a mass
   # deploy we should be able to delete the file then run Puppet so that
   # it will deploy whatever change is needed.
-  $config_file_path = $::operatingsystem ? {
-    'windows' => "C:/Users/${turbosite::camper_username}/AppData/Roaming/Quake3/baseq3/q3config.cfg",
-    'Fedora'  => "/home/${turbosite::camper_username}/.q3a/baseq3/q3config.cfg",
-    'Darwin'  => "/Users/${turbosite::camper_username}/Library/Application Support/Quake3/baseq3/q3config.cfg",
-    default   => fail("platform is unsupported")
+  $config_file_path = $facts['os']['family'] ? {
+    'windows' => "C:/Users/${camper_username}/AppData/Roaming/Quake3/baseq3/q3config.cfg",
+    'Fedora'  => "/home/${camper_username}/.q3a/baseq3/q3config.cfg",
+    'Darwin'  => "/Users/${camper_username}/Library/Application Support/Quake3/baseq3/q3config.cfg",
+    default   => fail('platform is unsupported')
   }
   file { 'q3config':
     path    => $config_file_path,

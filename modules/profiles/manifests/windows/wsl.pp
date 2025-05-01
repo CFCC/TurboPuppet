@@ -1,7 +1,7 @@
 #
 #
 #
-class profile::windows::wsl {
+class profiles::windows::wsl {
   # package { 'wsl2': }
   # wsl-ubuntu-2004 needs package wsl2 to be installed first and either a shell
   # refresh or reboot before the first can be installed. Figure out a way to do that.
