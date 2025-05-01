@@ -58,6 +58,7 @@ class profiles::cfcc::camper {
 
   # Camper & System Tools
   include profiles::browser::chrome
+  include profiles::browser::chromium
   include profiles::browser::firefox
   include profiles::tool::git
   include profiles::tool::wireshark
