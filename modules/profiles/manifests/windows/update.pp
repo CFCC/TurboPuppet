@@ -32,16 +32,4 @@ class profiles::windows::update {
     source  => 'puppet:///modules/cfcc/windows/TurboUpdate.ps1',
     require => Package['PSWindowsUpdate'],
   }
-
-  file { 'TurboPuppet.ps1':
-    ensure => file,
-    path   => 'C:\CampFitch\bin\TurboPuppet.ps1',
-    source => 'C:\ProgramData\PuppetLabs\code\environments\turbopuppet\scripts\TurboPuppet.ps1',
-  }
-
-  file { 'InstallTurboPuppet.ps1':
-    ensure => file,
-    path   => 'C:\CampFitch\bin\InstallTurboPuppet.ps1',
-    source => 'C:\ProgramData\PuppetLabs\code\environments\turbopuppet\scripts\InstallTurboPuppet.ps1',
-  }
 }
