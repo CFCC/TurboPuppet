@@ -1,0 +1,10 @@
+---
+camper_homedir: "/Users/camper"
+profiles::browser::chrome::package_name: "google-chrome"
+profiles::browser::firefox::package_name: "firefox"
+profiles::tool::sevenzip::package_name: "p7zip"
+profiles::tool::virtualbox::package_name: "virtualbox"
+profiles::ide::intellij::package_name: "intellij-idea-ce"
+profiles::ide::intellij::package_ensure: "2025.1.0"
+profiles::ide::pycharm::package_name: "pycharm-ce"
+profiles::ide::pycharm::package_ensure: "2025.1.0"
