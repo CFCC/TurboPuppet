@@ -9,6 +9,7 @@ class profiles::cfcc::camper {
   case $facts['os']['family'] {
     'windows': {
       # Platform things
+      include profiles::windows
       include profiles::desktop::explorer
   #     # include profiles::remoteaccess::rdp::enable
   #     # include profiles::remoteaccess::winrm::enable
@@ -18,7 +19,7 @@ class profiles::cfcc::camper {
   #     # include profiles::windows::update
   #     # # include profiles::windows::wsl
   #     # include profiles::windows::dotnet
-  #     # include profiles::windows::apps
+      include profiles::windows::apps
 
   #     # # OS-specific System 3rd Party Tools
   #     # include profiles::tool::spacesniffer
