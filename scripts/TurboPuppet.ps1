@@ -20,9 +20,19 @@ $PUPPET_ENVIRONMENTS_DIR = "$PUPPET_CODE_DIR\environments"
 $CODE_REPO_URL = "https://github.com/CFCC/TurboPuppet"
 $ENVIRONMENT_DIR = Join-Path $PUPPET_ENVIRONMENTS_DIR $branch
 
+function Write-Log {
+    param(
+        [Parameter(Mandatory=$true)]
+        [string]$Message
+    )
+    
+    $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
+    Write-Host "[$timestamp] $Message"
+}
+
 function Get-GitBranchArchive {
     if ($cached -or $quick) {
-        Write-Host "Using cached branch $branch"
+        Write-Log "Using cached branch $branch"
         return
     }
 
@@ -38,11 +48,11 @@ function Get-GitBranchArchive {
     
     # Download the zip archive
     $downloadUrl = "$CODE_REPO_URL/archive/refs/heads/$branch.zip"
-    Write-Host "Downloading branch $branch from $downloadUrl"
+    Write-Log "Downloading branch $branch from $downloadUrl"
     Invoke-WebRequest -Uri $downloadUrl -OutFile $zipPath
     
     # Extract the zip file
-    Write-Host "Extracting archive to $ENVIRONMENT_DIR"
+    Write-Log "Extracting archive to $ENVIRONMENT_DIR"
     Expand-Archive -Path $zipPath -DestinationPath $ENVIRONMENT_DIR -Force
     
     # Clean up the zip file
@@ -55,7 +65,7 @@ function Get-GitBranchArchive {
         Remove-Item -Path $extractedDir.FullName -Force
     }
     
-    Write-Host "Successfully downloaded and extracted branch $branch"
+    Write-Log "Successfully downloaded and extracted branch $branch"
 }
 
 <#
@@ -65,10 +75,10 @@ the fact later on.
 function Set-PuppetEnvironment {
     $currentEnvironment = puppet config print environment
     if ($currentEnvironment -ne $branch) {
-        Write-Host "Changing Puppet environment from $currentEnvironment to $branch"
+        Write-Log "Changing Puppet environment from $currentEnvironment to $branch"
         puppet config set environment $branch
     } else {
-        Write-Host "Puppet environment already set to $branch"
+        Write-Log "Puppet environment already set to $branch"
     }
 }
 
@@ -83,7 +93,7 @@ function Run-Puppet {
         $applyArgs += "--noop"
     }
     
-    Write-Host "Executing puppet apply with arguments: puppet apply $($applyArgs -join ' ')"
+    Write-Log "Executing puppet apply with arguments: puppet apply $($applyArgs -join ' ')"
     puppet apply @applyArgs
 }
 
@@ -95,11 +105,11 @@ https://github.com/puppetlabs/puppet-agent/blob/main/resources/files/windows/env
 function Prepare-Certificates {
     $caCertBundlePath = Join-Path $PUPPET_SSL_DIR "turbopuppet-cacerts.pem"
     if (-not (Test-Path $caCertBundlePath)) {
-        Write-Host "Downloading CA certificates bundle..."
+        Write-Log "Downloading CA certificates bundle..."
         Invoke-WebRequest -Uri "https://curl.se/ca/cacert.pem" -OutFile $caCertBundlePath
     }
     $env:SSL_CERT_FILE = $caCertBundlePath
-    Write-Host "CA certificates bundle (SSL_CERT_FILE) set to $caCertBundlePath"
+    Write-Log "CA certificates bundle (SSL_CERT_FILE) set to $caCertBundlePath"
 }
 
 function Install-PuppetModules {
@@ -112,7 +122,7 @@ function Install-PuppetModules {
 
     Prepare-Certificates
     
-    Write-Host "Installing modules from Puppetfile..."
+    Write-Log "Installing modules from Puppetfile..."
     & "$PUPPET_BIN_DIR\r10k.bat" puppetfile install --puppetfile $puppetfilePath --moduledir "$ENVIRONMENT_DIR\modules"
     
     if ($LASTEXITCODE -ne 0) {
@@ -120,7 +130,7 @@ function Install-PuppetModules {
         exit 1
     }
     
-    Write-Host "Successfully installed modules from Puppetfile"
+    Write-Log "Successfully installed modules from Puppetfile"
 }
 
 <#
@@ -128,9 +138,9 @@ Installing with the Gemfile caused some weird errors. Since all I need is r10k
 I'm going to do it manually here for now.
 #>
 function Install-Gems {
-    Write-Host "Installing r10k..."
+    Write-Log "Installing r10k..."
     & "$PUPPET_BIN_DIR\gem.bat" install r10k --version '~> 3.15.4'
-    Write-Host "Successfully installed all gems"
+    Write-Log "Successfully installed all gems"
 }
 
 $null = Get-GitBranchArchive
