@@ -44,19 +44,22 @@ class profiles::power::alwayson::windows (
   # @formatter:on
 
   # Power button shuts down the system
-  $guid_subgroup_buttons = 'SUB_BUTTONS'
-  $guid_setting_powerbutton = 'UIBUTTON_ACTION'
-  $powerbutton_action = 2
-  # 0 = Sleep
-  # 1 = Hibernate
-  # 2 = Shut Down
+  # This wasn't working. Need some registry magic to kinda get it working.
+  # https://www.elevenforum.com/t/change-power-button-action-in-windows-11.5186/
+  # Elected to not do this.
+  # $guid_subgroup_buttons = 'SUB_BUTTONS'
+  # $guid_setting_powerbutton = 'UIBUTTON_ACTION'
+  # $powerbutton_action = 2
+  # # 0 = Sleep
+  # # 1 = Hibernate
+  # # 2 = Shut Down
 
-  # @formatter:off
-  $cmd_get_powerbutton_setting = "powercfg /Q ${guid_power_plan} ${guid_subgroup_buttons} ${guid_setting_powerbutton} | Select-String 'Current AC Power' | select -exp 'line'"
-  exec { 'SetSystemPowerButton':
-    command => "powercfg /SETACVALUEINDEX ${guid_power_plan} ${guid_subgroup_buttons} ${guid_setting_powerbutton} ${powerbutton_action}",
-    onlyif  => cfcc::psexpr("[int](${cmd_get_powerbutton_setting}).split()[-1] -ne ${powerbutton_action}"),
-  }
+  # # @formatter:off
+  # $cmd_get_powerbutton_setting = "powercfg /Q ${guid_power_plan} ${guid_subgroup_buttons} ${guid_setting_powerbutton} | Select-String 'Current AC Power' | select -exp 'line'"
+  # exec { 'SetSystemPowerButton':
+  #   command => "powercfg /SETACVALUEINDEX ${guid_power_plan} ${guid_subgroup_buttons} ${guid_setting_powerbutton} ${powerbutton_action}",
+  #   onlyif  => cfcc::psexpr("[int](${cmd_get_powerbutton_setting}).split()[-1] -ne ${powerbutton_action}"),
+  # }
   # @formatter:on
 
   # Also disable hibernation
