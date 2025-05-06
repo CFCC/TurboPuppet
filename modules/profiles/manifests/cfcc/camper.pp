@@ -25,6 +25,7 @@ class profiles::cfcc::camper {
       include profiles::tool::procmon
       include profiles::tool::gpuz
       include profiles::tool::produkey
+      include profiles::tool::furmark
 
       # OS-specific Camper Tools
       include profiles::terminal::windows
