@@ -1,9 +1,8 @@
 #
 #
 #
-class profile::driver::gpu::nvidia {
-
-  case $::operatingsystem {
+class profiles::driver::gpu::nvidia {
+  case $facts['os']['family'] {
     'windows': {
       # There is some bad juju with the nvidia drivers and the
       # EN1070, EN1070K, and EN1080K series.
@@ -52,7 +51,9 @@ class profile::driver::gpu::nvidia {
       # EN970
       #   Haven't gotten here either.
 
-      package { 'nvidia-display-driver': }
+      package { 'nvidia-display-driver':
+        notify => Exec['CleanupDesktopShortcuts'],
+      }
       package { 'ddu': }
     }
     'Fedora': {
@@ -60,5 +61,4 @@ class profile::driver::gpu::nvidia {
     }
     default: {}
   }
-
 }

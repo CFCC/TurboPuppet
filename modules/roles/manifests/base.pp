@@ -61,7 +61,8 @@ class roles::base {
 
   # Drivers
   # https://puppet.com/docs/puppet/5.3/lang_data_regexp.html
-  # if $facts['hostname'] =~ /(?i:zotac)/  { include profiles::driver::zotac }
-  # if $facts['hostname'] =~ /(?i:zaktop)/ { include profiles::driver::zaktop }
-  # if $facts['hostname'] =~ /(?i:hp)/     { include profiles::driver::hp }
+  if $facts['networking']['hostname'] =~ /(?i:zotac)/  { include profiles::driver::zotac }
+  if $facts['networking']['hostname'] =~ /(?i:zaktop)/ { include profiles::driver::zaktop }
+  if $facts['networking']['hostname'] =~ /(?i:hp)/     { include profiles::driver::hp }
+  if $facts['networking']['hostname'] =~ /(?i:atom)/   { include profiles::driver::atomman }
 }
