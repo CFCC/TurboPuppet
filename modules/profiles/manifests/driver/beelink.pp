@@ -4,7 +4,7 @@
 class profiles::driver::beelink {
   include profiles::driver::cpu::ryzen
 
-  $driver_root = 'C:/CampFitch/opt/Drivers'
+  $driver_root = "C:\\CampFitch\\opt\\Drivers"
 
   file { 'Drivers':
     ensure  => 'directory',
@@ -21,10 +21,10 @@ class profiles::driver::beelink {
   }
 
   cfcc::driver { 'amdacpbt.inf':
-    path   => "${driver_root}/ACPBtAfd/WT64A/amdacpbt.inf",
+    path => "${driver_root}\\ACPBtAfd\\WT64A\\amdacpbt.inf",
   }
 
   cfcc::driver { 'amdacpbus.inf':
-    path   => "${driver_root}/ACPBus/WT64A/amdacpbus.inf",
+    path => "${driver_root}\\ACPBus\\WT64A\\amdacpbus.inf",
   }
 }
