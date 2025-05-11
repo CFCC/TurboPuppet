@@ -24,7 +24,13 @@ class profiles::driver::beelink {
     path => "${driver_root}\\Beelink\\ACPBtAfd\\WT64A\\amdacpbt.inf",
   }
 
-  cfcc::driver { 'amdacpbus.inf':
-    path => "${driver_root}\\Beelink\\ACPBus\\WT64A\\amdacpbus.inf",
+  if $facts['networking']['hostname'] =~ /(?i:cfccbeelink05)/ {
+    cfcc::driver { 'amdacpbus2.inf':
+      path => "${driver_root}\\Beelink\\ACPBus\\WT64A\\amdacpbus2.inf",
+    }
+  } else {
+    cfcc::driver { 'amdacpbus.inf':
+      path => "${driver_root}\\Beelink\\ACPBus\\WT64A\\amdacpbus.inf",
+    }
   }
 }
