@@ -21,10 +21,10 @@ class profiles::driver::beelink {
   }
 
   cfcc::driver { 'amdacpbt.inf':
-    path => "${driver_root}\\ACPBtAfd\\WT64A\\amdacpbt.inf",
+    path => "${driver_root}\\Beelink\\ACPBtAfd\\WT64A\\amdacpbt.inf",
   }
 
   cfcc::driver { 'amdacpbus.inf':
-    path => "${driver_root}\\ACPBus\\WT64A\\amdacpbus.inf",
+    path => "${driver_root}\\Beelink\\ACPBus\\WT64A\\amdacpbus.inf",
   }
 }
