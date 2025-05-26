@@ -66,4 +66,5 @@ class roles::base {
   if $facts['networking']['hostname'] =~ /(?i:hp)/      { include profiles::driver::hp }
   if $facts['networking']['hostname'] =~ /(?i:atom)/    { include profiles::driver::atomman }
   if $facts['networking']['hostname'] =~ /(?i:beelink)/ { include profiles::driver::beelink }
+  if $facts['networking']['hostname'] =~ /(?i:gmk)/     { include profiles::driver::gmktec }
 }
