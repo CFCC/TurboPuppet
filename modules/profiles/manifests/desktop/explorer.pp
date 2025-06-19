@@ -262,6 +262,13 @@ class profiles::desktop::explorer {
     data => 1,
   }
 
+  # Long Path Names
+  registry_value { 'LongPathsEnabled':
+    path => 'HKLM\SYSTEM\CurrentControlSet\Control\FileSystem\LongPathsEnabled',
+    type => 'dword',
+    data => 1,
+  }
+
   exec { 'Reload Explorer':
     command     => 'Stop-Process -ProcessName explorer',
     refreshonly => true,
