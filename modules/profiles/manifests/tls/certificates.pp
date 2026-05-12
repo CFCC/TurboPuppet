@@ -19,6 +19,10 @@ class profiles::tls::certificates {
     'windows': {
       # CA = Current User or Local Computer \ Intermediate Certification Authorities \ Certificates
       # Root = Current User or Local Computer \ Trusted Root Certification Authorities \ Certificates
+
+      # Thumbprints can be generated with:
+      # openssl x509 -in path/to/file.pem -noout -fingerprint -sha1
+
       Sslcertificate {
         location   => $local_cert_directory,
         root_store => 'LocalMachine',
@@ -31,6 +35,10 @@ class profiles::tls::certificates {
 
       sslcertificate { 'tars-ca-v2.crt':
         thumbprint => '1F30886A00CEA39B8D167A244F2712C5050ED429'
+      }
+
+      sslcertificate { 'UniFi-SSL-Certificate.cer':
+        thumbprint => '3BC62B1E77A9B4886FC9F7021655128A90E8E1D5',
       }
     }
     'Linux': {
