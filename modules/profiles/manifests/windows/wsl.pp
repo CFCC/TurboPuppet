@@ -5,7 +5,7 @@
 # 2) after reboot and a second puppet run, install/bootstrap Ubuntu
 #
 class profiles::windows::wsl {
-  $state_dir         = 'C:/CampFitch/state'
+  $state_dir         = 'C:/CampFitch/var/state'
   $phase1_marker     = "${state_dir}/wsl_phase1_pending_reboot.txt"
   $ubuntu_distro     = 'Ubuntu'
   $camper_username   = lookup('camper_username')
