@@ -30,7 +30,7 @@ class profiles::windows::wsl {
 
   exec { 'SetWSLDefaultVersion2':
     command => 'wsl.exe --set-default-version 2',
-    onlyif  => cfcc::psexpr("((wsl.exe --status 2>\$null | Select-String -Pattern 'Default Version:\\s+2') -eq \$null)"),
+    onlyif  => cfcc::psexpr("${post_reboot_guard} -and ((wsl.exe --status 2>\$null | Select-String -Pattern 'Default Version:\\s+2') -eq \$null)"),
     require => [
       Exec['EnableWSLFeature'],
       Exec['EnableVirtualMachinePlatform'],
