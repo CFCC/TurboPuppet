@@ -6,15 +6,9 @@
 # - 1 on hard failure
 #
 class profiles::windows::wsl {
-  $state_dir      = 'C:/CampFitch/var/state'
-  $phase1_marker  = "${state_dir}/wsl_phase1_pending_reboot.txt"
   $ubuntu_distro  = 'Ubuntu'
   $camper_username = lookup('camper_username')
   $wsl_installer  = 'C:/CampFitch/bin/Install-WSL.ps1'
-
-  file { $state_dir:
-    ensure => directory,
-  }
 
   file { 'Install-WSL.ps1':
     ensure => file,
@@ -23,12 +17,9 @@ class profiles::windows::wsl {
   }
 
   exec { 'InstallWSL':
-    command => "${wsl_installer} -MarkerPath '${phase1_marker}' -Distro '${ubuntu_distro}' -CamperUsername '${camper_username}'",
+    command => "${wsl_installer} -Distro '${ubuntu_distro}' -CamperUsername '${camper_username}'",
     logoutput => true,
     returns => [0, 3010],
-    require => [
-      File[$state_dir],
-      File['Install-WSL.ps1'],
-    ],
+    require => File['Install-WSL.ps1'],
   }
 }

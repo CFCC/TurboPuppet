@@ -1,7 +1,4 @@
 param(
-  [Parameter(Mandatory = $true)]
-  [string]$MarkerPath,
-
   [string]$Distro = 'Ubuntu',
 
   [Parameter(Mandatory = $true)]
@@ -9,16 +6,6 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
-
-function Write-Marker {
-  param([string]$Path)
-  $dir = Split-Path -Path $Path -Parent
-  if (-not (Test-Path -Path $dir)) {
-    New-Item -Path $dir -ItemType Directory -Force | Out-Null
-  }
-  New-Item -Path $Path -ItemType File -Force | Out-Null
-  Set-Content -Path $Path -Value (Get-Date -Format o)
-}
 
 function Test-FeatureEnabled {
   param([string]$FeatureName)
@@ -46,9 +33,15 @@ function Test-DefaultVersionIs2 {
   $null -ne ($status | Select-String -Pattern 'Default Version:\s+2')
 }
 
+function Test-RebootPending {
+  $cbsPending = Test-Path -Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Component Based Servicing\RebootPending'
+  $wuPending = Test-Path -Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update\RebootRequired'
+  $pendingRename = $null -ne (Get-ItemProperty -Path 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager' -Name PendingFileRenameOperations -ErrorAction SilentlyContinue)
+  $cbsPending -or $wuPending -or $pendingRename
+}
+
 try {
   $featuresChanged = $false
-  $rebootRequired = $false
 
   $wslEnabled = Test-FeatureEnabled -FeatureName 'Microsoft-Windows-Subsystem-Linux'
   $vmEnabled = Test-FeatureEnabled -FeatureName 'VirtualMachinePlatform'
@@ -56,44 +49,30 @@ try {
   if (-not $wslEnabled) {
     $rc = Invoke-DismEnable -FeatureName 'Microsoft-Windows-Subsystem-Linux'
     $featuresChanged = $true
-    if ($rc -eq 3010) { $rebootRequired = $true }
   }
 
   if (-not $vmEnabled) {
     $rc = Invoke-DismEnable -FeatureName 'VirtualMachinePlatform'
     $featuresChanged = $true
-    if ($rc -eq 3010) { $rebootRequired = $true }
   }
 
   if ($featuresChanged) {
-    Write-Marker -Path $MarkerPath
     Write-Output 'WSL prerequisites changed. Reboot Windows, then run puppet agent -t again to finish Ubuntu setup.'
     exit 3010
   }
 
-  $markerExists = Test-Path -Path $MarkerPath
-  $postReboot = $false
-  if ($markerExists) {
-    $bootTime = (Get-CimInstance Win32_OperatingSystem).LastBootUpTime.ToUniversalTime()
-    $markTime = (Get-Item -Path $MarkerPath).LastWriteTimeUtc
-    $postReboot = $bootTime -gt $markTime
-
-    if (-not $postReboot) {
-      Write-Output 'WSL setup is waiting for reboot. Reboot Windows, then run puppet agent -t again.'
-      exit 3010
-    }
-  }
-
-  # Recovery path from historical partial runs.
-  if (-not $markerExists -and (Test-FeatureEnabled -FeatureName 'Microsoft-Windows-Subsystem-Linux') -and (Test-FeatureEnabled -FeatureName 'VirtualMachinePlatform') -and -not (Test-DistroPresent -Name $Distro)) {
-    Write-Marker -Path $MarkerPath
-    Write-Output 'WSL features are enabled but distro setup is incomplete. Reboot Windows, then run puppet agent -t again.'
+  if (Test-RebootPending) {
+    Write-Output 'Windows reports a pending reboot. Reboot Windows, then run puppet agent -t again to continue WSL setup.'
     exit 3010
   }
 
   if (-not (Test-DefaultVersionIs2)) {
     & wsl.exe --set-default-version 2 | Out-Default
     if ($LASTEXITCODE -ne 0) {
+      if (Test-RebootPending) {
+        Write-Output 'WSL default version update is blocked by pending reboot. Reboot Windows, then run puppet agent -t again.'
+        exit 3010
+      }
       throw "Failed setting WSL default version to 2 (exit $LASTEXITCODE)"
     }
   }
@@ -101,11 +80,14 @@ try {
   if (-not (Test-DistroPresent -Name $Distro)) {
     & wsl.exe --install -d $Distro | Out-Default
     if ($LASTEXITCODE -eq 3010) {
-      Write-Marker -Path $MarkerPath
       Write-Output 'Ubuntu install requested a reboot. Reboot Windows, then run puppet agent -t again.'
       exit 3010
     }
     if ($LASTEXITCODE -ne 0) {
+      if (Test-RebootPending) {
+        Write-Output 'Ubuntu install is blocked by pending reboot. Reboot Windows, then run puppet agent -t again.'
+        exit 3010
+      }
       throw "Failed installing distro $Distro (exit $LASTEXITCODE)"
     }
   }
@@ -122,15 +104,6 @@ echo 'default=$CamperUsername' >> /etc/wsl.conf
     }
 
     & wsl.exe --shutdown | Out-Null
-  }
-
-  if (Test-Path -Path $MarkerPath) {
-    Remove-Item -Path $MarkerPath -Force
-  }
-
-  if ($rebootRequired) {
-    Write-Output 'WSL setup completed this run, but a reboot is still required.'
-    exit 3010
   }
 
   exit 0
