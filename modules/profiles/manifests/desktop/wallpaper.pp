@@ -32,7 +32,7 @@ class profiles::desktop::wallpaper {
       # Used to do -like "*img0.jpg" but by default in our Windows 11 it's empty.
       exec { 'SetWallpaper':
         # @formatter:off
-        command => 'C:\CampFitch\bin\SetWallpaper.ps1 C:\CampFitch\usr\share\wallpaper\Bungalow.jpg',
+        command => 'C:\CampFitch\bin\SetWallpaper.ps1 C:\CampFitch\usr\share\wallpaper\boathouse.jpg',
         onlyif  => cfcc::psexpr('(Get-ItemProperty -Path "HKCU:Control Panel\Desktop" -Name "Wallpaper" |Select -ExpandProperty Wallpaper) -eq ""'),
         # @formatter:on
         require => File['SetWallpaper'],
