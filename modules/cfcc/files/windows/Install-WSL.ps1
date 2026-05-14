@@ -57,12 +57,12 @@ try {
   }
 
   if ($featuresChanged) {
-    Write-Output 'WSL prerequisites changed. Reboot Windows, then run puppet agent -t again to finish Ubuntu setup.'
+    Write-Output 'WSL prerequisites changed. Reboot Windows, then run puppet again to finish Ubuntu setup.'
     exit 3010
   }
 
   if (Test-RebootPending) {
-    Write-Output 'Windows reports a pending reboot. Reboot Windows, then run puppet agent -t again to continue WSL setup.'
+    Write-Output 'Windows reports a pending reboot. Reboot Windows, then run puppet again to continue WSL setup.'
     exit 3010
   }
 
@@ -70,7 +70,7 @@ try {
     & wsl.exe --set-default-version 2 | Out-Default
     if ($LASTEXITCODE -ne 0) {
       if (Test-RebootPending) {
-        Write-Output 'WSL default version update is blocked by pending reboot. Reboot Windows, then run puppet agent -t again.'
+        Write-Output 'WSL default version update is blocked by pending reboot. Reboot Windows, then run puppet again.'
         exit 3010
       }
       throw "Failed setting WSL default version to 2 (exit $LASTEXITCODE)"
@@ -80,12 +80,12 @@ try {
   if (-not (Test-DistroPresent -Name $Distro)) {
     & wsl.exe --install -d $Distro | Out-Default
     if ($LASTEXITCODE -eq 3010) {
-      Write-Output 'Ubuntu install requested a reboot. Reboot Windows, then run puppet agent -t again.'
+      Write-Output 'Ubuntu install requested a reboot. Reboot Windows, then run puppet again.'
       exit 3010
     }
     if ($LASTEXITCODE -ne 0) {
       if (Test-RebootPending) {
-        Write-Output 'Ubuntu install is blocked by pending reboot. Reboot Windows, then run puppet agent -t again.'
+        Write-Output 'Ubuntu install is blocked by pending reboot. Reboot Windows, then run puppet again.'
         exit 3010
       }
       throw "Failed installing distro $Distro (exit $LASTEXITCODE)"
