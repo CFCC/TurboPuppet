@@ -6,6 +6,39 @@ param(
 )
 
 $ErrorActionPreference = 'Stop'
+# In PowerShell 7+, native command non-zero exit codes can be promoted to
+# errors. We need to inspect WSL exit codes/output ourselves.
+if ($null -ne (Get-Variable -Name PSNativeCommandUseErrorActionPreference -ErrorAction SilentlyContinue)) {
+  $PSNativeCommandUseErrorActionPreference = $false
+}
+
+function Write-Log {
+  param([string]$Message)
+  $ts = Get-Date -Format 'yyyy-MM-dd HH:mm:ss'
+  Write-Output "[$ts] $Message"
+}
+
+function Invoke-NativeCommand {
+  param(
+    [string]$Command,
+    [string[]]$Arguments
+  )
+  $argString = $Arguments -join ' '
+  Write-Log "Running: $Command $argString"
+  $prevEAP = $ErrorActionPreference
+  $ErrorActionPreference = 'Continue'
+  try {
+    $output = & $Command @Arguments 2>&1 | Out-String
+    $result = @{
+      ExitCode = $LASTEXITCODE
+      Output   = $output.Trim()
+    }
+    Write-Log "Completed: $Command (exit $($result.ExitCode))"
+    return $result
+  } finally {
+    $ErrorActionPreference = $prevEAP
+  }
+}
 
 function Test-FeatureEnabled {
   param([string]$FeatureName)
@@ -15,8 +48,10 @@ function Test-FeatureEnabled {
 function Invoke-DismEnable {
   param([string]$FeatureName)
 
+  Write-Log "DISM: Enabling feature $FeatureName..."
   & dism.exe /online /enable-feature /featurename:$FeatureName /all /norestart | Out-Default
   $rc = $LASTEXITCODE
+  Write-Log "DISM: Feature $FeatureName completed (exit $rc)"
   if ($rc -ne 0 -and $rc -ne 3010) {
     throw "Failed enabling feature $FeatureName (exit $rc)"
   }
@@ -25,22 +60,34 @@ function Invoke-DismEnable {
 
 function Test-DistroPresent {
   param([string]$Name)
-  (wsl.exe -l -q 2>$null) -contains $Name
+  $result = Invoke-NativeCommand -Command 'wsl.exe' -Arguments @('-l', '-q')
+  if ($result.ExitCode -ne 0) {
+    return $false
+  }
+  $distros = $result.Output -split "`n" | ForEach-Object { $_.Trim() } | Where-Object { $_ -ne '' }
+  $distros -contains $Name
+}
+
+function Get-WslStatusResult {
+  Invoke-NativeCommand -Command 'wsl.exe' -Arguments @('--status')
 }
 
 function Test-DefaultVersionIs2 {
-  $status = wsl.exe --status 2>$null
-  $null -ne ($status | Select-String -Pattern 'Default Version:\s+2')
+  $statusResult = Get-WslStatusResult
+  if ($statusResult.ExitCode -ne 0) {
+    return $false
+  }
+  $null -ne ($statusResult.Output | Select-String -Pattern 'Default Version:\s+2')
 }
 
 function Test-WslCoreReady {
-  $statusText = (& wsl.exe --status 2>&1 | Out-String)
-  if ($LASTEXITCODE -eq 0) {
+  $statusResult = Get-WslStatusResult
+  if ($statusResult.ExitCode -eq 0) {
     return $true
   }
 
   # Transitional state: features may be enabled but WSL is not ready until reboot.
-  if ($statusText -match 'Windows Subsystem for Linux is not installed') {
+  if ($statusResult.Output -match 'Windows Subsystem for Linux is not installed') {
     return $false
   }
 
@@ -49,19 +96,24 @@ function Test-WslCoreReady {
 
 function Ensure-WslCoreInstalled {
   # Newer WSL supports --no-distribution; older builds may not.
-  & wsl.exe --install --no-distribution | Out-Default
-  $rc = $LASTEXITCODE
-  if ($rc -eq 0 -or $rc -eq 3010) {
-    return $rc
+  Write-Log "Trying: wsl --install --no-distribution"
+  $result = Invoke-NativeCommand -Command 'wsl.exe' -Arguments @('--install', '--no-distribution')
+  Write-Output $result.Output
+  if ($result.ExitCode -eq 0 -or $result.ExitCode -eq 3010) {
+    Write-Log "WSL core install succeeded (exit $($result.ExitCode))"
+    return $result.ExitCode
+  }
+  Write-Log "First attempt failed (exit $($result.ExitCode)), trying fallback..."
+
+  Write-Log "Trying: wsl --install (with default distro)"
+  $result = Invoke-NativeCommand -Command 'wsl.exe' -Arguments @('--install')
+  Write-Output $result.Output
+  if ($result.ExitCode -eq 0 -or $result.ExitCode -eq 3010) {
+    Write-Log "WSL core install succeeded (exit $($result.ExitCode))"
+    return $result.ExitCode
   }
 
-  & wsl.exe --install | Out-Default
-  $rc = $LASTEXITCODE
-  if ($rc -eq 0 -or $rc -eq 3010) {
-    return $rc
-  }
-
-  throw "Failed installing WSL core (exit $rc)"
+  throw "Failed installing WSL core (exit $($result.ExitCode))"
 }
 
 function Test-RebootPending {
@@ -72,86 +124,126 @@ function Test-RebootPending {
 }
 
 try {
+  Write-Log "Starting WSL installation for distro '$Distro', user '$CamperUsername'"
   $featuresChanged = $false
 
+  Write-Log "Checking Windows optional features..."
   $wslEnabled = Test-FeatureEnabled -FeatureName 'Microsoft-Windows-Subsystem-Linux'
   $vmEnabled = Test-FeatureEnabled -FeatureName 'VirtualMachinePlatform'
+  Write-Log "Feature status: WSL=$wslEnabled, VirtualMachinePlatform=$vmEnabled"
 
   if (-not $wslEnabled) {
+    Write-Log "Enabling Microsoft-Windows-Subsystem-Linux feature..."
     $rc = Invoke-DismEnable -FeatureName 'Microsoft-Windows-Subsystem-Linux'
     $featuresChanged = $true
   }
 
   if (-not $vmEnabled) {
+    Write-Log "Enabling VirtualMachinePlatform feature..."
     $rc = Invoke-DismEnable -FeatureName 'VirtualMachinePlatform'
     $featuresChanged = $true
   }
 
   if ($featuresChanged) {
+    Write-Log "Features changed, reboot required"
     Write-Output 'WSL prerequisites changed. Reboot Windows, then run puppet again to finish Ubuntu setup.'
     exit 3010
   }
 
+  Write-Log "Checking for pending reboot..."
   if (Test-RebootPending) {
+    Write-Log "Reboot is pending"
     Write-Output 'Windows reports a pending reboot. Reboot Windows, then run puppet again to continue WSL setup.'
     exit 3010
   }
 
+  Write-Log "Checking if WSL core is ready..."
   if (-not (Test-WslCoreReady)) {
+    Write-Log "WSL core not ready, installing..."
     $coreInstallRc = Ensure-WslCoreInstalled
+    Write-Log "WSL core install returned: $coreInstallRc"
     if ($coreInstallRc -eq 3010) {
       Write-Output 'WSL core install requested a reboot. Reboot Windows, then run puppet again to continue setup.'
       exit 3010
     }
 
+    Write-Log "Re-checking WSL core readiness..."
     if (-not (Test-WslCoreReady)) {
+      Write-Log "WSL core still not ready after install"
       Write-Output 'WSL core is still not ready. Reboot Windows, then run puppet again to continue setup.'
       exit 3010
     }
   }
+  Write-Log "WSL core is ready"
 
+  Write-Log "Checking WSL default version..."
   if (-not (Test-DefaultVersionIs2)) {
-    & wsl.exe --set-default-version 2 | Out-Default
-    if ($LASTEXITCODE -ne 0) {
+    Write-Log "Setting WSL default version to 2..."
+    $result = Invoke-NativeCommand -Command 'wsl.exe' -Arguments @('--set-default-version', '2')
+    Write-Output $result.Output
+    if ($result.ExitCode -ne 0) {
       if ((Test-RebootPending) -or (-not (Test-WslCoreReady))) {
+        Write-Log "Default version change blocked by pending reboot"
         Write-Output 'WSL default version update is blocked by pending reboot. Reboot Windows, then run puppet again.'
         exit 3010
       }
-      throw "Failed setting WSL default version to 2 (exit $LASTEXITCODE)"
+      throw "Failed setting WSL default version to 2 (exit $($result.ExitCode))"
     }
   }
+  Write-Log "WSL default version is 2"
 
+  Write-Log "Checking if distro '$Distro' is present..."
   if (-not (Test-DistroPresent -Name $Distro)) {
-    & wsl.exe --install -d $Distro | Out-Default
-    if ($LASTEXITCODE -eq 3010) {
+    Write-Log "Distro not found, installing '$Distro' with --no-launch to skip interactive setup..."
+    $result = Invoke-NativeCommand -Command 'wsl.exe' -Arguments @('--install', '-d', $Distro, '--no-launch')
+    Write-Output $result.Output
+    if ($result.ExitCode -eq 3010) {
+      Write-Log "Distro install requires reboot"
       Write-Output 'Ubuntu install requested a reboot. Reboot Windows, then run puppet again.'
       exit 3010
     }
-    if ($LASTEXITCODE -ne 0) {
+    if ($result.ExitCode -ne 0) {
       if (Test-RebootPending) {
+        Write-Log "Distro install blocked by pending reboot"
         Write-Output 'Ubuntu install is blocked by pending reboot. Reboot Windows, then run puppet again.'
         exit 3010
       }
-      throw "Failed installing distro $Distro (exit $LASTEXITCODE)"
+      throw "Failed installing distro $Distro (exit $($result.ExitCode))"
     }
+    Write-Log "Distro install completed"
+  } else {
+    Write-Log "Distro '$Distro' already present"
   }
 
+  Write-Log "Checking if distro bootstrap is needed..."
   if (Test-DistroPresent -Name $Distro) {
+    Write-Log "Running user bootstrap in WSL..."
     $bootstrap = @"
-id -u $CamperUsername >/dev/null 2>&1 || useradd --create-home --user-group --groups sudo $CamperUsername
+set -e
+if ! id -u $CamperUsername >/dev/null 2>&1; then
+  useradd --create-home --user-group --groups sudo $CamperUsername
+fi
 echo '[user]' > /etc/wsl.conf
 echo 'default=$CamperUsername' >> /etc/wsl.conf
+echo '$CamperUsername ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/$CamperUsername
+chmod 440 /etc/sudoers.d/$CamperUsername
 "@
-    & wsl.exe -d $Distro -u root -- bash -lc $bootstrap | Out-Default
-    if ($LASTEXITCODE -ne 0) {
-      throw "Failed configuring WSL user bootstrap (exit $LASTEXITCODE)"
+    $result = Invoke-NativeCommand -Command 'wsl.exe' -Arguments @('-d', $Distro, '-u', 'root', '--', 'bash', '-lc', $bootstrap)
+    Write-Output $result.Output
+    if ($result.ExitCode -ne 0) {
+      throw "Failed configuring WSL user bootstrap (exit $($result.ExitCode))"
     }
+    Write-Log "Bootstrap completed"
 
-    & wsl.exe --shutdown | Out-Null
+    Write-Log "Shutting down WSL..."
+    $null = Invoke-NativeCommand -Command 'wsl.exe' -Arguments @('--shutdown')
+    Write-Log "WSL shutdown completed"
   }
 
+  Write-Log "WSL installation completed successfully"
   exit 0
 } catch {
+  Write-Log "ERROR: $_"
   Write-Error $_
   exit 1
 }
