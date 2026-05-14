@@ -165,6 +165,13 @@ class profiles::desktop::explorer {
     data  => 0,
   }
 
+  # Disable Start menu recommendations
+  cfcc::hkcu { 'Start_IrisRecommendations':
+    key   => 'Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced',
+    value => 'Start_IrisRecommendations',
+    data  => 0,
+  }
+
   # https://www.windowscentral.com/how-disable-recent-files-and-locations-jump-lists-windows-10
   cfcc::hkcu { 'Start_TrackDocs':
     key   => 'Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced',
