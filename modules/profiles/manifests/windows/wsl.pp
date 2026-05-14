@@ -9,11 +9,16 @@ class profiles::windows::wsl {
   $phase1_marker     = "${state_dir}/wsl_phase1_pending_reboot.txt"
   $ubuntu_distro     = 'Ubuntu'
   $camper_username   = lookup('camper_username')
-  $reboot_pending_guard = "(Test-Path -Path '${phase1_marker}') -and -not ((Get-CimInstance Win32_OperatingSystem).LastBootUpTime.ToUniversalTime() -gt (Get-Item '${phase1_marker}').LastWriteTimeUtc)"
-  $post_reboot_guard = "(Test-Path -Path '${phase1_marker}') -and ((Get-CimInstance Win32_OperatingSystem).LastBootUpTime.ToUniversalTime() -gt (Get-Item '${phase1_marker}').LastWriteTimeUtc)"
+  $wsl_guard_script  = 'C:/CampFitch/bin/WslGuard.ps1'
 
   file { $state_dir:
     ensure => directory,
+  }
+
+  file { 'WslGuard.ps1':
+    ensure => file,
+    path   => $wsl_guard_script,
+    source => 'puppet:///modules/cfcc/windows/WslGuard.ps1',
   }
 
   # Phase 1: enable required Windows features and WSL defaults.
@@ -31,8 +36,9 @@ class profiles::windows::wsl {
 
   exec { 'SetWSLDefaultVersion2':
     command => 'wsl.exe --set-default-version 2',
-    onlyif  => cfcc::psexpr("${post_reboot_guard} -and ((wsl.exe --status 2>\$null | Select-String -Pattern 'Default Version:\\s+2') -eq \$null)"),
+    onlyif  => "${wsl_guard_script} -Check DefaultVersionNeedsSet -MarkerPath '${phase1_marker}' -Distro '${ubuntu_distro}'",
     require => [
+      File['WslGuard.ps1'],
       Exec['EnableWSLFeature'],
       Exec['EnableVirtualMachinePlatform'],
     ],
@@ -45,7 +51,6 @@ class profiles::windows::wsl {
     subscribe   => [
       Exec['EnableWSLFeature'],
       Exec['EnableVirtualMachinePlatform'],
-      Exec['SetWSLDefaultVersion2'],
     ],
     require     => File[$state_dir],
   }
@@ -54,39 +59,39 @@ class profiles::windows::wsl {
   # (for example due to a past mid-run error), recreate the marker.
   exec { 'BackfillWSLPhase1PendingRebootMarker':
     command => "New-Item -Path '${phase1_marker}' -ItemType File -Force | Out-Null; Set-Content -Path '${phase1_marker}' -Value (Get-Date -Format o)",
-    onlyif  => cfcc::psexpr(
-      "-not (Test-Path -Path '${phase1_marker}') -and " +
-      "(Get-WindowsOptionalFeature -Online -FeatureName 'Microsoft-Windows-Subsystem-Linux' | Select -ExpandProperty State) -eq 'Enabled' -and " +
-      "(Get-WindowsOptionalFeature -Online -FeatureName 'VirtualMachinePlatform' | Select -ExpandProperty State) -eq 'Enabled' -and " +
-      "-not ((wsl.exe -l -q 2>\$null) -contains '${ubuntu_distro}')",
-    ),
-    require => File[$state_dir],
+    onlyif  => "${wsl_guard_script} -Check BackfillNeeded -MarkerPath '${phase1_marker}' -Distro '${ubuntu_distro}'",
+    require => [
+      File[$state_dir],
+      File['WslGuard.ps1'],
+    ],
   }
 
   exec { 'NotifyWSLRebootRequired':
     command => "Write-Output 'WSL prerequisites changed. Reboot Windows, then run puppet agent -t again to finish Ubuntu setup.'",
-    onlyif  => cfcc::psexpr($reboot_pending_guard),
+    onlyif  => "${wsl_guard_script} -Check RebootPending -MarkerPath '${phase1_marker}'",
     require => [
       Exec['MarkWSLPhase1PendingReboot'],
       Exec['BackfillWSLPhase1PendingRebootMarker'],
+      File['WslGuard.ps1'],
     ],
   }
 
   # Phase 2: post-reboot distro install and bootstrap.
   exec { 'InstallUbuntuLTS':
     command => "wsl.exe --install -d ${ubuntu_distro}",
-    onlyif  => cfcc::psexpr("${post_reboot_guard} -and -not ((wsl.exe -l -q) -contains '${ubuntu_distro}')"),
+    onlyif  => "${wsl_guard_script} -Check DistroMissingPostReboot -MarkerPath '${phase1_marker}' -Distro '${ubuntu_distro}'",
+    require => File['WslGuard.ps1'],
   }
 
   exec { 'ConfigureUbuntuCamperUser':
     command => "wsl.exe -d ${ubuntu_distro} -u root -- bash -lc \"id -u ${camper_username} >/dev/null 2>&1 || useradd --create-home --user-group --groups sudo ${camper_username}; echo '[user]' > /etc/wsl.conf; echo 'default=${camper_username}' >> /etc/wsl.conf\"; wsl.exe --shutdown",
-    onlyif  => cfcc::psexpr("${post_reboot_guard} -and ((wsl.exe -l -q) -contains '${ubuntu_distro}')"),
+    onlyif  => "${wsl_guard_script} -Check DistroPresentPostReboot -MarkerPath '${phase1_marker}' -Distro '${ubuntu_distro}'",
     require => Exec['InstallUbuntuLTS'],
   }
 
   exec { 'ClearWSLPhase1PendingRebootMarker':
     command => "Remove-Item -Path '${phase1_marker}' -Force",
-    onlyif  => cfcc::psexpr("${post_reboot_guard} -and ((wsl.exe -l -q) -contains '${ubuntu_distro}')"),
+    onlyif  => "${wsl_guard_script} -Check DistroPresentPostReboot -MarkerPath '${phase1_marker}' -Distro '${ubuntu_distro}'",
     require => Exec['ConfigureUbuntuCamperUser'],
   }
 }
