@@ -158,6 +158,13 @@ class profiles::desktop::explorer {
     data  => 0,
   }
 
+  # Disable "Show recently added apps" in Start
+  cfcc::hkcu { 'ShowRecentList':
+    key   => 'Software\Microsoft\Windows\CurrentVersion\Start',
+    value => 'ShowRecentList',
+    data  => 0,
+  }
+
   # https://www.windowscentral.com/how-disable-recent-files-and-locations-jump-lists-windows-10
   cfcc::hkcu { 'Start_TrackDocs':
     key   => 'Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced',
