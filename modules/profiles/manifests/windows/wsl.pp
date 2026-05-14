@@ -9,6 +9,7 @@ class profiles::windows::wsl {
   $phase1_marker     = "${state_dir}/wsl_phase1_pending_reboot.txt"
   $ubuntu_distro     = 'Ubuntu'
   $camper_username   = lookup('camper_username')
+  $reboot_pending_guard = "(Test-Path -Path '${phase1_marker}') -and -not ((Get-CimInstance Win32_OperatingSystem).LastBootUpTime.ToUniversalTime() -gt (Get-Item '${phase1_marker}').LastWriteTimeUtc)"
   $post_reboot_guard = "(Test-Path -Path '${phase1_marker}') -and ((Get-CimInstance Win32_OperatingSystem).LastBootUpTime.ToUniversalTime() -gt (Get-Item '${phase1_marker}').LastWriteTimeUtc)"
 
   file { $state_dir:
@@ -49,10 +50,26 @@ class profiles::windows::wsl {
     require     => File[$state_dir],
   }
 
+  # Recovery path: if phase 1 succeeded earlier but marker creation was skipped
+  # (for example due to a past mid-run error), recreate the marker.
+  exec { 'BackfillWSLPhase1PendingRebootMarker':
+    command => "New-Item -Path '${phase1_marker}' -ItemType File -Force | Out-Null; Set-Content -Path '${phase1_marker}' -Value (Get-Date -Format o)",
+    onlyif  => cfcc::psexpr(
+      "-not (Test-Path -Path '${phase1_marker}') -and " +
+      "(Get-WindowsOptionalFeature -Online -FeatureName 'Microsoft-Windows-Subsystem-Linux' | Select -ExpandProperty State) -eq 'Enabled' -and " +
+      "(Get-WindowsOptionalFeature -Online -FeatureName 'VirtualMachinePlatform' | Select -ExpandProperty State) -eq 'Enabled' -and " +
+      "-not ((wsl.exe -l -q 2>\$null) -contains '${ubuntu_distro}')",
+    ),
+    require => File[$state_dir],
+  }
+
   exec { 'NotifyWSLRebootRequired':
-    command     => "Write-Output 'WSL prerequisites changed. Reboot Windows, then run puppet agent -t again to finish Ubuntu setup.'",
-    refreshonly => true,
-    subscribe   => Exec['MarkWSLPhase1PendingReboot'],
+    command => "Write-Output 'WSL prerequisites changed. Reboot Windows, then run puppet agent -t again to finish Ubuntu setup.'",
+    onlyif  => cfcc::psexpr($reboot_pending_guard),
+    require => [
+      Exec['MarkWSLPhase1PendingReboot'],
+      Exec['BackfillWSLPhase1PendingRebootMarker'],
+    ],
   }
 
   # Phase 2: post-reboot distro install and bootstrap.
