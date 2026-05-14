@@ -19,11 +19,13 @@ class profiles::windows::wsl {
   exec { 'EnableWSLFeature':
     command => 'dism.exe /online /enable-feature /featurename:Microsoft-Windows-Subsystem-Linux /all /norestart',
     onlyif  => cfcc::psexpr("(Get-WindowsOptionalFeature -Online -FeatureName 'Microsoft-Windows-Subsystem-Linux' | Select -ExpandProperty State) -ne 'Enabled'"),
+    returns => [0, 3010],
   }
 
   exec { 'EnableVirtualMachinePlatform':
     command => 'dism.exe /online /enable-feature /featurename:VirtualMachinePlatform /all /norestart',
     onlyif  => cfcc::psexpr("(Get-WindowsOptionalFeature -Online -FeatureName 'VirtualMachinePlatform' | Select -ExpandProperty State) -ne 'Enabled'"),
+    returns => [0, 3010],
   }
 
   exec { 'SetWSLDefaultVersion2':
