@@ -33,6 +33,37 @@ function Test-DefaultVersionIs2 {
   $null -ne ($status | Select-String -Pattern 'Default Version:\s+2')
 }
 
+function Test-WslCoreReady {
+  $statusText = (& wsl.exe --status 2>&1 | Out-String)
+  if ($LASTEXITCODE -eq 0) {
+    return $true
+  }
+
+  # Transitional state: features may be enabled but WSL is not ready until reboot.
+  if ($statusText -match 'Windows Subsystem for Linux is not installed') {
+    return $false
+  }
+
+  return $false
+}
+
+function Ensure-WslCoreInstalled {
+  # Newer WSL supports --no-distribution; older builds may not.
+  & wsl.exe --install --no-distribution | Out-Default
+  $rc = $LASTEXITCODE
+  if ($rc -eq 0 -or $rc -eq 3010) {
+    return $rc
+  }
+
+  & wsl.exe --install | Out-Default
+  $rc = $LASTEXITCODE
+  if ($rc -eq 0 -or $rc -eq 3010) {
+    return $rc
+  }
+
+  throw "Failed installing WSL core (exit $rc)"
+}
+
 function Test-RebootPending {
   $cbsPending = Test-Path -Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\Component Based Servicing\RebootPending'
   $wuPending = Test-Path -Path 'HKLM:\SOFTWARE\Microsoft\Windows\CurrentVersion\WindowsUpdate\Auto Update\RebootRequired'
@@ -66,10 +97,23 @@ try {
     exit 3010
   }
 
+  if (-not (Test-WslCoreReady)) {
+    $coreInstallRc = Ensure-WslCoreInstalled
+    if ($coreInstallRc -eq 3010) {
+      Write-Output 'WSL core install requested a reboot. Reboot Windows, then run puppet again to continue setup.'
+      exit 3010
+    }
+
+    if (-not (Test-WslCoreReady)) {
+      Write-Output 'WSL core is still not ready. Reboot Windows, then run puppet again to continue setup.'
+      exit 3010
+    }
+  }
+
   if (-not (Test-DefaultVersionIs2)) {
     & wsl.exe --set-default-version 2 | Out-Default
     if ($LASTEXITCODE -ne 0) {
-      if (Test-RebootPending) {
+      if ((Test-RebootPending) -or (-not (Test-WslCoreReady))) {
         Write-Output 'WSL default version update is blocked by pending reboot. Reboot Windows, then run puppet again.'
         exit 3010
       }
