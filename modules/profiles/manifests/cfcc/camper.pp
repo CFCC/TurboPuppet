@@ -47,6 +47,9 @@ class profiles::cfcc::camper {
       include profiles::editor::vim
       include profiles::terminal::gnome
     }
+    'Darwin': {
+      include profiles::editor::bbedit
+    }
     default: {}
   }
 
