@@ -95,18 +95,29 @@ function Test-WslCoreReady {
 }
 
 function Ensure-WslCoreInstalled {
-  # Newer WSL supports --no-distribution; older builds may not.
-  Write-Log "Trying: wsl --install --no-distribution"
-  $result = Invoke-NativeCommand -Command 'wsl.exe' -Arguments @('--install', '--no-distribution')
+  # Try wsl --update first - this is less aggressive and non-interactive
+  Write-Log "Trying: wsl --update"
+  $result = Invoke-NativeCommand -Command 'wsl.exe' -Arguments @('--update')
+  Write-Output $result.Output
+
+  # Check if WSL is now ready after update
+  if (Test-WslCoreReady) {
+    Write-Log "WSL core is ready after update"
+    return 0
+  }
+
+  # If update didn't help, try install with --no-distribution --web-download
+  Write-Log "Trying: wsl --install --no-distribution --web-download"
+  $result = Invoke-NativeCommand -Command 'wsl.exe' -Arguments @('--install', '--no-distribution', '--web-download')
   Write-Output $result.Output
   if ($result.ExitCode -eq 0 -or $result.ExitCode -eq 3010) {
     Write-Log "WSL core install succeeded (exit $($result.ExitCode))"
     return $result.ExitCode
   }
-  Write-Log "First attempt failed (exit $($result.ExitCode)), trying fallback..."
 
-  Write-Log "Trying: wsl --install (with default distro)"
-  $result = Invoke-NativeCommand -Command 'wsl.exe' -Arguments @('--install')
+  # Final fallback without --web-download
+  Write-Log "Trying: wsl --install --no-distribution"
+  $result = Invoke-NativeCommand -Command 'wsl.exe' -Arguments @('--install', '--no-distribution')
   Write-Output $result.Output
   if ($result.ExitCode -eq 0 -or $result.ExitCode -eq 3010) {
     Write-Log "WSL core install succeeded (exit $($result.ExitCode))"
