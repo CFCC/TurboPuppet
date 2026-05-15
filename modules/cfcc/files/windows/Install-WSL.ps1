@@ -240,6 +240,9 @@ chmod 440 /etc/sudoers.d/$CamperUsername
     Write-Log "WSL shutdown completed"
   }
 
+  Write-Log "Closing WSL Settings app if running..."
+  Stop-Process -Name 'wslsettings' -ErrorAction SilentlyContinue
+
   Write-Log "WSL installation completed successfully"
   exit 0
 } catch {
