@@ -24,6 +24,7 @@ class profiles::driver::gmktec {
   # Known drivers to install from the bundle.
   # 05_AMD_BT_1.1042.0.527\source\BT\mtkbtfilter.inf
   # 04_AMD_WiFi_5.5.0.3760\source\mtkwecx.inf
+  # 09_Camera_11.4.2.629\source\AMDISP\AMDCAMERA\WT64A\amdcamera.inf
 
   # As of 2025-05 the amd-ryzen-chipset package does not support the AI MAX 395.
   # As of 2026-05 this is still true.
