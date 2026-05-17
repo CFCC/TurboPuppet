@@ -119,7 +119,7 @@ set_puppet_environment() {
 
 install_gems() {
   log "Installing r10k..."
-  "${PUPPET_BIN_DIR}/gem" install r10k --version '~> 3.15.4'
+  /opt/puppetlabs/puppet/bin/gem install r10k --version '~> 3.15.4'
   log "Successfully installed all gems"
 }
 
@@ -151,6 +151,11 @@ run_puppet() {
 }
 
 main() {
+  if [[ "${EUID:-}" -ne 0 ]]; then
+    echo "Error: turbopuppet.sh must be run as root (use sudo)." >&2
+    exit 1
+  fi
+
   parse_args "$@"
 
   local env_dir="${TURBOPUPPET_ENVIRONMENT_DIR:-${PUPPET_CODE_DIR}/environments/${BRANCH}}"
