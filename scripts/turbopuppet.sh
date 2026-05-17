@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# TurboPuppet entrypoint for macOS/Linux (stub until apply flow is ported from TurboPuppet.ps1).
+# TurboPuppet entrypoint for macOS/Linux.
 
 set -euo pipefail
 
@@ -32,22 +32,20 @@ log() {
 
 usage() {
   cat <<EOF
-TurboPuppet (Unix stub)
+TurboPuppet
 
-Usage: turbopuppet.sh [--branch NAME] [--role ROLES_WHATEVER] [--debug] [--noop]
+Usage: turbopuppet.sh [--branch NAME] [--role ROLE] [--debug] [--noop]
          [--cached] [--skip-gems] [--skip-modules] [--quick] [--tags TAGS]
 
-Orchestration is not implemented on this platform yet.
-
-  --branch         Puppet environment / git branch ($BRANCH).
-  --role           include() target ($ROLE).
-  --debug          pass --debug to puppet apply (future).
-  --noop           pass --noop to puppet apply (future).
-  --cached         skip re-download (future).
-  --skip-gems      skip gem install step (future).
-  --skip-modules   skip r10k (future).
-  --quick          skip gems and modules (future).
-  --tags           puppet --tags value (future).
+  --branch         Puppet environment / git branch (default: $BRANCH).
+  --role           Puppet include() target (default: $ROLE).
+  --debug          Pass --debug to puppet apply.
+  --noop           Pass --noop to puppet apply.
+  --cached         Skip re-downloading the branch archive.
+  --skip-gems      Skip gem install step (r10k).
+  --skip-modules   Skip r10k puppetfile install.
+  --quick          Skip both gems and modules.
+  --tags           Pass --tags value to puppet apply.
 EOF
 }
 
@@ -85,21 +83,88 @@ parse_args() {
   done
 }
 
+get_git_branch_archive() {
+  local env_dir="$1"
+  if [[ -n "$CACHED" || -n "$QUICK" ]]; then
+    log "Using cached branch $BRANCH"
+    return 0
+  fi
+
+  local tarball="/tmp/TurboPuppet-${BRANCH}.tar.gz"
+  local url="${CODE_REPO_URL}/archive/refs/heads/${BRANCH}.tar.gz"
+
+  rm -rf "$env_dir"
+  mkdir -p "$env_dir"
+
+  log "Downloading branch $BRANCH from $url"
+  curl -fSL "$url" -o "$tarball"
+
+  log "Extracting archive to $env_dir"
+  tar xzf "$tarball" -C "$env_dir" --strip-components=1
+
+  rm -f "$tarball"
+  log "Successfully downloaded and extracted branch $BRANCH"
+}
+
+set_puppet_environment() {
+  local current
+  current="$("${PUPPET_BIN_DIR}/puppet" config print environment)"
+  if [[ "$current" != "$BRANCH" ]]; then
+    log "Changing Puppet environment from $current to $BRANCH"
+    "${PUPPET_BIN_DIR}/puppet" config set environment "$BRANCH"
+  else
+    log "Puppet environment already set to $BRANCH"
+  fi
+}
+
+install_gems() {
+  log "Installing r10k..."
+  "${PUPPET_BIN_DIR}/gem" install r10k --version '~> 3.15.4'
+  log "Successfully installed all gems"
+}
+
+install_puppet_modules() {
+  local env_dir="$1"
+  local puppetfile="${env_dir}/Puppetfile"
+  if [[ ! -f "$puppetfile" ]]; then
+    log "ERROR: Puppetfile not found at $puppetfile"
+    exit 1
+  fi
+
+  log "Installing modules from Puppetfile..."
+  "${PUPPET_BIN_DIR}/r10k" puppetfile install \
+    --puppetfile "$puppetfile" \
+    --moduledir "${env_dir}/modules"
+  log "Successfully installed modules from Puppetfile"
+}
+
+run_puppet() {
+  local -a apply_args=("-e" "include $ROLE")
+  [[ -n "$DEBUG" ]] && apply_args+=("--debug")
+  [[ -n "$NOOP" ]]  && apply_args+=("--noop")
+  if [[ -n "$TAGS" ]]; then
+    apply_args+=("--tags" "$TAGS")
+  fi
+
+  log "Executing puppet apply with arguments: puppet apply ${apply_args[*]}"
+  "${PUPPET_BIN_DIR}/puppet" apply "${apply_args[@]}"
+}
+
 main() {
   parse_args "$@"
 
-  local env_dir="${TURBOPUPPET_ENVIRONMENT_DIR:-}"
-  if [[ -z "$env_dir" ]]; then
-    env_dir="${PUPPET_CODE_DIR}/environments/${BRANCH}"
-  fi
-
+  local env_dir="${TURBOPUPPET_ENVIRONMENT_DIR:-${PUPPET_CODE_DIR}/environments/${BRANCH}}"
   mkdir -p "$LOG_DIR" 2>/dev/null || true
-  log "turbopuppet.sh is not implemented on Unix yet."
-  log "Collected options: branch=$BRANCH role=$ROLE debug=${DEBUG:-0} noop=${NOOP:-0} cached=${CACHED:-0} skip_gems=${SKIP_GEMS:-0} skip_modules=${SKIP_MODULES:-0} quick=${QUICK:-0} tags=${TAGS:-<none>}"
-  log "Paths (reference): ROOT_DIR=$ROOT_DIR PUPPET_BIN_DIR=$PUPPET_BIN_DIR PUPPET_SSL_DIR=$PUPPET_SSL_DIR PUPPET_CODE_DIR=$PUPPET_CODE_DIR ENVIRONMENT_DIR=$env_dir CODE_REPO_URL=$CODE_REPO_URL"
-  log "Implement Git archive, puppet config set environment, r10k, and puppet apply similarly to TurboPuppet.ps1 when ready."
 
-  exit 0
+  get_git_branch_archive "$env_dir"
+  set_puppet_environment
+  if [[ -z "$SKIP_GEMS" && -z "$QUICK" ]]; then
+    install_gems
+  fi
+  if [[ -z "$SKIP_MODULES" && -z "$QUICK" ]]; then
+    install_puppet_modules "$env_dir"
+  fi
+  run_puppet
 }
 
 main "$@"
