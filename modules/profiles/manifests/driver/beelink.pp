@@ -1,41 +1,24 @@
 #
 # Drivers for Beelink devices.
 #
-class profiles::driver::beelink (
-  String $driver_root = $profiles::driver::base::driver_root,
-) inherits profiles::driver::base {
-  $platform_source = "${drivers_source}\\Beelink"
-  $platform_root   = "${driver_root}\\Beelink"
-
-  file { 'Beelink Drivers':
-    ensure  => 'directory',
-    source  => $platform_source,
-    path    => $platform_root,
-    recurse => 'remote',
-    purge   => false,
-    replace => false,
-  }
-
-  Cfcc::Driver {
-    ensure  => present,
-    require => File['Beelink Drivers'],
-  }
+class profiles::driver::beelink {
+  $platform_source = "${lookup('campfs_uri')}\\Drivers\\Beelink"
 
   include profiles::driver::cpu::ryzen
 
   # amdacpbt and amdacpbus[2] were needed in 2025+ to resolve an
   # unknown "Multimedia Controller" device in Device Manager.
   cfcc::driver { 'amdacpbt.inf':
-    path => "${platform_root}\\ACPBtAfd\\WT64A\\amdacpbt.inf",
+    path => "${platform_source}\\ACPBtAfd\\WT64A\\amdacpbt.inf",
   }
 
   if $facts['networking']['hostname'] =~ /(?i:cfccbeelink05)/ {
     cfcc::driver { 'amdacpbus2.inf':
-      path => "${platform_root}\\ACPBus2\\WT64A\\amdacpbus2.inf",
+      path => "${platform_source}\\ACPBus2\\WT64A\\amdacpbus2.inf",
     }
   } else {
     cfcc::driver { 'amdacpbus.inf':
-      path => "${platform_root}\\ACPBus\\WT64A\\amdacpbus.inf",
+      path => "${platform_source}\\ACPBus\\WT64A\\amdacpbus.inf",
     }
   }
 
@@ -43,6 +26,6 @@ class profiles::driver::beelink (
   # Headphone audio was too quiet without this. We manually applied
   # the contents of the zip file in 2025. Added this driver for 2026.
   cfcc::driver { 'HDXACPWhite.inf':
-    path => "${platform_root}\\Codec_9702\\HDXACPWhite.inf",
-   }
+    path => "${platform_source}\\Codec_9702\\HDXACPWhite.inf",
+  }
 }
