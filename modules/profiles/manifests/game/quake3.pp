@@ -5,7 +5,7 @@ class profiles::game::quake3 {
   case $facts['os']['family'] {
     'windows': { include profiles::game::quake3::windows }
     'Linux': { include profiles::game::quake3::linux }
-    'darwin': { include profiles::game::quake3::darwin }
+    'Darwin': { include profiles::game::quake3::darwin }
     default: { fail('Unsuported OS') }
   }
 

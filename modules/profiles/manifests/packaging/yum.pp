@@ -16,6 +16,9 @@ class profiles::packaging::yum {
       # @TODO if we do automated installs this can probably be removed there
       package { 'dnfdragora': ensure => purged }
     }
+    'Darwin': {
+      warning('profiles::packaging::yum has not been implemented on Darwin')
+    }
     default: { fail('Unsupported OS') }
   }
 }

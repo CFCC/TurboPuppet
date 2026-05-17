@@ -30,6 +30,9 @@ class profiles::remoteaccess::vnc::enable {
         require => Package['tightvnc'],
       }
     }
+    'Darwin': {
+      warning('profiles::remoteaccess::vnc::enable has not been implemented on Darwin')
+    }
     default: { fail('Unsupported OS') }
   }
 }
