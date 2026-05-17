@@ -3,7 +3,7 @@
 #
 class profiles::driver::gmktec {
   $platform_source = "${lookup('campfs_uri')}\\Drivers\\GMKtec"
-  $local_root      = 'C:\\CampFitch\\opt\\Drivers\\GMKtec'
+  $local_root      = 'C:\\CampFitch\\opt\\Drivers'
 
   file { 'GMKtec Drivers':
     ensure  => directory,
