@@ -26,16 +26,16 @@ class profiles::driver::beelink (
   # amdacpbt and amdacpbus[2] were needed in 2025+ to resolve an
   # unknown "Multimedia Controller" device in Device Manager.
   cfcc::driver { 'amdacpbt.inf':
-    path => "${driver_root}\\ACPBtAfd\\WT64A\\amdacpbt.inf",
+    path => "${platform_root}\\ACPBtAfd\\WT64A\\amdacpbt.inf",
   }
 
   if $facts['networking']['hostname'] =~ /(?i:cfccbeelink05)/ {
     cfcc::driver { 'amdacpbus2.inf':
-      path => "${driver_root}\\ACPBus2\\WT64A\\amdacpbus2.inf",
+      path => "${platform_root}\\ACPBus2\\WT64A\\amdacpbus2.inf",
     }
   } else {
     cfcc::driver { 'amdacpbus.inf':
-      path => "${driver_root}\\ACPBus\\WT64A\\amdacpbus.inf",
+      path => "${platform_root}\\ACPBus\\WT64A\\amdacpbus.inf",
     }
   }
 
@@ -43,6 +43,6 @@ class profiles::driver::beelink (
   # Headphone audio was too quiet without this. We manually applied
   # the contents of the zip file in 2025. Added this driver for 2026.
   cfcc::driver { 'HDXACPWhite.inf':
-    path => "${driver_root}\\Codec_9702\\HDXACPWhite.inf",
+    path => "${platform_root}\\Codec_9702\\HDXACPWhite.inf",
    }
 }
