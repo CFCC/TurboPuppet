@@ -69,6 +69,32 @@ download_to() {
   log Info "Saved $dest"
 }
 
+ensure_xcode_clt() {
+  if xcode-select -p &>/dev/null; then
+    log Info "Xcode Command Line Tools already installed"
+    return 0
+  fi
+
+  log Info "Installing Xcode Command Line Tools (provides git) ..."
+  touch /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
+
+  local label
+  label="$(softwareupdate --list 2>&1 \
+    | grep -o 'Label: Command Line Tools.*' \
+    | tail -1 \
+    | sed 's/^Label: //')"
+
+  if [[ -z "$label" ]]; then
+    rm -f /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
+    log Error "Could not find Command Line Tools in softwareupdate list"
+    exit 1
+  fi
+
+  softwareupdate --install "$label" --agree-to-license
+  rm -f /tmp/.com.apple.dt.CommandLineTools.installondemand.in-progress
+  log Info "Xcode Command Line Tools installed"
+}
+
 install_path_hook_darwin() {
   local marker="/etc/paths.d/turbopuppet"
   if [[ ! -f "$marker" ]] || [[ "$(cat "$marker" 2>/dev/null)" != "$BIN_DIR" ]]; then
@@ -211,6 +237,7 @@ main() {
 
   case "$kern" in
     Darwin)
+      ensure_xcode_clt
       install_path_hook_darwin
       local arch
       arch="$(uname -m)"
