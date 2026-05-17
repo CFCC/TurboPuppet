@@ -2,21 +2,13 @@
 # Base class for all driver profiles.
 #
 # @param driver_root The local directory where drivers are to be copied to.
+# @param drivers_source UNC path to the Drivers tree on campfs (see data/common.yaml).
 #
 class profiles::driver::base (
   String $driver_root,
+  String $drivers_source,
 ) {
-  file { 'Camp Drivers':
-    ensure  => 'directory',
-    source  => "${lookup('campfs_uri')}\\Drivers",
-    path    => $driver_root,
-    recurse => 'remote',
-    purge   => false,
-    replace => false,
-  }
-
-  Cfcc::Driver {
-    ensure  => present,
-    require => File['Camp Drivers'],
+  file { $driver_root:
+    ensure => 'directory',
   }
 }

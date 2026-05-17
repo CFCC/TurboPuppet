@@ -12,3 +12,4 @@ upstream_dns:
 campfs_uri: "\\\\homie.lab.campcomputer.com\\PuppetFS"
 profiles::tool::virtualbox::package_ensure: "6.1.32"
 profiles::driver::base::driver_root: "C:\\CampFitch\\opt\\Drivers"
+profiles::driver::base::drivers_source: "%{lookup('campfs_uri')}\\Drivers"

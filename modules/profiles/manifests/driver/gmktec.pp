@@ -6,6 +6,15 @@
 class profiles::driver::gmktec (
   String $driver_root = $profiles::driver::base::driver_root,
 ) inherits profiles::driver::base {
+  file { 'GMKtec Drivers':
+    ensure  => 'directory',
+    source  => "${drivers_source}\\GMKtec",
+    path    => "${driver_root}\\GMKtec",
+    recurse => 'remote',
+    purge   => false,
+    replace => false,
+  }
+
   # As of 2025-05 the amd-ryzen-chipset package does not support the AI MAX 395.
   include profiles::driver::cpu::ryzen
 
@@ -14,8 +23,8 @@ class profiles::driver::gmktec (
   # exec { 'Driver Bundle Installation':
   #   command     => "${driver_root}\\GMKtec\\AllDriverInstall.cmd",
   #   refreshonly => true,
-  #   require     => File['Camp Drivers'],
-  #   subscribe   => File['Camp Drivers'],
+  #   require     => File['GMKtec Drivers'],
+  #   subscribe   => File['GMKtec Drivers'],
   #   returns     => [0, 1],
   # }
 }
