@@ -18,7 +18,7 @@ ROOT_DIR="${TURBOPUPPET_ROOT:-/opt/CampFitch}"
 LOG_DIR="$ROOT_DIR/logs"
 
 # Typical Puppet Agent paths (nix); bin is /opt/puppetlabs/bin on Darwin and Linux agents.
-readonly PUPPET_BIN_DIR="${PUPPET_BIN_DIR_OVERRIDE:-/opt/puppetlabs/bin}"
+readonly PUPPET_BIN_DIR="${PUPPET_BIN_DIR_OVERRIDE:-/opt/puppetlabs/puppet/bin}"
 readonly PUPPET_SSL_DIR="${PUPPET_SSL_DIR_OVERRIDE:-/etc/puppetlabs/puppet/ssl}"
 readonly PUPPET_CODE_DIR="${PUPPET_CODE_DIR_OVERRIDE:-/etc/puppetlabs/code}"
 
@@ -119,7 +119,7 @@ set_puppet_environment() {
 
 install_gems() {
   log "Installing r10k..."
-  /opt/puppetlabs/puppet/bin/gem install r10k --version '~> 3.15.4'
+  "${PUPPET_BIN_DIR}/gem" install r10k --version '~> 3.15.4'
   log "Successfully installed all gems"
 }
 
