@@ -8,7 +8,7 @@ class profiles::driver::gmktec {
   # But need a better way to instrument this kind of driver install anyway.
   exec { 'Driver Bundle Installation':
     command     => "${platform_source}\\AllDriverInstall.cmd",
-    refreshonly => true,
+    # refreshonly => true,
     returns     => [0, 1],
   }
 
