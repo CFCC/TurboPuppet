@@ -46,7 +46,7 @@ class roles::base {
 
       # See notes in Windows above for more details on this stuff
       include profiles::packaging::homebrew
-    # }
+    }
     default: {
       fail("platform ${facts['os']['family']} is unsupported")
     }
