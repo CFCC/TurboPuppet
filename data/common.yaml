@@ -11,4 +11,3 @@ upstream_dns:
   - "8.8.4.4"
 campfs_uri: "\\\\homie.lab.campcomputer.com\\PuppetFS"
 profiles::tool::virtualbox::package_ensure: "6.1.32"
-profiles::driver::base::driver_root: "C:\\CampFitch\\opt\\Drivers"
