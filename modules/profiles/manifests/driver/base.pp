@@ -6,14 +6,14 @@
 class profiles::driver::base (
   String $driver_root,
 ) {
-  # file { 'Camp Drivers':
-  #   ensure  => 'directory',
-  #   source  => "${lookup('campfs_uri')}\\Drivers",
-  #   path    => $driver_root,
-  #   recurse => 'remote',
-  #   purge   => false,
-  #   replace => false,
-  # }
+  file { 'Camp Drivers':
+    ensure  => 'directory',
+    source  => "${lookup('campfs_uri')}\\Drivers",
+    path    => $driver_root,
+    recurse => 'remote',
+    purge   => false,
+    replace => false,
+  }
 
   Cfcc::Driver {
     ensure  => present,
