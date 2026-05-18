@@ -97,7 +97,7 @@ get_git_branch_archive() {
   mkdir -p "$env_dir"
 
   log "Downloading branch $BRANCH from $url"
-  curl -fSL "$url" -o "$tarball"
+  curl -fsSL "$url" -o "$tarball"
 
   log "Extracting archive to $env_dir"
   tar xzf "$tarball" -C "$env_dir" --strip-components=1
