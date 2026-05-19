@@ -1,5 +1,9 @@
 ---
 camper_homedir: "/home/camper"
+campfs_posix_path: "/mnt/PuppetFS"
+profiles::desktop::wallpaper::source: "/mnt/PuppetFS/Wallpaper"
+profiles::tool::netbench::jar_source: "/mnt/PuppetFS/NetBench.jar"
+profiles::access::usericon::icons_source_dir: "/mnt/PuppetFS/UserIcons"
 profiles::browser::chrome::package_name: "google-chrome-stable"
 profiles::browser::firefox::package_name: "firefox"
 profiles::tool::sevenzip::package_name: "p7zip"

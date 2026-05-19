@@ -2,6 +2,11 @@
 # NetBench - Charlie's network benchmark utility.
 #
 class profiles::tool::netbench {
+  $jar_source = lookup({
+    name          => 'profiles::tool::netbench::jar_source',
+    default_value => "${lookup('campfs_uri')}\\NetBench.jar",
+  })
+
   $install_path = $facts['os']['family'] ? {
     'windows' => 'C:/Program Files (x86)/NetBench',
     'Fedora'  => '/opt/netbench',
@@ -16,7 +21,7 @@ class profiles::tool::netbench {
 
   file { 'NetBenchJar':
     path   => "${install_path}/NetBench.jar",
-    source => "${lookup('campfs_uri')}\\NetBench.jar",
+    source => $jar_source,
   }
 
   # Shortcut

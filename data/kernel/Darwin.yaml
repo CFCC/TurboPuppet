@@ -1,5 +1,9 @@
 ---
 camper_homedir: "/Users/camper"
+campfs_posix_path: "/Volumes/PuppetFS"
+profiles::desktop::wallpaper::source: "/Volumes/PuppetFS/Wallpaper"
+profiles::tool::netbench::jar_source: "/Volumes/PuppetFS/NetBench.jar"
+profiles::access::usericon::icons_source_dir: "/Volumes/PuppetFS/UserIcons"
 profiles::browser::chrome::package_name: "google-chrome"
 profiles::browser::firefox::package_name: "firefox"
 profiles::tool::sevenzip::package_name: "p7zip"
@@ -13,3 +17,6 @@ profiles::python::python3::package_name: "python@3.13"
 profiles::python::python3::package_ensure: "present"
 profiles::python::python3::root_path: "/usr/bin"
 profiles::browser::chromium::package_name: "chromium"
+profiles::ide::vscode::vscode_package_title: "visual-studio-code"
+profiles::ide::vscode::darwin_brew_install_options:
+  - "--cask"

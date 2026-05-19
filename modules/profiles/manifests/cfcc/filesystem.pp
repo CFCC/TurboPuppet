@@ -10,7 +10,10 @@ class profiles::cfcc::filesystem {
 
   $group = $facts['kernel'] ? {
     'windows' => 'administrators',
-    default   => 'wheel',
+    default   => $facts['os']['family'] ? {
+      'Darwin' => 'staff',
+      default  => 'wheel',
+    },
   }
 
   File {

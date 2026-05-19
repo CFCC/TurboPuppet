@@ -24,29 +24,31 @@ class profiles::browser::chromium (
     install_options => $install_options,
   }
 
-  # This works the first time, but a reboot puts the fraking thing back!
-  exec { 'CleanupChromiumDesktopShortcut':
-    command     => "Remove-Item -Path 'C:\\Users\\${lookup('camper_username')}\\Desktop\\Chromium.lnk'",
-    refreshonly => true,
-  }
+  if $facts['os']['family'] == 'windows' {
+    # This works the first time, but a reboot puts the fraking thing back!
+    exec { 'CleanupChromiumDesktopShortcut':
+      command     => "Remove-Item -Path 'C:\\Users\\${lookup('camper_username')}\\Desktop\\Chromium.lnk'",
+      refreshonly => true,
+    }
 
-  # Un. Believable.
-  # https://techcommunity.microsoft.com/t5/enterprise/users-get-an-icon-placed-on-their-desktop-at-initial-logon/m-p/818249
-  # https://www.itninja.com/question/google-chrome-enterprise-shortcuts-not-disappearing
-  file { 'ChromiumMasterPreferences':
-    path    => 'C:\Program Files\Chromium\Application\master_preferences',
-    source  => 'puppet:///modules/cfcc/browsers/chrome_master_preferences.json',
-    require => Package[$package_name],
-    notify  => $package_notify,
-  }
+    # Un. Believable.
+    # https://techcommunity.microsoft.com/t5/enterprise/users-get-an-icon-placed-on-their-desktop-at-initial-logon/m-p/818249
+    # https://www.itninja.com/question/google-chrome-enterprise-shortcuts-not-disappearing
+    file { 'ChromiumMasterPreferences':
+      path    => 'C:\Program Files\Chromium\Application\master_preferences',
+      source  => 'puppet:///modules/cfcc/browsers/chrome_master_preferences.json',
+      require => Package[$package_name],
+      notify  => $package_notify,
+    }
 
-  # FOOLS!
-  # I'm glad I'm not the only one out there.
-  # https://github.com/PatchMyPCTeam/Community-Scripts/blob/main/Install/Post-Install/Google%20Chrome%20Desktop%20Shortcut/Remove-ChromeShortcut.ps1
-  file { 'ChromiumInitialPreferences':
-    path    => 'C:\Program Files\Chromium\Application\initial_preferences',
-    source  => 'puppet:///modules/cfcc/browsers/chrome_initial_preferences.json',
-    require => Package[$package_name],
-    notify  => $package_notify,
+    # FOOLS!
+    # I'm glad I'm not the only one out there.
+    # https://github.com/PatchMyPCTeam/Community-Scripts/blob/main/Install/Post-Install/Google%20Chrome%20Desktop%20Shortcut/Remove-ChromeShortcut.ps1
+    file { 'ChromiumInitialPreferences':
+      path    => 'C:\Program Files\Chromium\Application\initial_preferences',
+      source  => 'puppet:///modules/cfcc/browsers/chrome_initial_preferences.json',
+      require => Package[$package_name],
+      notify  => $package_notify,
+    }
   }
 }

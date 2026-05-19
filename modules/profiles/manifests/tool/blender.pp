@@ -11,8 +11,10 @@ class profiles::tool::blender {
     notify => $package_notify,
   }
 
-  exec { 'CleanupBlenderShortcut':
-    command     => "Remove-Item -Path 'C:\\Users\\${lookup('camper_username')}\\Desktop\\Blender*.lnk'",
-    refreshonly => true,
+  if $facts['os']['family'] == 'windows' {
+    exec { 'CleanupBlenderShortcut':
+      command     => "Remove-Item -Path 'C:\\Users\\${lookup('camper_username')}\\Desktop\\Blender*.lnk'",
+      refreshonly => true,
+    }
   }
 }

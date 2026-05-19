@@ -23,17 +23,22 @@ class profiles::puppet::turbopuppet {
       }
     }
     'Darwin', 'Linux': {
+      $posix_script_root = lookup({
+        name          => 'profiles::puppet::turbopuppet::posix_script_root',
+        default_value => "${settings::codedir}/environments/${environment}/scripts",
+      })
+
       file { 'turbopuppet.sh':
         ensure => file,
         path   => '/opt/CampFitch/bin/turbopuppet.sh',
-        source => "/etc/puppetlabs/code/environments/${environment}/scripts/turbopuppet.sh",
+        source => "${posix_script_root}/turbopuppet.sh",
         mode   => '0755',
       }
 
       file { 'install-turbopuppet.sh':
         ensure => file,
         path   => '/opt/CampFitch/bin/install-turbopuppet.sh',
-        source => "/etc/puppetlabs/code/environments/${environment}/scripts/install-turbopuppet.sh",
+        source => "${posix_script_root}/install-turbopuppet.sh",
         mode   => '0755',
       }
     }

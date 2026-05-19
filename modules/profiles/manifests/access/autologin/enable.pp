@@ -49,6 +49,9 @@ class profiles::access::autologin::enable {
       -> Registry_value['DefaultUsername']
       -> Registry_value['DefaultPassword']
     }
+    'Darwin': {
+      # macOS kiosk autologin requires com.apple.loginwindow + encrypted kCPassword; not automated here.
+    }
     default: {}
   }
 }

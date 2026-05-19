@@ -8,7 +8,8 @@ class profiles::nodejs::runtime {
       package { 'yarn': }
     }
     'Darwin': {
-      warning('profiles::nodejs::runtime has not been implemented on Darwin')
+      package { 'node': }
+      package { 'yarn': }
     }
     default: { fail('Unsupported OS') }
   }
