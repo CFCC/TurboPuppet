@@ -23,7 +23,10 @@ mod 'ghoneycutt-ssh', '5.1.1'
 mod 'saz-sudo', '9.0.2'
 mod 'puppet-nginx', '6.0.1'
 mod 'puppetlabs-concat', '9.1.0'
-mod 'thekevjames-homebrew', '2.1.0'
+# 2.1.0 has broken brew_shellenv (super: no superclass method). Pin until Forge 2.1.1+.
+mod 'thekevjames-homebrew',
+  :git    => 'https://github.com/TheKevJames/puppet-homebrew.git',
+  :commit => '01088b44977cdc52528b55bcf789e68794234a55'
 mod 'puppetlabs-yumrepo_core', '2.1.0'
 mod 'puppetlabs-sshkeys_core', '2.5.1'
 mod 'puppetlabs-vcsrepo', '7.0.0'
