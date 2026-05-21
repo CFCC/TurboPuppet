@@ -44,8 +44,6 @@ class profiles::tls::certificates {
       # Files from puppet:/// land in staging; promote to System keychain.
       # Must mirror cfcc/files/certificates/* for idempotent exec naming.
       $darwin_cert_basenames = [
-        'tars-ca-v1.crt',
-        'tars-ca-v2.crt',
         'UniFi-SSL-Certificate.cer',
       ]
       $darwin_cert_basenames.each |String $certfile| {
