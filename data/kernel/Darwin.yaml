@@ -16,3 +16,4 @@ profiles::browser::chromium::package_name: "chromium"
 profiles::ide::vscode::vscode_package_title: "visual-studio-code"
 profiles::ide::vscode::darwin_brew_install_options:
   - "--cask"
+profiles::ide::vscode::code_cli: "/opt/homebrew/bin/code"

@@ -61,7 +61,7 @@ class profiles::tls::certificates {
         exec { "Darwin trust-root ${certfile}":
           command => "/usr/bin/security add-trusted-cert -d -r trustRoot -k /Library/Keychains/System.keychain '${cert_path}'",
           unless  => "/usr/bin/security verify-cert -p ssl -c '${cert_path}' 2>/dev/null",
-          onlyif  => "/usr/bin/test -f '${cert_path}'",
+          onlyif  => "test -f '${cert_path}'",
           require => File[$local_cert_directory],
         }
       }

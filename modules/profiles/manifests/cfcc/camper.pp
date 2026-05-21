@@ -30,6 +30,7 @@ class profiles::cfcc::camper {
       # OS-specific Camper Tools
       include profiles::terminal::windows
       include profiles::browser::edge
+      include profiles::tool::virtualbox
 
       # Text editors. We all have opinions on these.
       include profiles::editor::notepadplusplus
@@ -46,6 +47,7 @@ class profiles::cfcc::camper {
       # @TODO include profiles::firewall::linux
       include profiles::editor::vim
       include profiles::terminal::gnome
+      include profiles::tool::virtualbox
     }
     'Darwin': {
       include profiles::editor::bbedit
@@ -68,7 +70,6 @@ class profiles::cfcc::camper {
   include profiles::tool::wireshark
   include profiles::tool::netbench
   include profiles::tool::sevenzip
-  include profiles::tool::virtualbox
   include profiles::tool::iperf
   include profiles::tool::vlc
   include profiles::tool::blender
