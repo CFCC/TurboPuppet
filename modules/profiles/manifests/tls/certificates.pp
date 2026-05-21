@@ -36,14 +36,6 @@ class profiles::tls::certificates {
         store_dir  => 'Root',
       }
 
-      sslcertificate { 'tars-ca-v1.crt':
-        thumbprint => 'B4AB05D2F7C362411E9118EA08DE991FEA3A391E',
-      }
-
-      sslcertificate { 'tars-ca-v2.crt':
-        thumbprint => '1F30886A00CEA39B8D167A244F2712C5050ED429'
-      }
-
       sslcertificate { 'UniFi-SSL-Certificate.cer':
         thumbprint => '3BC62B1E77A9B4886FC9F7021655128A90E8E1D5',
       }
