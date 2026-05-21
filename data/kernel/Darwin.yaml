@@ -2,7 +2,6 @@
 camper_homedir: "/Users/camper"
 campfs_uri: "smb://homie.lab.campcomputer.com/PuppetFS"
 profiles::desktop::wallpaper::source: "/Volumes/PuppetFS/Wallpaper"
-profiles::tool::netbench::jar_source: "${lookup('campfs_uri')}/NetBench.jar"
 profiles::access::usericon::icons_source_dir: "/Volumes/PuppetFS/UserIcons"
 profiles::browser::chrome::package_name: "google-chrome"
 profiles::browser::firefox::package_name: "firefox"
