@@ -10,5 +10,5 @@ upstream_dns:
   - "8.8.8.8"
   - "8.8.4.4"
 campfs_uri: "\\\\homie.lab.campcomputer.com\\PuppetFS"
-profiles::tool::netbench::jar_source: "https://homie.lab.campcomputer.com/PuppetFS/NetBench.jar"
+profiles::tool::netbench::jar_source: "http://homie.lab.campcomputer.com/PuppetFS/NetBench.jar"
 profiles::tool::virtualbox::package_ensure: "6.1.32"
