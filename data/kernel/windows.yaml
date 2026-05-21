@@ -1,4 +1,5 @@
 ---
+campfs_uri: "\\\\homie.lab.campcomputer.com\\PuppetFS"
 camper_homedir: 'C:\Users\camper'
 profiles::time::client::time_zone: "Eastern Standard Time"
 profiles::browser::chrome::package_name: "GoogleChrome"
@@ -16,3 +17,4 @@ profiles::python::python3::package_name: "python3"
 profiles::python::python3::package_ensure: "3.13.13"
 profiles::python::python3::root_path: "C:/Python313"
 profiles::browser::chromium::package_name: "chromium"
+profiles::tool::netbench::jar_source: "${lookup('campfs_uri')}\\NetBench.jar"
