@@ -16,6 +16,7 @@ $PUPPET_DATA_DIR = "C:\ProgramData\PuppetLabs"
 $PUPPET_ROOT_DIR = "C:\Program Files\Puppet Labs\Puppet"
 $PUPPET_BIN_DIR = "$PUPPET_ROOT_DIR\puppet\bin"
 $PUPPET_SSL_DIR = "$PUPPET_ROOT_DIR\puppet\ssl"
+$caCertBundlePath = Join-Path $PUPPET_SSL_DIR "turbopuppet-cacerts.pem"
 $PUPPET_CODE_DIR = "$PUPPET_DATA_DIR\code"
 $PUPPET_ENVIRONMENTS_DIR = "$PUPPET_CODE_DIR\environments"
 $CODE_REPO_URL = "https://github.com/CFCC/TurboPuppet"
@@ -83,6 +84,42 @@ function Set-PuppetEnvironment {
     }
 }
 
+function Setup-PuppetSsl {
+    $certname   = puppet config print certname
+    $opensslBin = Join-Path $PUPPET_BIN_DIR "openssl.bat"
+    $caKey      = Join-Path $PUPPET_SSL_DIR "turbopuppet_ca_key.pem"
+    $caCert     = Join-Path $PUPPET_SSL_DIR "turbopuppet_ca.pem"
+    $keyPath    = Join-Path $PUPPET_SSL_DIR "private_keys\$certname.pem"
+    $certPath   = Join-Path $PUPPET_SSL_DIR "certs\$certname.pem"
+    $combinedCa = Join-Path $PUPPET_SSL_DIR "combined_ca.pem"
+
+    New-Item -ItemType Directory -Path (Join-Path $PUPPET_SSL_DIR "private_keys") -Force | Out-Null
+    New-Item -ItemType Directory -Path (Join-Path $PUPPET_SSL_DIR "certs")         -Force | Out-Null
+
+    if (-not (Test-Path $caCert)) {
+        Write-Log "Generating TurboPuppet local CA"
+        & $opensslBin genrsa -out $caKey 4096
+        & $opensslBin req -new -x509 -key $caKey -out $caCert `
+            -days 3650 -subj "/CN=TurboPuppet Local CA"
+    }
+
+    if (-not (Test-Path $keyPath) -or -not (Test-Path $certPath)) {
+        Write-Log "Generating SSL keypair for $certname"
+        $csrPath = Join-Path $PUPPET_SSL_DIR "node_csr.pem"
+        & $opensslBin genrsa -out $keyPath 4096
+        & $opensslBin req -new -key $keyPath -out $csrPath -subj "/CN=$certname"
+        & $opensslBin x509 -req -in $csrPath `
+            -CA $caCert -CAkey $caKey -CAcreateserial `
+            -out $certPath -days 3650
+        Write-Log "SSL keypair signed by local CA for $certname"
+    }
+
+    $localCaContent  = Get-Content $caCert -Raw
+    $systemCaContent = Get-Content $caCertBundlePath -Raw
+    Set-Content -Path $combinedCa -Value ($localCaContent + $systemCaContent)
+    Write-Log "Combined CA bundle written to $combinedCa"
+}
+
 function Run-Puppet {
     $applyArgs = @("-e", "include $role")
     
@@ -98,7 +135,12 @@ function Run-Puppet {
         $applyArgs += "--tags"
         $applyArgs += $tags
     }
-    
+
+    $applyArgs += "--localcacert"
+    $applyArgs += (Join-Path $PUPPET_SSL_DIR "combined_ca.pem")
+    $applyArgs += "--certificate_revocation"
+    $applyArgs += "false"
+
     Write-Log "Executing puppet apply with arguments: puppet apply $($applyArgs -join ' ')"
     puppet apply @applyArgs
 }
@@ -109,7 +151,6 @@ https://github.com/puppetlabs/r10k/issues/1238
 https://github.com/puppetlabs/puppet-agent/blob/main/resources/files/windows/environment.bat#L24
 #>
 function Prepare-Certificates {
-    $caCertBundlePath = Join-Path $PUPPET_SSL_DIR "turbopuppet-cacerts.pem"
     if (-not (Test-Path $caCertBundlePath)) {
         Write-Log "Downloading CA certificates bundle..."
         Invoke-WebRequest -Uri "https://curl.se/ca/cacert.pem" -OutFile $caCertBundlePath
@@ -126,8 +167,6 @@ function Install-PuppetModules {
         exit 1
     }
 
-    Prepare-Certificates
-    
     Write-Log "Installing modules from Puppetfile..."
     & "$PUPPET_BIN_DIR\r10k.bat" puppetfile install --puppetfile $puppetfilePath --moduledir "$ENVIRONMENT_DIR\modules"
     
@@ -154,6 +193,8 @@ Set-PuppetEnvironment
 if (-not ($skip_gems -or $quick)) {
     Install-Gems
 }
+Prepare-Certificates
+Setup-PuppetSsl
 if (-not ($skip_modules -or $quick)) {
     Install-PuppetModules
 }

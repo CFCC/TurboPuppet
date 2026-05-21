@@ -284,6 +284,47 @@ install_puppet_modules() {
   log "Successfully installed modules from Puppetfile"
 }
 
+setup_puppet_ssl() {
+  local certname
+  certname="$("${PUPPET_BIN_DIR}/puppet" config print certname)"
+
+  local openssl_bin="${PUPPET_BIN_DIR}/openssl"
+  [[ -x "$openssl_bin" ]] || openssl_bin="openssl"
+
+  local ca_key="${PUPPET_SSL_DIR}/turbopuppet_ca_key.pem"
+  local ca_cert="${PUPPET_SSL_DIR}/turbopuppet_ca.pem"
+  local key_path="${PUPPET_SSL_DIR}/private_keys/${certname}.pem"
+  local cert_path="${PUPPET_SSL_DIR}/certs/${certname}.pem"
+  local combined_ca="${PUPPET_SSL_DIR}/combined_ca.pem"
+
+  mkdir -p "${PUPPET_SSL_DIR}/private_keys" "${PUPPET_SSL_DIR}/certs"
+
+  if [[ ! -f "$ca_cert" ]]; then
+    log "Generating TurboPuppet local CA"
+    "$openssl_bin" genrsa -out "$ca_key" 4096
+    "$openssl_bin" req -new -x509 -key "$ca_key" -out "$ca_cert" \
+      -days 3650 -subj "/CN=TurboPuppet Local CA"
+  fi
+
+  if [[ ! -f "$key_path" || ! -f "$cert_path" ]]; then
+    log "Generating SSL keypair for ${certname}"
+    "$openssl_bin" genrsa -out "$key_path" 4096
+    "$openssl_bin" req -new -key "$key_path" \
+      -out "${PUPPET_SSL_DIR}/node_csr.pem" -subj "/CN=${certname}"
+    "$openssl_bin" x509 -req \
+      -in "${PUPPET_SSL_DIR}/node_csr.pem" \
+      -CA "$ca_cert" -CAkey "$ca_key" -CAcreateserial \
+      -out "$cert_path" -days 3650
+    log "SSL keypair signed by local CA for ${certname}"
+  fi
+
+  if is_darwin; then
+    cat "$ca_cert" /etc/ssl/cert.pem > "$combined_ca"
+  else
+    cat "$ca_cert" /etc/pki/tls/certs/ca-bundle.crt > "$combined_ca"
+  fi
+}
+
 run_puppet() {
   local -a apply_args=("-e" "include $ROLE")
   [[ -n "$DEBUG" ]] && apply_args+=("--debug")
@@ -291,6 +332,9 @@ run_puppet() {
   if [[ -n "$TAGS" ]]; then
     apply_args+=("--tags" "$TAGS")
   fi
+
+  apply_args+=("--localcacert" "${PUPPET_SSL_DIR}/combined_ca.pem")
+  apply_args+=("--certificate_revocation" "false")
 
   log "Executing puppet apply with arguments: puppet apply ${apply_args[*]}"
   "${PUPPET_BIN_DIR}/puppet" apply "${apply_args[@]}"
@@ -317,6 +361,7 @@ main() {
   if [[ -z "$SKIP_MODULES" && -z "$QUICK" ]]; then
     install_puppet_modules "$env_dir"
   fi
+  setup_puppet_ssl
   run_puppet
 }
 
