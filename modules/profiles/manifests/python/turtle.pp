@@ -12,7 +12,7 @@ class profiles::python::turtle {
       # that doesnt work anymore?
       file { 'PythonTurtleInstaller':
         path   => 'C:/CampFitch/usr/share/PyTurtle.msi',
-        source => "${lookup('campfs_uri')}\\pythonturtle-0.1.2009.8.2.1-unattended.msi",
+        source => "${lookup('campfs_uri')}/pythonturtle-0.1.2009.8.2.1-unattended.msi",
       } ->
       package { 'PythonTurtle 0.1':
         provider => windows,

@@ -10,11 +10,7 @@ class profiles::desktop::wallpaper {
 
   $wallpaper_dir = "${fs_root}/usr/share/wallpaper"
 
-  # Windows: UNC to campfs unless overridden (see data/kernel/Darwin.yaml etc.).
-  $wallpaper_source = lookup({
-    name          => 'profiles::desktop::wallpaper::source',
-    default_value => "${lookup('campfs_uri')}\\Wallpaper",
-  })
+  $wallpaper_source = "${lookup('campfs_uri')}/Wallpaper"
 
   # Copy over our various wallpaper options.
   file { 'CampWallpaperLibrary':

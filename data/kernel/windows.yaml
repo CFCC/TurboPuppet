@@ -1,5 +1,4 @@
 ---
-campfs_uri: "\\\\homie.lab.campcomputer.com\\PuppetFS"
 camper_homedir: 'C:\Users\camper'
 profiles::time::client::time_zone: "Eastern Standard Time"
 profiles::browser::chrome::package_name: "GoogleChrome"

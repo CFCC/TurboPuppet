@@ -10,7 +10,7 @@ class profiles::game::quake3::windows {
   # https://puppet.com/docs/puppet/7.6/types/file.html#file-attribute-purge
   file { 'Quake3Content':
     ensure  => 'directory',
-    source  => "${lookup('campfs_uri')}\\ioquake3",
+    source  => "${lookup('campfs_uri')}/ioquake3",
     path    => $quake3_root,
     recurse => 'remote',
     purge   => false,

@@ -60,7 +60,7 @@ class profiles::game::quake3 {
     ensure  => file,
     #require => File['system-baseq3']
   }
-  # $source_repo = "${lookup('campfs_uri')}\\Quake3Arena"
+  # $source_repo = "${lookup('campfs_uri')}/Quake3Arena"
 
   # Base game content
   # file { "${baseq3}/pak0.pk3": source => "${source_repo}/baseq3/pak0.pk3" }
