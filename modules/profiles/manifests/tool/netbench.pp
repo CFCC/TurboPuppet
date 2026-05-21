@@ -1,7 +1,7 @@
 #
 # NetBench - Charlie's network benchmark utility.
 #
-class profiles::tool::netbenc (
+class profiles::tool::netbench (
   $jar_source,
 ) {
   $install_path = $facts['os']['family'] ? {
