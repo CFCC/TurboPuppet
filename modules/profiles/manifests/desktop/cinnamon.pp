@@ -72,7 +72,7 @@ class profiles::desktop::cinnamon {
   # The stock wallpapers for FC30 suck.
   file { 'CamperWallpaper':
     path   => '/usr/share/backgrounds/images/camper.jpg',
-    source => 'puppet:///campfs/fedora-wallpaper.jpg'
+    source => "${lookup('campfs_uri')}/fedora-wallpaper.jpg",
   } ->
   dconf::setting { 'WallpaperMode':
     key   => '/org/cinnamon/desktop/background/picture-options',

@@ -9,5 +9,5 @@ profiles::time::client::time_zone: "America/New_York"
 upstream_dns:
   - "8.8.8.8"
   - "8.8.4.4"
-campfs_uri: "https://homie.lab.campcomputer.com/PuppetFS"
+campfs_uri: "puppet://puppet.apps.campcomputer.com/campfs"
 profiles::tool::virtualbox::package_ensure: "present"

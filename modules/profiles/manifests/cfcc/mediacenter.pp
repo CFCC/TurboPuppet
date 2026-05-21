@@ -29,12 +29,12 @@ class profiles::cfcc::mediacenter {
   # https://veg.by/en/projects/soundkeeper/
   file { 'SoundKeeper64.exe':
     path   => "C:/Users/${lookup('camper_username')}/AppData/Roaming/Microsoft/Windows/Start Menu/Programs/Startup/SoundKeeper64.exe",
-    source => 'puppet:///campfs/SoundKeeper64.exe',
+    source => "${lookup('campfs_uri')}/SoundKeeper64.exe",
   }
   # @TODO launch without reboot
 
   file { 'wallpaper.jpg':
     path   => "C:/Users/${lookup('camper_username')}/Pictures/wallpaper.jpg",
-    source => 'puppet:///campfs/boston-wallpaper.jpg',
+    source => "${lookup('campfs_uri')}/boston-wallpaper.jpg",
   }
 }

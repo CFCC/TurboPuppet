@@ -32,37 +32,37 @@ class profiles::packaging::keys::fedora {
 
   # ThirdParty
   file { "RPM-GPG-KEY-copr_phracek-pycharm":
-    source => "puppet:///campfs/rpm-gpg/RPM-GPG-KEY-copr_phracek-pycharm",
+    source => "${lookup('campfs_uri')}/rpm-gpg/RPM-GPG-KEY-copr_phracek-pycharm",
     path   => "/etc/pki/rpm-gpg/RPM-GPG-KEY-copr_phracek-pycharm"
   }
 
   file { "RPM-GPG-KEY-copr_lkiesow-intellij-idea-community":
-    source => "puppet:///campfs/rpm-gpg/RPM-GPG-KEY-copr_lkiesow-intellij-idea-community",
+    source => "${lookup('campfs_uri')}/rpm-gpg/RPM-GPG-KEY-copr_lkiesow-intellij-idea-community",
     path   => "/etc/pki/rpm-gpg/RPM-GPG-KEY-copr_lkiesow-intellij-idea-community"
   }
 
   file { "RPM-GPG-KEY-copr_elken-gitkraken":
-    source => "puppet:///campfs/rpm-gpg/RPM-GPG-KEY-copr_elken-gitkraken",
+    source => "${lookup('campfs_uri')}/rpm-gpg/RPM-GPG-KEY-copr_elken-gitkraken",
     path   => "/etc/pki/rpm-gpg/RPM-GPG-KEY-copr_elken-gitkraken"
   }
 
   file { "RPM-GPG-KEY-google-chrome":
-    source => "puppet:///campfs/rpm-gpg/RPM-GPG-KEY-google-chrome",
+    source => "${lookup('campfs_uri')}/rpm-gpg/RPM-GPG-KEY-google-chrome",
     path   => "/etc/pki/rpm-gpg/RPM-GPG-KEY-google-chrome"
   }
 
   file { "RPM-GPG-KEY-puppet":
-    source => "puppet:///campfs/rpm-gpg/RPM-GPG-KEY-puppet",
+    source => "${lookup('campfs_uri')}/rpm-gpg/RPM-GPG-KEY-puppet",
     path   => "/etc/pki/rpm-gpg/RPM-GPG-KEY-puppet"
   }
 
   file { "RPM-GPG-KEY-sublime-text":
-    source => "puppet:///campfs/rpm-gpg/RPM-GPG-KEY-sublime-text",
+    source => "${lookup('campfs_uri')}/rpm-gpg/RPM-GPG-KEY-sublime-text",
     path   => "/etc/pki/rpm-gpg/RPM-GPG-KEY-sublime-text"
   }
 
   file { "RPM-GPG-KEY-corretto":
-    source => "puppet:///campfs/rpm-gpg/RPM-GPG-KEY-corretto",
+    source => "${lookup('campfs_uri')}/rpm-gpg/RPM-GPG-KEY-corretto",
     path   => "/etc/pki/rpm-gpg/RPM-GPG-KEY-corretto"
   }
 
@@ -89,7 +89,7 @@ class profiles::packaging::keys::fedora {
   # Regardless, I'm gonna have to be a good person and jam them into the Puppet
   # filesystem.
   file { 'RPM-GPG-KEY-slack':
-    source => 'puppet:///campfs/rpm-gpg/RPM-GPG-KEY-slack',
+    source => "${lookup('campfs_uri')}/rpm-gpg/RPM-GPG-KEY-slack",
     path   => '/etc/pki/rpm-gpg/RPM-GPG-KEY-slack',
   }
 }
