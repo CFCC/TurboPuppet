@@ -9,6 +9,7 @@ param(
     [switch]$skip_gems,
     [switch]$skip_modules,
     [switch]$quick,
+    [switch]$clear,
     [string]$tags
 )
 
@@ -30,6 +31,30 @@ function Write-Log {
     
     $timestamp = Get-Date -Format "yyyy-MM-dd HH:mm:ss"
     Write-Host "[$timestamp] $Message"
+}
+
+function Clear-PuppetSsl {
+    $certname = puppet config print certname
+
+    $paths = @(
+        (Join-Path $PUPPET_SSL_DIR "turbopuppet_ca_key.pem"),
+        (Join-Path $PUPPET_SSL_DIR "turbopuppet_ca.pem"),
+        (Join-Path $PUPPET_SSL_DIR "turbopuppet_ca.srl"),
+        (Join-Path $PUPPET_SSL_DIR "node_csr.pem"),
+        (Join-Path $PUPPET_SSL_DIR "combined_ca.pem"),
+        (Join-Path $PUPPET_SSL_DIR "openssl.cnf"),
+        (Join-Path $PUPPET_SSL_DIR "private_keys\$certname.pem"),
+        (Join-Path $PUPPET_SSL_DIR "certs\$certname.pem")
+    )
+
+    foreach ($path in $paths) {
+        if (Test-Path $path) {
+            Remove-Item -Path $path -Force
+            Write-Log "Removed $path"
+        }
+    }
+
+    Write-Log "Generated TurboPuppet SSL artifacts cleared"
 }
 
 function Get-GitBranchArchive {
@@ -203,6 +228,11 @@ function Install-Gems {
     Write-Log "Installing r10k..."
     & "$PUPPET_BIN_DIR\gem.bat" install r10k --version '~> 3.15.4'
     Write-Log "Successfully installed all gems"
+}
+
+if ($clear) {
+    Clear-PuppetSsl
+    exit 0
 }
 
 $null = Get-GitBranchArchive
