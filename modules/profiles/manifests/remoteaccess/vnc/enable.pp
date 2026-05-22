@@ -31,10 +31,10 @@ class profiles::remoteaccess::vnc::enable {
       }
     }
     'Darwin': {
-      # Remote Management / Screen Sharing (kickstart remains supported for headless kiosk use).
-      exec { 'DarwinKickstartRemoteManagement':
-        command => '/System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources/kickstart -activate -configure -access -on -restart -agent -privs -all -allowAccessFor -allUsers',
-        path    => ['/usr/bin', '/bin', '/usr/sbin', '/sbin', '/System/Library/CoreServices/RemoteManagement/ARDAgent.app/Contents/Resources'],
+      service { 'com.apple.screensharing':
+        ensure   => running,
+        enable   => true,
+        provider => launchd,
       }
     }
     default: { fail('Unsupported OS') }
