@@ -41,9 +41,10 @@ class profiles::access::usericon {
       }
 
       exec { 'Darwin set camper Picture attribute':
-        command => "/usr/bin/dscl . create '/Users/${username}' Picture '/Library/User Pictures/CampFitch/camper.png'",
-        unless  => "/bin/bash -c \"/usr/bin/dscl . -read '/Users/${username}' Picture 2>/dev/null | /usr/bin/grep -Fqx 'Picture: /Library/User Pictures/CampFitch/camper.png'\"",
-        require => [
+        command  => "/usr/bin/dscl . create '/Users/${username}' Picture '/Library/User Pictures/CampFitch/camper.png'",
+        unless   => "/usr/bin/dscl . -read '/Users/${username}' Picture 2>/dev/null | /usr/bin/grep -Fq '/Library/User Pictures/CampFitch/camper.png'",
+        provider => shell,
+        require  => [
           File['/Library/User Pictures/CampFitch/camper.png'],
           User['camper'],
         ],
