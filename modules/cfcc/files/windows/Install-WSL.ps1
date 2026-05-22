@@ -94,37 +94,64 @@ function Test-WslCoreReady {
   return $false
 }
 
-function Ensure-WslCoreInstalled {
-  # Try wsl --update first - this is less aggressive and non-interactive
-  Write-Log "Trying: wsl --update"
-  $result = Invoke-NativeCommand -Command 'wsl.exe' -Arguments @('--update')
-  Write-Output $result.Output
+function Test-WslUpdatePrompt {
+  param([string]$Output)
 
-  # Check if WSL is now ready after update
+  return (
+    $Output -match 'Windows Subsystem for Linux must be updated to the latest version' -or
+    $Output -match 'Press any key to install Windows Subsystem for Linux'
+  )
+}
+
+function Test-WebDownloadUnsupported {
+  param([string]$Output)
+
+  return (
+    $Output -match 'Invalid command line option.*web-download' -or
+    $Output -match 'unrecognized.*web-download' -or
+    $Output -match 'unknown.*web-download' -or
+    ($Output -match 'Usage:' -and $Output -match '--update' -and $Output -notmatch '--web-download')
+  )
+}
+
+function Ensure-WslCoreInstalled {
+  Write-Log "Trying: wsl --update --web-download"
+  $result = Invoke-NativeCommand -Command 'wsl.exe' -Arguments @('--update', '--web-download')
+  Write-Output $result.Output
+  $lastResult = $result
+
   if (Test-WslCoreReady) {
-    Write-Log "WSL core is ready after update"
+    Write-Log "WSL core is ready after web-download update"
     return 0
   }
 
-  # If update didn't help, try install with --no-distribution --web-download
-  Write-Log "Trying: wsl --install --no-distribution --web-download"
-  $result = Invoke-NativeCommand -Command 'wsl.exe' -Arguments @('--install', '--no-distribution', '--web-download')
-  Write-Output $result.Output
-  if ($result.ExitCode -eq 0 -or $result.ExitCode -eq 3010) {
-    Write-Log "WSL core install succeeded (exit $($result.ExitCode))"
-    return $result.ExitCode
+  if (Test-WebDownloadUnsupported -Output $result.Output) {
+    Write-Log "WSL update does not support --web-download, trying: wsl --update"
+    $result = Invoke-NativeCommand -Command 'wsl.exe' -Arguments @('--update')
+    Write-Output $result.Output
+    $lastResult = $result
+
+    if (Test-WslCoreReady) {
+      Write-Log "WSL core is ready after update"
+      return 0
+    }
   }
 
-  # Final fallback without --web-download
-  Write-Log "Trying: wsl --install --no-distribution"
-  $result = Invoke-NativeCommand -Command 'wsl.exe' -Arguments @('--install', '--no-distribution')
-  Write-Output $result.Output
-  if ($result.ExitCode -eq 0 -or $result.ExitCode -eq 3010) {
-    Write-Log "WSL core install succeeded (exit $($result.ExitCode))"
-    return $result.ExitCode
+  if ($lastResult.ExitCode -eq 3010) {
+    Write-Log "WSL core update requested reboot"
+    return 3010
   }
 
-  throw "Failed installing WSL core (exit $($result.ExitCode))"
+  if (Test-WslUpdatePrompt -Output $lastResult.Output) {
+    throw "WSL core update triggered the interactive updater prompt. Run 'wsl.exe --update --web-download' manually, then run puppet again."
+  }
+
+  if (Test-RebootPending) {
+    Write-Log "WSL core update is blocked by pending reboot"
+    return 3010
+  }
+
+  throw "Failed updating WSL core (exit $($lastResult.ExitCode))"
 }
 
 function Test-RebootPending {
