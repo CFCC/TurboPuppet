@@ -92,6 +92,7 @@ function Setup-PuppetSsl {
     $keyPath    = Join-Path $PUPPET_SSL_DIR "private_keys\$certname.pem"
     $certPath   = Join-Path $PUPPET_SSL_DIR "certs\$certname.pem"
     $combinedCa = Join-Path $PUPPET_SSL_DIR "combined_ca.pem"
+    $opensslConfig = Join-Path $PUPPET_SSL_DIR "openssl.cnf"
 
     if (-not (Test-Path $opensslBin)) {
         Write-Error "OpenSSL not found at $opensslBin"
@@ -101,10 +102,21 @@ function Setup-PuppetSsl {
     New-Item -ItemType Directory -Path (Join-Path $PUPPET_SSL_DIR "private_keys") -Force | Out-Null
     New-Item -ItemType Directory -Path (Join-Path $PUPPET_SSL_DIR "certs")         -Force | Out-Null
 
+    if (-not (Test-Path $opensslConfig)) {
+        @"
+[ req ]
+prompt = no
+distinguished_name = req_distinguished_name
+
+[ req_distinguished_name ]
+CN = TurboPuppet
+"@ | Set-Content -Path $opensslConfig -Encoding ascii
+    }
+
     if (-not (Test-Path $caCert)) {
         Write-Log "Generating TurboPuppet local CA"
         & $opensslBin genrsa -out $caKey 4096
-        & $opensslBin req -new -x509 -key $caKey -out $caCert `
+        & $opensslBin req -new -x509 -key $caKey -out $caCert -config $opensslConfig `
             -days 3650 -subj "/CN=TurboPuppet Local CA"
     }
 
@@ -112,7 +124,7 @@ function Setup-PuppetSsl {
         Write-Log "Generating SSL keypair for $certname"
         $csrPath = Join-Path $PUPPET_SSL_DIR "node_csr.pem"
         & $opensslBin genrsa -out $keyPath 4096
-        & $opensslBin req -new -key $keyPath -out $csrPath -subj "/CN=$certname"
+        & $opensslBin req -new -key $keyPath -out $csrPath -config $opensslConfig -subj "/CN=$certname"
         & $opensslBin x509 -req -in $csrPath `
             -CA $caCert -CAkey $caKey -CAcreateserial `
             -out $certPath -days 3650
