@@ -16,15 +16,21 @@ PUPPET_DMG_ARM64_URL="https://downloads.puppetlabs.com/mac/puppet8/14/arm64/pupp
 REPO_OWNER="CFCC"
 REPO_NAME="TurboPuppet"
 BRANCH="production"
+SKIP_PRIVACY_PREFLIGHT=""
+
+readonly PUPPET_WRAPPER_DIR="/opt/puppetlabs/puppet/bin"
+readonly PUPPET_USER_BIN_DIR="/opt/puppetlabs/bin"
+readonly FDA_SETTINGS_URL='x-apple.systempreferences:com.apple.preference.security?Privacy_AllFiles'
 
 usage() {
   cat <<EOF
-Usage: sudo $0 [--branch NAME]
+Usage: sudo $0 [--branch NAME] [--skip-privacy-preflight]
 
 Bootstrap directories, PATH, Puppet agent (macOS only for now), and TurboPuppet
 shell scripts under $ROOT_DIR.
 
-  --branch   GitHub branch for downloaded scripts (default: production).
+  --branch                 GitHub branch for downloaded scripts (default: production).
+  --skip-privacy-preflight Skip macOS privacy prompts (headless / CI only).
 EOF
 }
 
@@ -198,6 +204,135 @@ install_linux_path_and_stub() {
   install_git_linux_stub
 }
 
+is_interactive_tty() {
+  [[ -t 0 ]]
+}
+
+get_gui_user() {
+  if [[ -n "${SUDO_USER:-}" ]]; then
+    printf '%s' "$SUDO_USER"
+    return 0
+  fi
+  stat -f '%Su' /dev/console 2>/dev/null || true
+}
+
+run_as_gui_user() {
+  local user="$1"
+  shift
+  local uid
+  uid="$(id -u "$user")"
+  launchctl asuser "$uid" sudo -u "$user" "$@"
+}
+
+ensure_puppet_fda_wrapper() {
+  local wrapper_sh="${PUPPET_WRAPPER_DIR}/wrapper.sh"
+  local wrapper="${PUPPET_WRAPPER_DIR}/wrapper"
+
+  if [[ ! -f "$wrapper_sh" && ! -f "$wrapper" ]]; then
+    return 0
+  fi
+
+  if [[ -f "$wrapper_sh" && ! -f "$wrapper" ]]; then
+    log Info "Configuring Puppet Full Disk Access wrapper (wrapper.sh -> wrapper)"
+    mv "$wrapper_sh" "$wrapper"
+  fi
+
+  if [[ ! -f "$wrapper" ]]; then
+    return 0
+  fi
+
+  local cmd
+  for cmd in puppet facter hiera; do
+    if [[ -e "${PUPPET_USER_BIN_DIR}/${cmd}" ]]; then
+      ln -sf "$wrapper" "${PUPPET_USER_BIN_DIR}/${cmd}"
+    fi
+  done
+  log Info "Puppet FDA wrapper symlinks updated under ${PUPPET_USER_BIN_DIR}"
+}
+
+run_privacy_probe() {
+  local user="$1"
+  local desc="$2"
+  shift 2
+
+  log Info "Privacy probe: $desc"
+  local output
+  if output="$(run_as_gui_user "$user" sudo "$@" 2>&1)"; then
+    if [[ -n "$output" ]]; then
+      while IFS= read -r line; do
+        log Info "  $line"
+      done <<<"$output"
+    fi
+  else
+    log Info "Probe '$desc' returned non-zero (expected until System Settings access is granted)"
+    if [[ -n "$output" ]]; then
+      while IFS= read -r line; do
+        log Info "  $line"
+      done <<<"$output"
+    fi
+  fi
+}
+
+prompt_macos_privacy_permissions() {
+  [[ -n "$SKIP_PRIVACY_PREFLIGHT" ]] && return 0
+
+  local user
+  user="$(get_gui_user)"
+  if [[ -z "$user" || "$user" == "loginwindow" ]]; then
+    log Info "No interactive GUI user; skipping macOS privacy preflight"
+    return 0
+  fi
+
+  log Info "macOS privacy preflight for user $user"
+
+  ensure_puppet_fda_wrapper
+
+  run_privacy_probe "$user" "systemsetup gettimezone" \
+    /usr/sbin/systemsetup -gettimezone
+  run_privacy_probe "$user" "systemsetup getusingnetworktime" \
+    /usr/sbin/systemsetup -getusingnetworktime
+  run_privacy_probe "$user" "systemsetup getnetworktimeserver" \
+    /usr/sbin/systemsetup -getnetworktimeserver
+
+  local ntp_state
+  ntp_state="$(run_as_gui_user "$user" sudo /usr/sbin/systemsetup -getusingnetworktime 2>/dev/null || true)"
+  if [[ "$ntp_state" != *"Network Time: On"* ]]; then
+    run_privacy_probe "$user" "systemsetup setusingnetworktime on" \
+      /usr/sbin/systemsetup -setusingnetworktime on
+  else
+    log Info "Network time already on; skipping setusingnetworktime probe"
+  fi
+
+  run_privacy_probe "$user" "pmset query" /usr/sbin/pmset -g
+
+  log Info "Opening Full Disk Access in System Settings"
+  run_as_gui_user "$user" /usr/bin/open "$FDA_SETTINGS_URL" || \
+    log Info "Could not open System Settings (continuing)"
+
+  local terminal_hint="the terminal app you used to run sudo (e.g. Terminal.app)"
+  if [[ -n "${SUDO_USER:-}" ]]; then
+    terminal_hint="the terminal app used by ${SUDO_USER} (e.g. Terminal.app)"
+  fi
+
+  cat <<EOF
+
+macOS privacy preflight — approve the following before Puppet runs:
+
+  1. Click Allow on any "modify system settings" prompts from ${terminal_hint}.
+  2. In System Settings > Privacy & Security > Full Disk Access, enable:
+       - ${terminal_hint}
+       - ${PUPPET_USER_BIN_DIR} (puppet / facter / hiera wrapper), if Puppet is installed
+
+EOF
+
+  if is_interactive_tty; then
+    read -r -p "After allowing prompts and enabling Full Disk Access, press Enter to continue... " _
+    log Info "Continuing after privacy preflight"
+  else
+    log Info "WARNING: non-interactive session; skipping privacy preflight wait"
+  fi
+}
+
 install_turbopuppet_scripts() {
   local branch="$1"
   mkdir_safe "$BIN_DIR"
@@ -214,6 +349,7 @@ main() {
         BRANCH="${2:?}"
         shift 2
         ;;
+      --skip-privacy-preflight) SKIP_PRIVACY_PREFLIGHT="1"; shift ;;
       -h|--help)
         usage
         exit 0
@@ -246,6 +382,7 @@ main() {
       else
         install_puppet_darwin_intel_skip
       fi
+      prompt_macos_privacy_permissions
       ;;
     Linux)
       install_linux_path_and_stub

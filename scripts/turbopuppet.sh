@@ -13,7 +13,6 @@ SKIP_GEMS=""
 SKIP_MODULES=""
 QUICK=""
 TAGS=""
-SKIP_PRIVACY_PREFLIGHT=""
 
 ROOT_DIR="${TURBOPUPPET_ROOT:-/opt/CampFitch}"
 LOG_DIR="$ROOT_DIR/logs"
@@ -24,10 +23,6 @@ readonly PUPPET_SSL_DIR="${PUPPET_SSL_DIR_OVERRIDE:-/etc/puppetlabs/puppet/ssl}"
 readonly PUPPET_CODE_DIR="${PUPPET_CODE_DIR_OVERRIDE:-/etc/puppetlabs/code}"
 
 readonly CODE_REPO_URL="${TURBOPUPPET_REPO_URL:-https://github.com/CFCC/TurboPuppet}"
-
-readonly PUPPET_WRAPPER_DIR="/opt/puppetlabs/puppet/bin"
-readonly PUPPET_USER_BIN_DIR="/opt/puppetlabs/bin"
-readonly FDA_SETTINGS_URL='x-apple.systempreferences:com.apple.preference.security?Privacy_AllFiles'
 
 log() {
   local ts
@@ -41,7 +36,6 @@ TurboPuppet
 
 Usage: turbopuppet.sh [--branch NAME] [--role ROLE] [--debug] [--noop]
          [--cached] [--skip-gems] [--skip-modules] [--quick] [--tags TAGS]
-         [--skip-privacy-preflight]
 
   --branch         Puppet environment / git branch (default: $BRANCH).
   --role           Puppet include() target (default: $ROLE).
@@ -52,11 +46,6 @@ Usage: turbopuppet.sh [--branch NAME] [--role ROLE] [--debug] [--noop]
   --skip-modules   Skip r10k puppetfile install.
   --quick          Skip both gems and modules.
   --tags           Pass --tags value to puppet apply.
-  --skip-privacy-preflight
-                   Skip macOS privacy prompts (headless / CI only).
-
-On macOS, the first interactive run prompts for System Settings access and Full
-Disk Access before Puppet apply. Use a logged-in Terminal session.
 EOF
 }
 
@@ -81,7 +70,6 @@ parse_args() {
       --skip-gems) SKIP_GEMS="1"; shift ;;
       --skip-modules) SKIP_MODULES="1"; shift ;;
       --quick) QUICK="1"; shift ;;
-      --skip-privacy-preflight) SKIP_PRIVACY_PREFLIGHT="1"; shift ;;
       -h|--help)
         usage
         exit 0
@@ -97,136 +85,6 @@ parse_args() {
 
 is_darwin() {
   [[ "$(uname -s)" == Darwin ]]
-}
-
-is_interactive_tty() {
-  [[ -t 0 ]]
-}
-
-get_gui_user() {
-  if [[ -n "${SUDO_USER:-}" ]]; then
-    printf '%s' "$SUDO_USER"
-    return 0
-  fi
-  stat -f '%Su' /dev/console 2>/dev/null || true
-}
-
-run_as_gui_user() {
-  local user="$1"
-  shift
-  local uid
-  uid="$(id -u "$user")"
-  launchctl asuser "$uid" sudo -u "$user" "$@"
-}
-
-ensure_puppet_fda_wrapper() {
-  local wrapper_sh="${PUPPET_WRAPPER_DIR}/wrapper.sh"
-  local wrapper="${PUPPET_WRAPPER_DIR}/wrapper"
-
-  if [[ ! -f "$wrapper_sh" && ! -f "$wrapper" ]]; then
-    return 0
-  fi
-
-  if [[ -f "$wrapper_sh" && ! -f "$wrapper" ]]; then
-    log "Configuring Puppet Full Disk Access wrapper (wrapper.sh -> wrapper)"
-    mv "$wrapper_sh" "$wrapper"
-  fi
-
-  if [[ ! -f "$wrapper" ]]; then
-    return 0
-  fi
-
-  local cmd
-  for cmd in puppet facter hiera; do
-    if [[ -e "${PUPPET_USER_BIN_DIR}/${cmd}" ]]; then
-      ln -sf "$wrapper" "${PUPPET_USER_BIN_DIR}/${cmd}"
-    fi
-  done
-  log "Puppet FDA wrapper symlinks updated under ${PUPPET_USER_BIN_DIR}"
-}
-
-run_privacy_probe() {
-  local user="$1"
-  local desc="$2"
-  shift 2
-
-  log "Privacy probe: $desc"
-  local output
-  if output="$(run_as_gui_user "$user" sudo "$@" 2>&1)"; then
-    if [[ -n "$output" ]]; then
-      while IFS= read -r line; do
-        log "  $line"
-      done <<<"$output"
-    fi
-  else
-    log "Probe '$desc' returned non-zero (expected until System Settings access is granted)"
-    if [[ -n "$output" ]]; then
-      while IFS= read -r line; do
-        log "  $line"
-      done <<<"$output"
-    fi
-  fi
-}
-
-prompt_macos_privacy_permissions() {
-  is_darwin || return 0
-  [[ -n "$SKIP_PRIVACY_PREFLIGHT" ]] && return 0
-
-  local user
-  user="$(get_gui_user)"
-  if [[ -z "$user" || "$user" == "loginwindow" ]]; then
-    log "No interactive GUI user; skipping macOS privacy preflight"
-    return 0
-  fi
-
-  log "macOS privacy preflight for user $user"
-
-  ensure_puppet_fda_wrapper
-
-  run_privacy_probe "$user" "systemsetup gettimezone" \
-    /usr/sbin/systemsetup -gettimezone
-  run_privacy_probe "$user" "systemsetup getusingnetworktime" \
-    /usr/sbin/systemsetup -getusingnetworktime
-  run_privacy_probe "$user" "systemsetup getnetworktimeserver" \
-    /usr/sbin/systemsetup -getnetworktimeserver
-
-  local ntp_state
-  ntp_state="$(run_as_gui_user "$user" sudo /usr/sbin/systemsetup -getusingnetworktime 2>/dev/null || true)"
-  if [[ "$ntp_state" != *"Network Time: On"* ]]; then
-    run_privacy_probe "$user" "systemsetup setusingnetworktime on" \
-      /usr/sbin/systemsetup -setusingnetworktime on
-  else
-    log "Network time already on; skipping setusingnetworktime probe"
-  fi
-
-  run_privacy_probe "$user" "pmset query" /usr/sbin/pmset -g
-
-  log "Opening Full Disk Access in System Settings"
-  run_as_gui_user "$user" /usr/bin/open "$FDA_SETTINGS_URL" || \
-    log "Could not open System Settings (continuing)"
-
-  local terminal_hint="the terminal app you used to run sudo (e.g. Terminal.app)"
-  if [[ -n "${SUDO_USER:-}" ]]; then
-    terminal_hint="the terminal app used by ${SUDO_USER} (e.g. Terminal.app)"
-  fi
-
-  cat <<EOF
-
-macOS privacy preflight — approve the following before Puppet runs:
-
-  1. Click Allow on any "modify system settings" prompts from ${terminal_hint}.
-  2. In System Settings > Privacy & Security > Full Disk Access, enable:
-       - ${terminal_hint}
-       - ${PUPPET_USER_BIN_DIR} (puppet / facter / hiera wrapper), if Puppet is installed
-
-EOF
-
-  if is_interactive_tty; then
-    read -r -p "After allowing prompts and enabling Full Disk Access, press Enter to continue... " _
-    log "Continuing after privacy preflight"
-  else
-    log "WARNING: non-interactive session; skipping privacy preflight wait"
-  fi
 }
 
 get_git_branch_archive() {
@@ -347,8 +205,6 @@ main() {
   fi
 
   parse_args "$@"
-
-  prompt_macos_privacy_permissions
 
   local env_dir="${TURBOPUPPET_ENVIRONMENT_DIR:-${PUPPET_CODE_DIR}/environments/${BRANCH}}"
   mkdir -p "$LOG_DIR" 2>/dev/null || true

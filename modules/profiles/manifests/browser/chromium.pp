@@ -24,6 +24,14 @@ class profiles::browser::chromium (
     install_options => $install_options,
   }
 
+  if $facts['os']['family'] == 'Darwin' {
+    exec { 'RemoveChromiumQuarantine':
+      command => '/usr/bin/xattr -cr /Applications/Chromium.app',
+      onlyif  => '/bin/bash -c "/usr/bin/xattr /Applications/Chromium.app 2>/dev/null | /usr/bin/grep -q com.apple.quarantine"',
+      require => Package[$package_name],
+    }
+  }
+
   if $facts['os']['family'] == 'windows' {
     # This works the first time, but a reboot puts the fraking thing back!
     exec { 'CleanupChromiumDesktopShortcut':
