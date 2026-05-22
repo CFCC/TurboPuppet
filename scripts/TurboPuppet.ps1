@@ -16,7 +16,7 @@ param(
 $PUPPET_DATA_DIR = "C:\ProgramData\PuppetLabs"
 $PUPPET_ROOT_DIR = "C:\Program Files\Puppet Labs\Puppet"
 $PUPPET_BIN_DIR = "$PUPPET_ROOT_DIR\puppet\bin"
-$PUPPET_SSL_DIR = "$PUPPET_ROOT_DIR\puppet\ssl"
+$PUPPET_SSL_DIR = "$PUPPET_DATA_DIR\puppet\etc\ssl"
 $caCertBundlePath = Join-Path $PUPPET_SSL_DIR "turbopuppet-cacerts.pem"
 $PUPPET_CODE_DIR = "$PUPPET_DATA_DIR\code"
 $PUPPET_ENVIRONMENTS_DIR = "$PUPPET_CODE_DIR\environments"
@@ -124,6 +124,7 @@ function Setup-PuppetSsl {
         exit 1
     }
 
+    New-Item -ItemType Directory -Path $PUPPET_SSL_DIR -Force | Out-Null
     New-Item -ItemType Directory -Path (Join-Path $PUPPET_SSL_DIR "private_keys") -Force | Out-Null
     New-Item -ItemType Directory -Path (Join-Path $PUPPET_SSL_DIR "certs")         -Force | Out-Null
 
