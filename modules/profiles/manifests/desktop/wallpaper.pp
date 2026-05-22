@@ -50,6 +50,17 @@ class profiles::desktop::wallpaper {
       }
     }
     'Linux': {}
+    'Darwin': {
+      package { 'wallpaper':
+        ensure => present,
+      }
+      exec { 'SetWallpaper':
+        path    => ['/opt/homebrew/bin', '/usr/local/bin', '/usr/bin', '/bin'],
+        command => "wallpaper set ${wallpaper_dir}/boathouse.jpg",
+        unless  => "sh -c 'wallpaper get | grep -qF \"${wallpaper_dir}/boathouse.jpg\"'",
+        require => [File['CampWallpaperLibrary'], Package['wallpaper']],
+      }
+    }
     default: {}
   }
 }
