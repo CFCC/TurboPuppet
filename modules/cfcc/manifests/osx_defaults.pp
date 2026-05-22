@@ -10,8 +10,10 @@ define cfcc::osx_defaults (
   $value  = undef,
   $type   = 'int',
   $ensure = present,
+  $user   = undef,
 ) {
   $defaults_bin = '/usr/bin/defaults'
+  $sudo_prefix  = $user ? { undef => '', default => "/usr/bin/sudo -u ${user} " }
 
   if $ensure == present {
     if $value == undef {
@@ -21,14 +23,14 @@ define cfcc::osx_defaults (
     $type_flag = " -${type}"
 
     exec { "osx_defaults-${name}":
-      command => "${defaults_bin} write ${domain} ${key}${type_flag} ${value}",
-      unless  => "/bin/sh -c \"${defaults_bin} read ${domain} ${key} 2>/dev/null | /usr/bin/grep -qxF '${value}'\"",
+      command => "${sudo_prefix}${defaults_bin} write ${domain} ${key}${type_flag} ${value}",
+      unless  => "/bin/sh -c \"${sudo_prefix}${defaults_bin} read ${domain} ${key} 2>/dev/null | /usr/bin/grep -qxF '${value}'\"",
       path    => ['/usr/bin', '/bin'],
     }
   } else {
     exec { "osx_defaults-${name}":
-      command => "${defaults_bin} delete ${domain} ${key}",
-      onlyif  => "/bin/sh -c \"${defaults_bin} read ${domain} ${key} 2>/dev/null\"",
+      command => "${sudo_prefix}${defaults_bin} delete ${domain} ${key}",
+      onlyif  => "/bin/sh -c \"${sudo_prefix}${defaults_bin} read ${domain} ${key} 2>/dev/null\"",
       path    => ['/usr/bin', '/bin'],
     }
   }

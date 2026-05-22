@@ -8,5 +8,6 @@ class profiles::desktop::finder {
     key    => 'StandardHideWidgets',
     type   => 'int',
     value  => '1',
+    user   => lookup('camper_username'),
   }
 }
