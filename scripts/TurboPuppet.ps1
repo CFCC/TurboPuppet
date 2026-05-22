@@ -86,12 +86,17 @@ function Set-PuppetEnvironment {
 
 function Setup-PuppetSsl {
     $certname   = puppet config print certname
-    $opensslBin = Join-Path $PUPPET_BIN_DIR "openssl.bat"
+    $opensslBin = Join-Path $PUPPET_BIN_DIR "openssl.exe"
     $caKey      = Join-Path $PUPPET_SSL_DIR "turbopuppet_ca_key.pem"
     $caCert     = Join-Path $PUPPET_SSL_DIR "turbopuppet_ca.pem"
     $keyPath    = Join-Path $PUPPET_SSL_DIR "private_keys\$certname.pem"
     $certPath   = Join-Path $PUPPET_SSL_DIR "certs\$certname.pem"
     $combinedCa = Join-Path $PUPPET_SSL_DIR "combined_ca.pem"
+
+    if (-not (Test-Path $opensslBin)) {
+        Write-Error "OpenSSL not found at $opensslBin"
+        exit 1
+    }
 
     New-Item -ItemType Directory -Path (Join-Path $PUPPET_SSL_DIR "private_keys") -Force | Out-Null
     New-Item -ItemType Directory -Path (Join-Path $PUPPET_SSL_DIR "certs")         -Force | Out-Null
