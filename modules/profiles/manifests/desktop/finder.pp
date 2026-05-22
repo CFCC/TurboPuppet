@@ -20,7 +20,7 @@ class profiles::desktop::finder {
     domain => 'com.apple.WindowManager',
     key    => 'EnableStandardClickToShowDesktop',
     type   => 'bool',
-    value  => 'false',
+    value  => '0',
   }
 
   # Always show scroll bars
@@ -36,7 +36,7 @@ class profiles::desktop::finder {
     domain => 'Apple Global Domain',
     key    => 'com.apple.keyboard.fnState',
     type   => 'bool',
-    value  => 'true',
+    value  => '1',
   }
 
   # Disable UI sound effects
@@ -67,7 +67,7 @@ class profiles::desktop::finder {
     domain => 'com.apple.dock',
     key    => 'autohide',
     type   => 'bool',
-    value  => 'true',
+    value  => '1',
   }
 
   # Disable Notes hot corner (bottom-right)
@@ -82,28 +82,28 @@ class profiles::desktop::finder {
     domain => 'com.apple.controlcenter',
     key    => 'NSStatusItem Visible WiFi',
     type   => 'bool',
-    value  => 'true',
+    value  => '1',
   }
 
   cfcc::osx_defaults { 'ControlCenter-Bluetooth':
     domain => 'com.apple.controlcenter',
     key    => 'NSStatusItem Visible Bluetooth',
     type   => 'bool',
-    value  => 'true',
+    value  => '1',
   }
 
   cfcc::osx_defaults { 'ControlCenter-Battery':
     domain => 'com.apple.controlcenter',
     key    => 'NSStatusItem Visible Battery',
     type   => 'bool',
-    value  => 'true',
+    value  => '1',
   }
 
   cfcc::osx_defaults { 'ControlCenter-Volume':
     domain => 'com.apple.controlcenter',
     key    => 'NSStatusItem Visible Volume',
     type   => 'bool',
-    value  => 'true',
+    value  => '1',
   }
 
   # Reduce motion and transparency
