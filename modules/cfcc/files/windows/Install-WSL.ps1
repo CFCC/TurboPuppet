@@ -112,10 +112,17 @@ function Test-WebDownloadUnsupported {
 }
 
 function Ensure-WslCoreInstalled {
+  $attempts = [System.Collections.Generic.List[hashtable]]::new()
+
   Write-Log "Trying: wsl --update --web-download"
   $result = Invoke-NativeCommand -Command 'wsl.exe' -Arguments @('--update', '--web-download')
   Write-Output $result.Output
   $lastResult = $result
+  $attempts.Add(@{
+    Command  = 'wsl.exe --update --web-download'
+    ExitCode = $result.ExitCode
+    Output   = $result.Output
+  })
 
   if (Test-WslCoreReady) {
     Write-Log "WSL core is ready after web-download update"
@@ -127,6 +134,11 @@ function Ensure-WslCoreInstalled {
     $result = Invoke-NativeCommand -Command 'wsl.exe' -Arguments @('--update')
     Write-Output $result.Output
     $lastResult = $result
+    $attempts.Add(@{
+      Command  = 'wsl.exe --update'
+      ExitCode = $result.ExitCode
+      Output   = $result.Output
+    })
 
     if (Test-WslCoreReady) {
       Write-Log "WSL core is ready after update"
@@ -140,7 +152,7 @@ function Ensure-WslCoreInstalled {
   }
 
   if (Test-WslUpdatePrompt -Output $lastResult.Output) {
-    throw "WSL core update triggered the interactive updater prompt. Run 'wsl.exe --update --web-download' manually, then run puppet again."
+    throw (Format-WslCoreFailure -Reason 'WSL core update triggered the interactive updater prompt. Run wsl.exe --update --web-download manually, then run puppet again' -Attempts $attempts)
   }
 
   if (Test-RebootPending) {
@@ -148,7 +160,35 @@ function Ensure-WslCoreInstalled {
     return 3010
   }
 
-  throw "Failed updating WSL core (exit $($lastResult.ExitCode))"
+  throw (Format-WslCoreFailure -Reason 'Failed updating WSL core' -Attempts $attempts)
+}
+
+function Format-WslCoreFailure {
+  param(
+    [string]$Reason,
+    [System.Collections.Generic.List[hashtable]]$Attempts
+  )
+
+  $statusResult = Get-WslStatusResult
+  $attemptDetails = ($Attempts | ForEach-Object {
+    $output = if ([string]::IsNullOrWhiteSpace($_.Output)) { '(no output)' } else { $_.Output }
+    @(
+      "  Command: $($_.Command)"
+      "  Exit code: $($_.ExitCode)"
+      "  Output:"
+      ($output -split "`n" | ForEach-Object { "    $_" }) -join "`n"
+    ) -join "`n"
+  }) -join "`n`n"
+
+  $statusOutput = if ([string]::IsNullOrWhiteSpace($statusResult.Output)) { '(no output)' } else { $statusResult.Output }
+
+  return @(
+    "$Reason (last exit $($Attempts[-1].ExitCode))."
+    'Attempted commands:'
+    $attemptDetails
+    "wsl --status (exit $($statusResult.ExitCode)):"
+    ($statusOutput -split "`n" | ForEach-Object { "  $_" }) -join "`n"
+  ) -join "`n"
 }
 
 function Test-RebootPending {
