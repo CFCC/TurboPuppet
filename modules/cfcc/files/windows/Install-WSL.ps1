@@ -120,11 +120,6 @@ function Test-WslUpdatePrompt {
 }
 
 function Ensure-WslCoreInstalled {
-  # After preflight (DISM features + reboot), wsl --status exit 50 means the MSIX
-  # platform package is missing. On CFCC hardware the validated command is:
-  #   wsl --update --web-download
-  # Do NOT use wsl --install --no-distribution here; it fails with exit 1 on exit 50.
-  # Do NOT combine --update with --no-distribution (--no-distribution is install-only).
   $attempts = [System.Collections.Generic.List[hashtable]]::new()
 
   $initialStatus = Get-WslStatusResult
@@ -136,10 +131,10 @@ function Ensure-WslCoreInstalled {
     return 0
   }
 
-  $commandLabel = 'wsl.exe --update --web-download'
-  Write-Log "WSL core not ready (status exit $($initialStatus.ExitCode)), running platform update"
+  $commandLabel = 'wsl.exe --install --no-distribution --web-download'
+  Write-Log "WSL core not ready (status exit $($initialStatus.ExitCode)), installing platform"
 
-  $result = Invoke-Wsl -Arguments @('--update', '--web-download')
+  $result = Invoke-Wsl -Arguments @('--install', '--no-distribution', '--web-download')
   Write-Output $result.Output
   $attempts.Add(@{
     Command  = $commandLabel
@@ -148,25 +143,25 @@ function Ensure-WslCoreInstalled {
   })
 
   if (Test-WslCoreReady) {
-    Write-Log 'WSL core is ready after install/update'
+    Write-Log 'WSL core is ready after install'
     return 0
   }
 
   if ($result.ExitCode -eq 3010) {
-    Write-Log 'WSL core install/update requested reboot'
+    Write-Log 'WSL core install requested reboot'
     return 3010
   }
 
   if (Test-WslUpdatePrompt -Output $result.Output) {
-    throw (Format-WslCoreFailure -Reason 'WSL core install/update triggered the interactive updater prompt' -InitialStatus $initialStatus -Attempts $attempts)
+    throw (Format-WslCoreFailure -Reason 'WSL core install triggered the interactive updater prompt' -InitialStatus $initialStatus -Attempts $attempts)
   }
 
   if (Test-RebootPending) {
-    Write-Log 'WSL core install/update is blocked by pending reboot'
+    Write-Log 'WSL core install is blocked by pending reboot'
     return 3010
   }
 
-  throw (Format-WslCoreFailure -Reason 'Failed installing/updating WSL core' -InitialStatus $initialStatus -Attempts $attempts)
+  throw (Format-WslCoreFailure -Reason 'Failed installing WSL core' -InitialStatus $initialStatus -Attempts $attempts)
 }
 
 function Format-WslCoreFailure {
