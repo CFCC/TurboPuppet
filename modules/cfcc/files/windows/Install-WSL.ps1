@@ -45,17 +45,14 @@ function Test-FeatureEnabled {
   (Get-WindowsOptionalFeature -Online -FeatureName $FeatureName | Select-Object -ExpandProperty State) -eq 'Enabled'
 }
 
-function Invoke-DismEnable {
-  param([string]$FeatureName)
+function Assert-WslFeaturesEnabled {
+  $wslEnabled = Test-FeatureEnabled -FeatureName 'Microsoft-Windows-Subsystem-Linux'
+  $vmEnabled = Test-FeatureEnabled -FeatureName 'VirtualMachinePlatform'
+  Write-Log "Feature status: WSL=$wslEnabled, VirtualMachinePlatform=$vmEnabled"
 
-  Write-Log "DISM: Enabling feature $FeatureName..."
-  & dism.exe /online /enable-feature /featurename:$FeatureName /all /norestart | Out-Default
-  $rc = $LASTEXITCODE
-  Write-Log "DISM: Feature $FeatureName completed (exit $rc)"
-  if ($rc -ne 0 -and $rc -ne 3010) {
-    throw "Failed enabling feature $FeatureName (exit $rc)"
+  if (-not $wslEnabled -or -not $vmEnabled) {
+    throw 'WSL optional features are not enabled. Run turbopuppet -tags windowsupdate first (wsl::preflight), reboot, then run turbopuppet again.'
   }
-  return $rc
 }
 
 function Test-DistroPresent {
@@ -163,30 +160,9 @@ function Test-RebootPending {
 
 try {
   Write-Log "Starting WSL installation for distro '$Distro', user '$CamperUsername'"
-  $featuresChanged = $false
 
-  Write-Log "Checking Windows optional features..."
-  $wslEnabled = Test-FeatureEnabled -FeatureName 'Microsoft-Windows-Subsystem-Linux'
-  $vmEnabled = Test-FeatureEnabled -FeatureName 'VirtualMachinePlatform'
-  Write-Log "Feature status: WSL=$wslEnabled, VirtualMachinePlatform=$vmEnabled"
-
-  if (-not $wslEnabled) {
-    Write-Log "Enabling Microsoft-Windows-Subsystem-Linux feature..."
-    $rc = Invoke-DismEnable -FeatureName 'Microsoft-Windows-Subsystem-Linux'
-    $featuresChanged = $true
-  }
-
-  if (-not $vmEnabled) {
-    Write-Log "Enabling VirtualMachinePlatform feature..."
-    $rc = Invoke-DismEnable -FeatureName 'VirtualMachinePlatform'
-    $featuresChanged = $true
-  }
-
-  if ($featuresChanged) {
-    Write-Log "Features changed, reboot required"
-    Write-Output 'WSL prerequisites changed. Reboot Windows, then run puppet again to finish Ubuntu setup.'
-    exit 3010
-  }
+  Write-Log 'Verifying WSL optional features (preflight)...'
+  Assert-WslFeaturesEnabled
 
   Write-Log "Checking for pending reboot..."
   if (Test-RebootPending) {

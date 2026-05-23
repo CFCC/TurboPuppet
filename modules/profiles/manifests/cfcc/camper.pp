@@ -15,6 +15,7 @@ class profiles::cfcc::camper {
       include profiles::firewall::windows
       include profiles::windows::xbox::disable
       include profiles::windows::update
+      include profiles::windows::wsl::preflight
       include profiles::windows::wsl
       include profiles::windows::dotnet
       include profiles::windows::apps
