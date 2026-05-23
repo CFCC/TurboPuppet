@@ -15,7 +15,7 @@ if ($null -ne (Get-Variable -Name PSNativeCommandUseErrorActionPreference -Error
 function Write-Log {
   param([string]$Message)
   $ts = Get-Date -Format 'yyyy-MM-dd HH:mm:ss'
-  Write-Output "[$ts] $Message"
+  [Console]::WriteLine("[$ts] $Message")
 }
 
 function Invoke-NativeCommand {
