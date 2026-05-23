@@ -79,16 +79,7 @@ function Test-DefaultVersionIs2 {
 
 function Test-WslCoreReady {
   $statusResult = Get-WslStatusResult
-  if ($statusResult.ExitCode -eq 0) {
-    return $true
-  }
-
-  # Transitional state: features may be enabled but WSL is not ready until reboot.
-  if ($statusResult.Output -match 'Windows Subsystem for Linux is not installed') {
-    return $false
-  }
-
-  return $false
+  return $statusResult.ExitCode -eq 0
 }
 
 function Test-WslUpdatePrompt {
@@ -100,76 +91,66 @@ function Test-WslUpdatePrompt {
   )
 }
 
-function Test-WebDownloadUnsupported {
-  param([string]$Output)
-
-  return (
-    $Output -match 'Invalid command line option.*web-download' -or
-    $Output -match 'unrecognized.*web-download' -or
-    $Output -match 'unknown.*web-download' -or
-    ($Output -match 'Usage:' -and $Output -match '--update' -and $Output -notmatch '--web-download')
-  )
-}
-
 function Ensure-WslCoreInstalled {
   $attempts = [System.Collections.Generic.List[hashtable]]::new()
 
-  Write-Log "Trying: wsl --update --web-download"
-  $result = Invoke-NativeCommand -Command 'wsl.exe' -Arguments @('--update', '--web-download')
+  $initialStatus = Get-WslStatusResult
+  Write-Log "wsl --status exit $($initialStatus.ExitCode)"
+  Write-Output $initialStatus.Output
+
+  if ($initialStatus.ExitCode -eq 0) {
+    Write-Log 'WSL core is already ready'
+    return 0
+  }
+
+  if ($initialStatus.ExitCode -eq 50) {
+    $commandLabel = 'wsl.exe --install --no-distribution --web-download'
+    $arguments = @('--install', '--no-distribution', '--web-download')
+    Write-Log 'WSL core not installed (status exit 50), trying install'
+  } else {
+    $commandLabel = 'wsl.exe --update --web-download'
+    $arguments = @('--update', '--web-download')
+    Write-Log "WSL core not ready (status exit $($initialStatus.ExitCode)), trying update"
+  }
+
+  $result = Invoke-NativeCommand -Command 'wsl.exe' -Arguments $arguments
   Write-Output $result.Output
-  $lastResult = $result
   $attempts.Add(@{
-    Command  = 'wsl.exe --update --web-download'
+    Command  = $commandLabel
     ExitCode = $result.ExitCode
     Output   = $result.Output
   })
 
   if (Test-WslCoreReady) {
-    Write-Log "WSL core is ready after web-download update"
+    Write-Log 'WSL core is ready after install/update'
     return 0
   }
 
-  if (Test-WebDownloadUnsupported -Output $result.Output) {
-    Write-Log "WSL update does not support --web-download, trying: wsl --update"
-    $result = Invoke-NativeCommand -Command 'wsl.exe' -Arguments @('--update')
-    Write-Output $result.Output
-    $lastResult = $result
-    $attempts.Add(@{
-      Command  = 'wsl.exe --update'
-      ExitCode = $result.ExitCode
-      Output   = $result.Output
-    })
-
-    if (Test-WslCoreReady) {
-      Write-Log "WSL core is ready after update"
-      return 0
-    }
-  }
-
-  if ($lastResult.ExitCode -eq 3010) {
-    Write-Log "WSL core update requested reboot"
+  if ($result.ExitCode -eq 3010) {
+    Write-Log 'WSL core install/update requested reboot'
     return 3010
   }
 
-  if (Test-WslUpdatePrompt -Output $lastResult.Output) {
-    throw (Format-WslCoreFailure -Reason 'WSL core update triggered the interactive updater prompt. Run wsl.exe --update --web-download manually, then run puppet again' -Attempts $attempts)
+  if (Test-WslUpdatePrompt -Output $result.Output) {
+    throw (Format-WslCoreFailure -Reason 'WSL core install/update triggered the interactive updater prompt' -InitialStatus $initialStatus -Attempts $attempts)
   }
 
   if (Test-RebootPending) {
-    Write-Log "WSL core update is blocked by pending reboot"
+    Write-Log 'WSL core install/update is blocked by pending reboot'
     return 3010
   }
 
-  throw (Format-WslCoreFailure -Reason 'Failed updating WSL core' -Attempts $attempts)
+  throw (Format-WslCoreFailure -Reason 'Failed installing/updating WSL core' -InitialStatus $initialStatus -Attempts $attempts)
 }
 
 function Format-WslCoreFailure {
   param(
     [string]$Reason,
+    [hashtable]$InitialStatus,
     [System.Collections.Generic.List[hashtable]]$Attempts
   )
 
-  $statusResult = Get-WslStatusResult
+  $initialStatusOutput = if ([string]::IsNullOrWhiteSpace($InitialStatus.Output)) { '(no output)' } else { $InitialStatus.Output }
   $attemptDetails = ($Attempts | ForEach-Object {
     $output = if ([string]::IsNullOrWhiteSpace($_.Output)) { '(no output)' } else { $_.Output }
     @(
@@ -180,14 +161,17 @@ function Format-WslCoreFailure {
     ) -join "`n"
   }) -join "`n`n"
 
-  $statusOutput = if ([string]::IsNullOrWhiteSpace($statusResult.Output)) { '(no output)' } else { $statusResult.Output }
+  $currentStatus = Get-WslStatusResult
+  $currentStatusOutput = if ([string]::IsNullOrWhiteSpace($currentStatus.Output)) { '(no output)' } else { $currentStatus.Output }
 
   return @(
     "$Reason (last exit $($Attempts[-1].ExitCode))."
+    "Initial wsl --status (exit $($InitialStatus.ExitCode)):"
+    ($initialStatusOutput -split "`n" | ForEach-Object { "  $_" }) -join "`n"
     'Attempted commands:'
     $attemptDetails
-    "wsl --status (exit $($statusResult.ExitCode)):"
-    ($statusOutput -split "`n" | ForEach-Object { "  $_" }) -join "`n"
+    "Current wsl --status (exit $($currentStatus.ExitCode)):"
+    ($currentStatusOutput -split "`n" | ForEach-Object { "  $_" }) -join "`n"
   ) -join "`n"
 }
 
