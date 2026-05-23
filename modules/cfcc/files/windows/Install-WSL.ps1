@@ -134,10 +134,10 @@ function Ensure-WslCoreInstalled {
   $commandLabel = 'wsl.exe --install --no-distribution --web-download'
   Write-Log "WSL core not ready (status exit $($initialStatus.ExitCode)), installing platform"
 
-  & wsl.exe --install --no-distribution --web-download
+  $proc = Start-Process -FilePath 'wsl.exe' -ArgumentList '--install','--no-distribution','--web-download' -Wait -PassThru -NoNewWindow
   $result = @{
-    ExitCode = $LASTEXITCODE
-    Output   = '(output sent directly to console)'
+    ExitCode = $proc.ExitCode
+    Output   = '(output not captured - requires console)'
   }
   Write-Log "Completed: wsl.exe --install (exit $($result.ExitCode))"
   $attempts.Add(@{
