@@ -195,6 +195,10 @@ https://github.com/puppetlabs/puppet-agent/blob/main/resources/files/windows/env
 #>
 function Prepare-Certificates {
     if (-not (Test-Path $caCertBundlePath)) {
+        $caCertBundleDir = Split-Path -Path $caCertBundlePath -Parent
+        if (-not (Test-Path $caCertBundleDir)) {
+            New-Item -ItemType Directory -Path $caCertBundleDir -Force | Out-Null
+        }
         Write-Log "Downloading CA certificates bundle..."
         Invoke-WebRequest -Uri "https://curl.se/ca/cacert.pem" -OutFile $caCertBundlePath
     }
