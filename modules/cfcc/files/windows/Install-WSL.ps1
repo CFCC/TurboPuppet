@@ -44,118 +44,28 @@ function Write-ExecutionContext {
   $identity = [System.Security.Principal.WindowsIdentity]::GetCurrent()
   $sessionId = (Get-Process -Id $PID).SessionId
   $sessionName = if ($env:SESSIONNAME) { $env:SESSIONNAME } else { '(unset)' }
-  Write-Log "Execution context: User=$($identity.Name) SID=$($identity.User.Value) SessionId=$sessionId SESSIONNAME=$sessionName UserInteractive=$([Environment]::UserInteractive)"
+  $isAdmin = Test-IsAdministrator
+  Write-Log "Execution context: User=$($identity.Name) SID=$($identity.User.Value) SessionId=$sessionId SESSIONNAME=$sessionName UserInteractive=$([Environment]::UserInteractive) IsAdministrator=$isAdmin"
 }
 
-function Test-WslNeedsInteractiveSession {
-  $identity = [System.Security.Principal.WindowsIdentity]::GetCurrent()
-  $isSystem = $identity.User.Value -eq 'S-1-5-18'
-  return $isSystem -or -not [Environment]::UserInteractive
+function Test-IsAdministrator {
+  $principal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
+  return $principal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
 }
 
-function Get-ActiveInteractiveUsername {
-  try {
-    $computerSystem = Get-CimInstance -ClassName Win32_ComputerSystem -ErrorAction Stop
-    if (-not [string]::IsNullOrWhiteSpace($computerSystem.UserName)) {
-      return $computerSystem.UserName
-    }
-  } catch {
-    Write-Log "Win32_ComputerSystem lookup failed: $_"
+function Assert-RunningElevated {
+  if (-not (Test-IsAdministrator)) {
+    throw @(
+      'WSL platform install requires an elevated Administrator session.'
+      "Current user is $([System.Security.Principal.WindowsIdentity]::GetCurrent().Name)."
+      'Re-run turbopuppet from an elevated Administrator PowerShell window (Run as administrator).'
+    ) -join ' '
   }
-
-  $queryLines = @(query user 2>$null | Select-Object -Skip 1)
-  foreach ($line in $queryLines) {
-    if ($line -notmatch 'Active') {
-      continue
-    }
-
-    $trimmed = $line.TrimStart('>', ' ')
-    $username = ($trimmed -split '\s+')[0]
-    if (-not [string]::IsNullOrWhiteSpace($username) -and $username -ne 'USERNAME') {
-      if ($username -notmatch '\\') {
-        return "$env:COMPUTERNAME\$username"
-      }
-      return $username
-    }
-  }
-
-  return $null
 }
 
-function Invoke-WslViaScheduledTask {
+function Invoke-Wsl {
   param([string[]]$Arguments)
-
-  $activeUser = Get-ActiveInteractiveUsername
-  if (-not $activeUser) {
-    throw 'WSL commands require a logged-in interactive user. Log in as admin and run turbopuppet again.'
-  }
-
-  $logDir = 'C:\CampFitch\logs'
-  if (-not (Test-Path $logDir)) {
-    New-Item -ItemType Directory -Path $logDir -Force | Out-Null
-  }
-
-  $taskId = [Guid]::NewGuid().ToString('N').Substring(0, 12)
-  $taskName = "TurboPuppet-WSL-$taskId"
-  $outputLog = Join-Path $logDir "wsl-exec-$taskId.log"
-  $exitCodeFile = Join-Path $logDir "wsl-exec-$taskId.exit"
-  $scriptPath = Join-Path $env:TEMP "wsl-exec-$taskId.ps1"
-
-  $escapedArgs = ($Arguments | ForEach-Object { "'$($_.Replace("'", "''"))'" }) -join ', '
-  @"
-`$ErrorActionPreference = 'Continue'
-`$output = & wsl.exe @($escapedArgs) 2>&1 | Out-String
-Set-Content -Path '$outputLog' -Value `$output.Trim() -Encoding UTF8
-Set-Content -Path '$exitCodeFile' -Value `$LASTEXITCODE -Encoding ASCII
-"@ | Set-Content -Path $scriptPath -Encoding UTF8
-
-  Write-Log "Running WSL via scheduled task as $activeUser (task $taskName)"
-
-  try {
-    $action = New-ScheduledTaskAction -Execute 'powershell.exe' `
-      -Argument "-NoProfile -ExecutionPolicy Bypass -File `"$scriptPath`""
-    $principal = New-ScheduledTaskPrincipal -UserId $activeUser -LogonType Interactive -RunLevel Highest
-    $settings = New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries
-    Register-ScheduledTask -TaskName $taskName -Action $action -Principal $principal -Settings $settings -Force | Out-Null
-    Start-ScheduledTask -TaskName $taskName
-
-    $timeoutSeconds = 600
-    $stopwatch = [System.Diagnostics.Stopwatch]::StartNew()
-    while ((Get-ScheduledTask -TaskName $taskName).State -eq 'Running') {
-      if ($stopwatch.Elapsed.TotalSeconds -gt $timeoutSeconds) {
-        throw "WSL scheduled task timed out after ${timeoutSeconds}s"
-      }
-      Start-Sleep -Seconds 2
-    }
-
-    if (-not (Test-Path $exitCodeFile)) {
-      throw "WSL scheduled task did not produce exit code file ($exitCodeFile)"
-    }
-
-    $exitCode = [int](Get-Content -Path $exitCodeFile -Raw).Trim()
-    $output = if (Test-Path $outputLog) { (Get-Content -Path $outputLog -Raw).Trim() } else { '' }
-    Write-Log "Completed WSL scheduled task (exit $exitCode)"
-    return @{
-      ExitCode = $exitCode
-      Output   = $output
-    }
-  } finally {
-    Unregister-ScheduledTask -TaskName $taskName -Confirm:$false -ErrorAction SilentlyContinue
-    Remove-Item -Path $scriptPath -Force -ErrorAction SilentlyContinue
-    Remove-Item -Path $outputLog -Force -ErrorAction SilentlyContinue
-    Remove-Item -Path $exitCodeFile -Force -ErrorAction SilentlyContinue
-  }
-}
-
-function Invoke-WslCommand {
-  param([string[]]$Arguments)
-
-  if (Test-WslNeedsInteractiveSession) {
-    Write-Log 'Non-interactive context detected; delegating WSL to active user session'
-    return Invoke-WslViaScheduledTask -Arguments $Arguments
-  }
-
-  return Invoke-NativeCommand -Command 'wsl.exe' -Arguments $Arguments
+  Invoke-NativeCommand -Command 'wsl.exe' -Arguments $Arguments
 }
 
 function Test-FeatureEnabled {
@@ -175,7 +85,7 @@ function Assert-WslFeaturesEnabled {
 
 function Test-DistroPresent {
   param([string]$Name)
-  $result = Invoke-WslCommand -Arguments @('-l', '-q')
+  $result = Invoke-Wsl -Arguments @('-l', '-q')
   if ($result.ExitCode -ne 0) {
     return $false
   }
@@ -184,7 +94,7 @@ function Test-DistroPresent {
 }
 
 function Get-WslStatusResult {
-  Invoke-WslCommand -Arguments @('--status')
+  Invoke-Wsl -Arguments @('--status')
 }
 
 function Test-DefaultVersionIs2 {
@@ -210,6 +120,11 @@ function Test-WslUpdatePrompt {
 }
 
 function Ensure-WslCoreInstalled {
+  # After preflight (DISM features + reboot), wsl --status exit 50 means the MSIX
+  # platform package is missing. On CFCC hardware the validated command is:
+  #   wsl --update --web-download
+  # Do NOT use wsl --install --no-distribution here; it fails with exit 1 on exit 50.
+  # Do NOT combine --update with --no-distribution (--no-distribution is install-only).
   $attempts = [System.Collections.Generic.List[hashtable]]::new()
 
   $initialStatus = Get-WslStatusResult
@@ -221,17 +136,10 @@ function Ensure-WslCoreInstalled {
     return 0
   }
 
-  if ($initialStatus.ExitCode -eq 50) {
-    $commandLabel = 'wsl.exe --install --no-distribution --web-download'
-    $arguments = @('--install', '--no-distribution', '--web-download')
-    Write-Log 'WSL core not installed (status exit 50), trying install'
-  } else {
-    $commandLabel = 'wsl.exe --update --web-download'
-    $arguments = @('--update', '--web-download')
-    Write-Log "WSL core not ready (status exit $($initialStatus.ExitCode)), trying update"
-  }
+  $commandLabel = 'wsl.exe --update --web-download'
+  Write-Log "WSL core not ready (status exit $($initialStatus.ExitCode)), running platform update"
 
-  $result = Invoke-WslCommand -Arguments $arguments
+  $result = Invoke-Wsl -Arguments @('--update', '--web-download')
   Write-Output $result.Output
   $attempts.Add(@{
     Command  = $commandLabel
@@ -303,6 +211,7 @@ function Test-RebootPending {
 try {
   Write-Log "Starting WSL installation for distro '$Distro', user '$CamperUsername'"
   Write-ExecutionContext
+  Assert-RunningElevated
 
   Write-Log 'Verifying WSL optional features (preflight)...'
   Assert-WslFeaturesEnabled
@@ -336,7 +245,7 @@ try {
   Write-Log "Checking WSL default version..."
   if (-not (Test-DefaultVersionIs2)) {
     Write-Log "Setting WSL default version to 2..."
-    $result = Invoke-WslCommand -Arguments @('--set-default-version', '2')
+    $result = Invoke-Wsl -Arguments @('--set-default-version', '2')
     Write-Output $result.Output
     if ($result.ExitCode -ne 0) {
       if ((Test-RebootPending) -or (-not (Test-WslCoreReady))) {
@@ -351,8 +260,8 @@ try {
 
   Write-Log "Checking if distro '$Distro' is present..."
   if (-not (Test-DistroPresent -Name $Distro)) {
-    Write-Log "Distro not found, installing '$Distro' with --no-launch to skip interactive setup..."
-    $result = Invoke-WslCommand -Arguments @('--install', '-d', $Distro, '--no-launch')
+    Write-Log "Distro not found, installing '$Distro' with --no-launch --web-download..."
+    $result = Invoke-Wsl -Arguments @('--install', '-d', $Distro, '--no-launch', '--web-download')
     Write-Output $result.Output
     if ($result.ExitCode -eq 3010) {
       Write-Log "Distro install requires reboot"
@@ -385,7 +294,7 @@ echo 'default=$CamperUsername' >> /etc/wsl.conf
 echo '$CamperUsername ALL=(ALL) NOPASSWD:ALL' > /etc/sudoers.d/$CamperUsername
 chmod 440 /etc/sudoers.d/$CamperUsername
 "@
-    $result = Invoke-WslCommand -Arguments @('-d', $Distro, '-u', 'root', '--', 'bash', '-lc', $bootstrap)
+    $result = Invoke-Wsl -Arguments @('-d', $Distro, '-u', 'root', '--', 'bash', '-lc', $bootstrap)
     Write-Output $result.Output
     if ($result.ExitCode -ne 0) {
       throw "Failed configuring WSL user bootstrap (exit $($result.ExitCode))"
@@ -393,7 +302,7 @@ chmod 440 /etc/sudoers.d/$CamperUsername
     Write-Log "Bootstrap completed"
 
     Write-Log "Shutting down WSL..."
-    $null = Invoke-WslCommand -Arguments @('--shutdown')
+    $null = Invoke-Wsl -Arguments @('--shutdown')
     Write-Log "WSL shutdown completed"
   }
 
