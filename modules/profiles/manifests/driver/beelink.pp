@@ -2,7 +2,7 @@
 # Drivers for Beelink devices.
 #
 class profiles::driver::beelink {
-  $local_root = 'C:\CampFitch\opt\Drivers\Beelink'
+  $local_root = 'C:\CampFitch\opt\Drivers'
 
   file { 'Beelink Drivers':
     ensure  => directory,
