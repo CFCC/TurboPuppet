@@ -17,7 +17,12 @@ class profiles::driver::beelink {
   # DPC_WATCHDOG_VIOLATION BSOD and freezing.
   # https://bbs.bee-link.com/d/11127-ser8-r7-8745hs-freezing--dpc_watchdog_violation-0x133/9
   # https://www.reddit.com/r/BeelinkOfficial/comments/1tj29rb/ser8_r7_8745hs_freezing_dpc_watchdog_violation
-  #include profiles::driver::cpu::ryzen
+  #
+  # https://community.chocolatey.org/packages/amd-ryzen-chipset/2026.3.9 should be OK
+  # https://community.chocolatey.org/packages/amd-ryzen-chipset/2026.5.18 naughty.
+  class { 'profiles::driver::cpu::ryzen':
+    chipset_package_ensure => '2026.3.9',
+  }
 
   # amdacpbt and amdacpbus[2] were needed in 2025+ to resolve an
   # unknown "Multimedia Controller" device in Device Manager.
