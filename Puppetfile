@@ -1,6 +1,8 @@
 # List of all modules to install in this environment
 
-mod 'puppetlabs-chocolatey', '8.0.3'
+mod 'puppetlabs-chocolatey',
+    :git => 'https://github.com/cohoe/puppetlabs-chocolatey',
+    :branch => 'rangefix'
 mod 'puppetlabs-stdlib', '9.7.0'
 mod 'puppetlabs-registry', '5.0.3'
 mod 'puppetlabs-powershell', '6.0.2'
