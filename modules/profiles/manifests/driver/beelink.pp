@@ -13,7 +13,11 @@ class profiles::driver::beelink {
     replace => false,
   }
 
-  include profiles::driver::cpu::ryzen
+  # 2026-05-23 AMD broke Beelinks.
+  # DPC_WATCHDOG_VIOLATION BSOD and freezing.
+  # https://bbs.bee-link.com/d/11127-ser8-r7-8745hs-freezing--dpc_watchdog_violation-0x133/9
+  # https://www.reddit.com/r/BeelinkOfficial/comments/1tj29rb/ser8_r7_8745hs_freezing_dpc_watchdog_violation
+  #include profiles::driver::cpu::ryzen
 
   # amdacpbt and amdacpbus[2] were needed in 2025+ to resolve an
   # unknown "Multimedia Controller" device in Device Manager.
