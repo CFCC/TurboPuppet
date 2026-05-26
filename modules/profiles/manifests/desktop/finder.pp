@@ -130,4 +130,12 @@ class profiles::desktop::finder {
     key    => 'reduceTransparency',
     value  => '1',
   }
+
+  # Disable Tips popup notifications
+  exec { 'disable-tipsd':
+    command => '/bin/sh -c "/usr/bin/launchctl disable gui/$(id -u)/com.apple.tipsd"',
+    unless  => '/bin/sh -c "/usr/bin/launchctl print-disabled gui/$(id -u) 2>/dev/null | grep -q \"com.apple.tipsd => true\""',
+    user    => lookup('camper_username'),
+    path    => ['/bin', '/usr/bin'],
+  }
 }
