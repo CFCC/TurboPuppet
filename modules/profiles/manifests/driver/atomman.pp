@@ -32,27 +32,27 @@ class profiles::driver::atomman {
   }
 
   cfcc::driver { 'ipf_cpu.inf':
-    path => "${local_root}\\3-Intel_DTT_IPF\\ipf_cpu.inf",
+    path => "${local_root}\\3-Intel_DTT_IPF\\Drivers\\ipf_cpu.inf",
   }
 
   cfcc::driver { 'ipf_ef_ext.inf':
-    path => "${local_root}\\3-Intel_DTT_IPF\\ipf_ef_ext.inf",
+    path => "${local_root}\\3-Intel_DTT_IPF\\Drivers\\ipf_ef_ext.inf",
   }
 
   cfcc::driver { 'ipf_ef_sw.inf':
-    path => "${local_root}\\3-Intel_DTT_IPF\\ipf_ef_sw.inf",
+    path => "${local_root}\\3-Intel_DTT_IPF\\Drivers\\ipf_ef_sw.inf",
   }
 
   cfcc::driver { 'ipf_acpi.inf':
-    path => "${local_root}\\3-Intel_DTT_IPF\\ipf_acpi.inf",
+    path => "${local_root}\\3-Intel_DTT_IPF\\Drivers\\ipf_acpi.inf",
   }
 
   cfcc::driver { 'dtt_sw.inf':
-    path => "${local_root}\\3-Intel_DTT_IPF\\dtt_sw.inf",
+    path => "${local_root}\\3-Intel_DTT_IPF\\Drivers\\dtt_sw.inf",
   }
 
   cfcc::driver { 'dtt_ext.inf':
-    path => "${local_root}\\3-Intel_DTT_IPF\\dtt_ext.inf",
+    path => "${local_root}\\3-Intel_DTT_IPF\\Drivers\\dtt_ext.inf",
   }
 
   cfcc::driver { 'RaptorLakePCH-SSystem.inf':
