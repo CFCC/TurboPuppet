@@ -5,9 +5,9 @@ param([switch]$Status)
 # we just disable it.
 #
 # ChatGPT wrote this entire thing, and it worked out of the box.
+# Then Claude came along.
 
-$adapterNames = @("VirtualBox Host-Only Network", "VirtualBox Host-Only Ethernet Adapter")
-$adapter = Get-NetAdapter | Where-Object { $adapterNames -contains $_.Name } | Select-Object -First 1
+$adapter = Get-NetAdapter | Where-Object { $_.Name -match '^VirtualBox Host-Only' -or $_.InterfaceDescription -match '^VirtualBox Host-Only' } | Select-Object -First 1
 
 if ($Status) {
     if ($null -ne $adapter -and $adapter.Status -eq "Up") {
