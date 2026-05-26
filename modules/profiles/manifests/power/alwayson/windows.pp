@@ -4,6 +4,8 @@
 # https://facility9.com/2015/07/controlling-the-windows-power-plan-with-powershell/
 # @TODO rename this to "high performance" to match the plan?
 #
+# Tagged for turbopuppet -tags windowsupdate so systems stay awake during updates.
+#
 class profiles::power::alwayson::windows (
   # Due to a bug with the Zotacs/NVIDIA chips, the system infinitely hangs
   # when the display goes to sleep. This seems to be around the HDMI audio capabilities
@@ -11,6 +13,8 @@ class profiles::power::alwayson::windows (
   Integer[0] $display_sleep_interval = 1200,
   Integer[0] $system_sleep_interval = 0,
 ) {
+  tag 'windowsupdate'
+
   # This maps to the "High Performance" power plan
   $guid_power_plan = '8c5e7fda-e8bf-4a96-9a85-a6e23a8c635c'
 
