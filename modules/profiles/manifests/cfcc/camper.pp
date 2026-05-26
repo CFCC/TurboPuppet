@@ -53,6 +53,7 @@ class profiles::cfcc::camper {
     'Darwin': {
       include profiles::editor::bbedit
       include profiles::desktop::finder
+      include profiles::tool::rosetta
     }
     default: {}
   }
