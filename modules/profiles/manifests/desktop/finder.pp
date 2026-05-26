@@ -80,7 +80,7 @@ class profiles::desktop::finder {
   # Show Control Center items in menu bar
   cfcc::osx_defaults { 'ControlCenter-WiFi':
     domain => 'com.apple.controlcenter',
-    key    => 'NSStatusItem Visible WiFi',
+    key    => 'NSStatusItem VisibleCC WiFi',
     type   => 'bool',
     value  => '1',
   }
