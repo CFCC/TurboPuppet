@@ -47,9 +47,9 @@ class profiles::tool::virtualbox (
       }
 
       exec { 'DisableVboxHostAdapter':
-        command     => 'C:\CampFitch\bin\DisableVboxHostAdapter.ps1',
-        require     => File['DisableVboxHostAdapter'],
-        refreshonly => true,
+        command => 'C:\CampFitch\bin\DisableVboxHostAdapter.ps1',
+        onlyif  => 'C:\CampFitch\bin\DisableVboxHostAdapter.ps1 -Status',
+        require => File['DisableVboxHostAdapter'],
       }
     }
     default: {}
