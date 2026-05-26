@@ -11,7 +11,7 @@ $adapter = Get-NetAdapter | Where-Object { $adapterNames -contains $_.Name } | S
 
 if ($Status) {
     if ($null -ne $adapter -and $adapter.Status -eq "Up") {
-        Write-Output "'$($adapter.Name)' is enabled — disable needed."
+        Write-Output "'$($adapter.Name)' is enabled - disable needed."
         exit 0
     }
     Write-Output "No enabled VirtualBox Host-Only adapter found."
