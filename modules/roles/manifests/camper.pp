@@ -15,5 +15,5 @@ class roles::camper inherits roles::base {
 
   Class['profiles::time::client'] -> Class['profiles::cfcc::camper']
   Class['profiles::storage::mountpoints'] -> Class['profiles::cfcc::camper']
-  Class['profiles::cfcc::camper'] -> Class['profiles::access::camper']
+  Class['profiles::access::camper'] -> Class['profiles::cfcc::camper']
 }

@@ -87,21 +87,21 @@ class profiles::desktop::finder {
 
   cfcc::osx_defaults { 'ControlCenter-Bluetooth':
     domain => 'com.apple.controlcenter',
-    key    => 'NSStatusItem Visible Bluetooth',
+    key    => 'NSStatusItem VisibleCC Bluetooth',
     type   => 'bool',
     value  => '1',
   }
 
   cfcc::osx_defaults { 'ControlCenter-Battery':
     domain => 'com.apple.controlcenter',
-    key    => 'NSStatusItem Visible Battery',
+    key    => 'NSStatusItem VisibleCC Battery',
     type   => 'bool',
     value  => '1',
   }
 
   cfcc::osx_defaults { 'ControlCenter-Volume':
     domain => 'com.apple.controlcenter',
-    key    => 'NSStatusItem Visible Volume',
+    key    => 'NSStatusItem VisibleCC Volume',
     type   => 'bool',
     value  => '1',
   }
