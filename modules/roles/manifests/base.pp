@@ -21,8 +21,8 @@ class roles::base {
 
       # Any custom providers or whatnot that we just specified as
       # the defaults should probably have a profile setting them up.
-      include profiles::packaging::chocolatey
-      include profiles::packaging::psmodule
+      contain profiles::packaging::chocolatey
+      contain profiles::packaging::psmodule
       include profiles::powershell::executionpolicy::unrestricted
     }
     # 'Fedora': {
@@ -45,7 +45,7 @@ class roles::base {
       }
 
       # See notes in Windows above for more details on this stuff
-      include profiles::packaging::homebrew
+      contain profiles::packaging::homebrew
     }
     default: {
       fail("platform ${facts['os']['family']} is unsupported")

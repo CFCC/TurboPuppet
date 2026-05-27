@@ -183,6 +183,24 @@ setup_puppet_ssl() {
   fi
 }
 
+bootstrap_homebrew() {
+  if ! is_darwin; then
+    return 0
+  fi
+  if [[ -x /opt/homebrew/bin/brew || -x /usr/local/bin/brew ]]; then
+    log "Homebrew already installed, skipping bootstrap"
+    return 0
+  fi
+
+  log "Bootstrapping Homebrew (required before full catalog compilation)..."
+  local -a bootstrap_args=("-e" "include profiles::packaging::homebrew")
+  bootstrap_args+=("--tags" "profiles::packaging::homebrew")
+  bootstrap_args+=("--localcacert" "${PUPPET_SSL_DIR}/combined_ca.pem")
+  bootstrap_args+=("--certificate_revocation" "false")
+  "${PUPPET_BIN_DIR}/puppet" apply "${bootstrap_args[@]}"
+  log "Homebrew bootstrap complete"
+}
+
 run_puppet() {
   local -a apply_args=("-e" "include $ROLE")
   [[ -n "$DEBUG" ]] && apply_args+=("--debug")
@@ -218,6 +236,7 @@ main() {
     install_puppet_modules "$env_dir"
   fi
   setup_puppet_ssl
+  bootstrap_homebrew
   run_puppet
 }
 
